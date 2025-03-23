@@ -1,10 +1,6 @@
 {
     "doctrine/doctrine-bundle": {
-<<<<<<< HEAD
         "version": "2.13",
-=======
-        "version": "2.14",
->>>>>>> Florian
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
