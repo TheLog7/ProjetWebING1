@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Styles généraux pour le fond d'écran */
 body {
     background-size: cover;
@@ -77,3 +78,8 @@ main {
 .bloc-bas {
     margin-top: 360px; /* Ajuste selon le rendu */
 }
+=======
+body {
+    background-color: skyblue;
+}
+>>>>>>> Florian
