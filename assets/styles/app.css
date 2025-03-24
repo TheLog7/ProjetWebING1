@@ -1,3 +1,79 @@
+/* Styles généraux pour le fond d'écran */
 body {
-    background-color: skyblue;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+/* Fond d'écran pour la page d'accueil */
+body.home-page {
+    background-image: url("/images/college.jpeg");
+}
+
+/* Fond d'écran pour la page Bibliothèque */
+body.bibliotheque-page {
+    background-image: url("/images/bibliotheque.jpeg");
+}
+
+/* Ajouter un effet de flou / opacité */
+.main-content {
+    background: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 800px;
+    margin: 50px auto;
+}
+
+/* Modifier le cadre gris clair */
+.site-header {
+    background: rgba(221, 221, 221, 0.8); /* Gris clair avec transparence */
+    color: black;
+    text-align: center;
+    padding: 20px; /* Réduction de la hauteur */
+    border-radius: 10px;
+    width: 60%; /* Réduction de la largeur */
+    margin: 20px auto; /* Centrage automatique */
+}
+
+
+/* Navbar */
+.navbar {
+    background-color: white;
+    border-bottom: 2px solid #007BFF;
+}
+
+.navbar .nav-link {
+    color: #007BFF;
+    font-weight: bold;
+}
+
+.navbar .nav-link:hover {
+    color: #0056b3;
+}
+
+.presentation{
+    background: rgba(221, 221, 221, 0.8); /* Fond semi-transparent */
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 800px;
+    position: absolute;
+    top: 70%; /* Ajuste cette valeur pour déplacer le bloc vers le bas */
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+/* Contenu principal */
+main {
+    padding: 20px;
+    text-align: center;
+    flex: 1;
+}
+
+.bloc-bas {
+    margin-top: 360px; /* Ajuste selon le rendu */
 }
