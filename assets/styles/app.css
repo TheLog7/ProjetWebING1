@@ -77,3 +77,125 @@ main {
 .bloc-bas {
     margin-top: 360px; /* Ajuste selon le rendu */
 }
+
+/* Style pour les champs du formulaire */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Apparence des champs de formulaire */
+input, select, button {
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+input:focus, select:focus, button:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Cacher les erreurs de formulaire, mais les rendre visibles lorsqu'elles existent */
+ul.form-errors {
+    list-style-type: none;
+    padding: 0;
+    color: red;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+ul.form-errors li {
+    margin-bottom: 5px;
+}
+
+/* Styliser le bouton de soumission */
+/* Réduire la taille du bouton Register */
+button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    font-size: 0.9rem;  /* Taille de texte plus petite */
+    padding: 6px 20px;  /* Réduire encore le padding pour le rendre plus petit */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: auto;  /* Largeur automatique, mais on va limiter avec max-width */
+    max-width: 250px;  /* Limite la largeur du bouton */
+    margin-top: 20px;  /* Ajuster l'espacement autour du bouton */
+    border-radius: 5px;  /* Ajouter des coins arrondis */
+    display: block;  /* Permet d'assurer que le bouton ne prend pas trop de place */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Effet au survol */
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+
+/* Modifications du label */
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    font-size: 1rem;
+}
+
+/* Ajouter un effet de transition sur le champ de formulaire au survol */
+input:hover, select:hover {
+    border-color: #007BFF;
+}
+
+/* Cadre du formulaire avec un effet de bordure arrondie */
+.form-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.form-row input, .form-row select {
+    width: 100%;
+}
+
+.form-row .form-check {
+    margin: 15px 0;
+}
+
+/* Styling de l'accord de termes */
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Pour l'accord des termes */
+input[type="checkbox"] {
+    width: auto;
+}
+
+/* Séparation avec le bouton */
+.form-row button[type="submit"] {
+    margin-top: 20px;
+}
+
+/* Résponsive : ajuster le formulaire pour les petits écrans */
+@media (max-width: 600px) {
+    .main-content {
+        width: 90%;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .form-row {
+        margin-bottom: 15px;
+    }
+
+    button[type="submit"] {
+        font-size: 1rem;
+        padding: 10px;
+    }
+}
