@@ -25,4 +25,24 @@ final class HomePageController extends AbstractController{
         ]);
     }
 
+
+        //Route pour la page Cantine
+        #[Route('/cantine', name: 'app_cantine')]
+        public function cantine(): Response
+        {
+            return $this->render('cantine/index.html.twig', [
+                'controller_name' => 'HomePageController',
+            ]);
+        }
+    
+        //Route pour la page Imprimerie
+        #[Route('/imprimerie', name: 'app_imprimerie')]
+        public function imprimerie(): Response
+        {
+            return $this->render('imprimerie/index.html.twig', [
+                'controller_name' => 'HomePageController',
+            ]);
+        }
+
+
 }
