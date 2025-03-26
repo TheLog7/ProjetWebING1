@@ -22,7 +22,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)    
     {
     }
 
@@ -44,12 +44,21 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+
+        $user = $token->getUser();
+
+        $request->getSession()->set('user_data', [
+            'nom' => $user->getnom(),
+            'age' => $user->getage(),
+            'prenom' => $user->getprenom(),
+        ]);
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
         
-        return new RedirectResponse($this->urlGenerator->generate('app_home_page'));
+        return new RedirectResponse($this->urlGenerator->generate('app_profile_details'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 

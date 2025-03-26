@@ -39,6 +39,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $prenom = null;
 
     #[ORM\Column]
+    #[Assert\PositiveOrZero]
     private ?int $age = null;
 
     #[ORM\Column(length: 10)]
