@@ -9,15 +9,15 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class ProfileController extends AbstractController
 {
-    #[Route('/profile', name: 'app_profile')]
+    /*#[Route('/profile', name: 'app_profile')]
     public function index(): Response
     {
         return $this->render('profile/index.html.twig', [
             'controller_name' => 'ProfileController',
         ]);
-    }
+    }*/
 
-    #[Route('/profile/details', name: 'app_profile_details')]
+    #[Route('/profile', name: 'app_profile_details')]
     public function profile(Request $request): Response
     {
         // Récupérer les données utilisateur depuis la session
@@ -29,7 +29,7 @@ final class ProfileController extends AbstractController
         }
 
         // Passer les données utilisateur au template
-        return $this->render('profile/details.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'user' => $userData,  // transmettre les données à Twig
         ]);
     }

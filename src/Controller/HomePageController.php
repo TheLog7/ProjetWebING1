@@ -30,7 +30,7 @@ final class HomePageController extends AbstractController
             'livres' => $livres,
         ]);
     }
-<
+
 
 
         //Route pour la page Cantine
