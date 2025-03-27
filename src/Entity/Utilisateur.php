@@ -47,11 +47,20 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $sexe = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(choices: ['Administrateur', 'Utilisateur', 'Invité'], message: 'Choisissez un type valide.')]
+    #[Assert\Choice(choices: ['Administration', 'Eleve', 'Enseignant'], message: 'Choisissez un type valide.')]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
+
+    #[ORM\Column]
+    #[Assert\PositiveOrZero]
+    private ?int $niveau = 1;
+
+    #[ORM\Column]
+    #[Assert\PositiveOrZero]
+    private ?int $points = 0;
+    
 
     public function getId(): ?int
     {
@@ -171,6 +180,30 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhoto(?string $photo): static
     {
         $this->photo = $photo;
+        return $this;
+    }
+
+    public function getNiveau(): ?int
+    {
+        return $this->niveau;
+    }
+
+    public function setNiveau(int $niveau): static
+    {
+        $this->niveau = $niveau;
+
+        return $this;
+    }
+
+    public function getPoints(): ?int
+    {
+        return $this->points;
+    }
+
+    public function setPoints(int $points): static
+    {
+        $this->points = $points;
+
         return $this;
     }
 }
