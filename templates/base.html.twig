@@ -1,75 +1,92 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<title>
-			{% block title %}Mon Collège
-			{% endblock %}
-		</title>
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="{{ asset('styles/app.css') }}"> {% block stylesheets %}{% endblock %}
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Mon Collège{% endblock %}</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}"> 
+        {% block stylesheets %}
+        {% endblock %}
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <style>
+            /* Supprimer les bordures par défaut et la couleur de fond grise */
+            .dropdown-toggle {
+                border: none !important; /* Supprimer toute bordure par défaut */
+                background-color: transparent !important; /* Enlever la couleur de fond grise */
+            }
 
-		{% block javascripts %}
-			{% block importmap %}
-				{{ importmap('app') }}
-			{% endblock %}
-		{% endblock %}
-	</head>
-	<body
-		class="{% block body_class %}{% endblock %}">
-		{# Ajoute l'en-tête ici #}
-		<header class="en-tete">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="container-fluid">
-					<a class="navbar-brand" href="#">🏫 Mon Collège</a>
-					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-						<span class="navbar-toggler-icon"></span>
-					</button>
-
-					<div class="collapse navbar-collapse" id="navbarNav">
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-							<li class="nav-item">
-								<a class="nav-link active" aria-current="page" href="{{ path('app_home_page') }}">Accueil</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="{{ path('app_bibliotheque') }}">Bibliothèque</a>
-							</li>
+            /* Appliquer la bordure bleu ciel et fond bleu clair au survol/focus */
+            .dropdown-toggle:focus, .dropdown-toggle:hover {
+                outline: none; /* Supprimer l'outline par défaut */
+                border: 2px solid #87CEEB !important; /* Appliquer une bordure bleu ciel */
+                background-color: #ADD8E6 !important; /* Appliquer un fond bleu clair */
+                box-shadow: 0 0 0 3px rgba(135, 206, 235, 0.6); /* Ombre bleu ciel */
+            }
+        </style>
 
 
-							{% if app.user %}
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body class="{% block body_class %}{% endblock %}">
+        {# Ajoute l'en-tête ici #}
+        <header class="en-tete">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">🏫 Mon Collège</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-								<li class="nav-item">
-									<a class="nav-link" href="{{ path('app_cantine') }}">Cantine</a>
-								</li>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="{{ path('app_home_page') }}">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ path('app_bibliotheque') }}">Bibliothèque</a>
+                            </li>
+                        </ul>
+                        <div class="d-flex">
+                            {% if app.user %}
+                                <!-- Si l'utilisateur est connecté, afficher son nom à gauche de la photo de profil et un menu déroulant -->
+                                <div class="dropdown d-flex align-items-center">
+                                    <span class="me-2">{{ app.user.prenom }} {{ app.user.nom }}</span>
+                                    
+                                    <!-- Image de profil circulaire -->
+                                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        {% if app.user.photo %}
+                                            <!-- Photo de profil récupérée de la base de données -->
+                                            <img src="{{ asset('uploads/photos/' ~ app.user.photo) }}" alt="Photo de profil" class="rounded-circle" style="width: 40px; height: 40px;">
+                                        {% else %}
+                                            <!-- Avatar par défaut si l'utilisateur n'a pas de photo -->
+                                            <span class="rounded-circle" style="width: 40px; height: 40px; background-color: #ccc; display: inline-block;"></span> 
+                                        {% endif %}
+                                    </button>
+                                    
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item" href="/profile">Mon Profil</a></li> <!-- Remplacer par une page valide -->
+                                        <li><a class="dropdown-item" href="/notes">Mes Notes</a></li> <!-- Remplacer par une page valide -->
+                                        <li><a class="dropdown-item" href="/timetable">Emploi du Temps</a></li> <!-- Remplacer par une page valide -->
+                                        <li><a class="dropdown-item" href="{{ path('app_logout') }}">Se Déconnecter</a></li>
+                                    </ul>
+                                </div>
+                            {% else %}
+                                <!-- Si l'utilisateur n'est pas connecté, afficher les boutons Connexion et Inscription -->
+                                <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Connexion</a>
+                                <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Inscription</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
 
-								<li class="nav-item">
-									<a class="nav-link" href="{{ path('app_imprimerie') }}">Imprimerie</a>
-								</li>
-							{% endif %}
-
-						</ul>
-
-
-						{% if app.user %}
-							<div class="d-flex">
-								<a href="{{ path('app_logout') }}" class="btn btn-outline-primary">Deconnexion</a>
-							</div>
-						{% else %}
-							<div class="d-flex">
-								<a href="{{ path('app_login') }}" class="btn btn-outline-primary">Connexion</a>
-								<a href="{{ path('app_register') }}" class="btn btn-outline-primary">Inscription</a>
-							</div>
-						{% endif %}
-
-					</div>
-				</div>
-			</nav>
-		</header>
-
-		<main class="container"> {% block body %}{% endblock %}
-			</main>
-
-			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <main class="container">
+        {% block body %}{% endblock %}
+        </main>
 		</body>
-	</html>
-</body></html>
+</html>
+
+

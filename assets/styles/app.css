@@ -1,4 +1,6 @@
 /* Styles généraux pour le fond d'écran */
+
+
 body {
     background-size: cover;
     background-position: center;
@@ -199,3 +201,5 @@ input[type="checkbox"] {
         padding: 10px;
     }
 }
+
+
