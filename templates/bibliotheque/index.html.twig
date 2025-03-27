@@ -6,8 +6,36 @@
 
 {% block body %}
     <header class="site-header">
-        <h1>Decouvrez notre bilbliothèque</h1>
-        <p>Trouvez un vaste choix de livre pour tous les goûts 📖</p>
+        <h1>Découvrez notre bibliothèque</h1>
+        <p>Trouvez un vaste choix de livres pour tous les goûts 📖</p>
     </header>
 
+{% if app.user.type == 'Administrateur' and app.user.niveau >= 1 %}
+    <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
+{% elseif app.user.type == 'Professeur' or (app.user.type == 'Élève' and app.user.niveau >= 2) %}
+    <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
+{% else %}
+    <a href="{{ path('app_livre_ajout', {'x': 'suggestion'}) }}" class="btn btn-secondary my-3">Suggérer un livre</a>
+{% endif %}
+
+
+
+    {% if livres is empty %}
+        <p class="alert alert-info">Aucun livre disponible pour le moment.</p>
+    {% else %}
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for livre in livres %}
+                    <tr>
+                        <td>{{ livre.titre }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}
