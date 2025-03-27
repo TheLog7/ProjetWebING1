@@ -10,14 +10,15 @@
         <p>Trouvez un vaste choix de livres pour tous les goûts 📖</p>
     </header>
 
-{% if app.user.type == 'Administrateur' and app.user.niveau >= 1 %}
-    <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
-{% elseif app.user.type == 'Professeur' or (app.user.type == 'Élève' and app.user.niveau >= 2) %}
-    <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
-{% else %}
-    <a href="{{ path('app_livre_ajout', {'x': 'suggestion'}) }}" class="btn btn-secondary my-3">Suggérer un livre</a>
+{% if app.user is not null %}
+    {% if app.user.type == 'Administrateur' and app.user.niveau >= 1 %}
+        <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
+    {% elseif app.user.type == 'Professeur' or (app.user.type == 'Élève' and app.user.niveau >= 2) %}
+        <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
+    {% else %}
+        <a href="{{ path('app_livre_ajout', {'x': 'suggestion'}) }}" class="btn btn-secondary my-3">Suggérer un livre</a>
+    {% endif %}
 {% endif %}
-
 
 
     {% if livres is empty %}
