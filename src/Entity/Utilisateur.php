@@ -47,7 +47,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $sexe = null;
 
     #[ORM\Column(length: 20)]
-    #[Assert\Choice(choices: ['Administration', 'Eleve', 'Enseignant'], message: 'Choisissez un type valide.')]
     private ?string $type = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -165,7 +164,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setType(string $type): static
     {
-        if (!in_array($type, ['Administrateur', 'Utilisateur', 'Invité'])) {
+        if (!in_array($type, ['Administration', 'Eleve', 'Enseignant'])) {
             throw new \InvalidArgumentException('Type invalide.');
         }
         $this->type = $type;
