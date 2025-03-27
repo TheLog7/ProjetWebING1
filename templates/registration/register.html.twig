@@ -20,13 +20,5 @@
     <button type="submit">S'inscrire</button>
 {{ form_end(registrationForm) }}
 
-        {# Ajouter le champ pour la photo de profil #}
-        {{ form_row(registrationForm.photo, {
-            label: 'Photo de profil'
-        }) }}
-
-        <button type="submit" class="btn btn-primary">Register</button>
-    {{ form_end(registrationForm) }}
-
 {% endblock %}
 
