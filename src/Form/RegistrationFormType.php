@@ -51,9 +51,9 @@ class RegistrationFormType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label' => 'Type d\'utilisateur',
                 'choices' => [
-                    'Administrateur' => 'Administrateur',
-                    'Utilisateur' => 'Utilisateur',
-                    'Invité' => 'Invité',
+                    'Administration' => 'Administration',
+                    'Enseignant' => 'Enseignant',
+                    'Eleve' => 'Eleve',
                 ],
                 'expanded' => false, // Affiche un menu déroulant
                 'multiple' => false,
@@ -93,6 +93,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void
