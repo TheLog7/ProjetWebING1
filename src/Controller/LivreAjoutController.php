@@ -12,7 +12,7 @@ use App\Form\LivreType;
 
 class LivreAjoutController extends AbstractController
 {
-    #[Route('/bibliotheque/ajout', name: 'app_livre_ajout')]
+    #[Route('/bibliotheque/livre/ajout', name: 'app_livre_ajout')]
     public function ajouterLivre(Request $request, EntityManagerInterface $entityManager): Response
     {
         $livre = new Livre();
