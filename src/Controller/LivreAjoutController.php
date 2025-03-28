@@ -26,8 +26,37 @@ class LivreAjoutController extends AbstractController
             return $this->redirectToRoute('app_bibliotheque');
         }
 
-        return $this->render('livre_ajout/index.html.twig', [
+        return $this->render('livre/ajout.html.twig', [
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/bibliotheque/livre/{id}', name: 'app_livre_informations')]
+    public function afficherInformations(int $id, EntityManagerInterface $entityManager): Response
+    {
+        $livre = $entityManager->getRepository(Livre::class)->find($id);
+
+        if (!$livre) {
+            throw $this->createNotFoundException('Livre non trouvé.');
+        }
+
+        return $this->render('livre/informations.html.twig', [
+            'livre' => $livre,
+        ]);
+    }
+
+    #[Route('/bibliotheque/livre/supprimer/{id}', name: 'app_livre_supprimer')]
+public function supprimerLivre(int $id, EntityManagerInterface $entityManager): Response
+{
+    $livre = $entityManager->getRepository(Livre::class)->find($id);
+
+    if (!$livre) {
+        throw $this->createNotFoundException('Livre non trouvé.');
+    }
+
+    $entityManager->remove($livre);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_bibliotheque');
+}
+    
 }

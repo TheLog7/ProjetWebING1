@@ -5,38 +5,39 @@
 {% block body_class %}bibliotheque-page{% endblock %}
 
 {% block body %}
-    <header class="site-header">
-        <h1>Découvrez notre bibliothèque</h1>
-        <p>Trouvez un vaste choix de livres pour tous les goûts 📖</p>
+    <header class="site-header text-center py-5 bg-primary text-white">
+        <h1>📚 Découvrez notre bibliothèque</h1>
+        <p class="lead">Trouvez un vaste choix de livres pour tous les goûts</p>
     </header>
 
-{% if app.user is not null %}
-    {% if app.user.type == 'Administrateur' and app.user.niveau >= 1 %}
-        <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
-    {% elseif app.user.type == 'Professeur' or (app.user.type == 'Élève' and app.user.niveau >= 2) %}
-        <a href="{{ path('app_livre_ajout', {'x': 'livre'}) }}" class="btn btn-primary my-3">Ajouter un livre</a>
-    {% else %}
-        <a href="{{ path('app_livre_ajout', {'x': 'suggestion'}) }}" class="btn btn-secondary my-3">Suggérer un livre</a>
-    {% endif %}
-{% endif %}
+    <div class="container mt-4">
+        {% if app.user is not null %}
+            <div class="text-center mb-4">
+                {% if app.user.type == 'Administration' and app.user.niveau >= 1 %}
+                    <a href="{{ path('app_livre_ajout') }}" class="btn btn-success">➕ Ajouter un livre</a>
+                {% elseif (app.user.type == 'Enseignant' and app.user.niveau >=2 ) or (app.user.type == 'Eleve' and app.user.niveau >= 3) %}
+                    <a href="{{ path('app_livre_ajout')}}" class="btn btn-success">➕ Ajouter un livre</a>
+                {% elseif (app.user.type == 'Eleve' and app.user.niveau >= 2) or (app.user.type == 'Enseignant' and app.user.niveau >= 1) %}
+                   <a href="{{ path('app_livre_ajout') }}" class="btn btn-warning">💡 Suggérer un livre</a>
+                {% endif %}
+            </div>
+        {% endif %}
 
-
-    {% if livres is empty %}
-        <p class="alert alert-info">Aucun livre disponible pour le moment.</p>
-    {% else %}
-        <table class="table table-striped mt-4">
-            <thead>
-                <tr>
-                    <th>Titre</th>
-                </tr>
-            </thead>
-            <tbody>
+        {% if livres is empty %}
+            <p class="alert alert-info text-center">Aucun livre disponible pour le moment.</p>
+        {% else %}
+            <div class="row">
                 {% for livre in livres %}
-                    <tr>
-                        <td>{{ livre.titre }}</td>
-                    </tr>
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ livre.titre }}</h5>
+                                <a href="{{ path('app_livre_informations', {'id': livre.id}) }}" class="btn btn-info mt-2">ℹ️ Informations</a>
+                            </div>
+                        </div>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
-    {% endif %}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
