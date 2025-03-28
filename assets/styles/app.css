@@ -1,6 +1,4 @@
 /* Styles généraux pour le fond d'écran */
-
-
 body {
     background-size: cover;
     background-position: center;
@@ -18,6 +16,14 @@ body.home-page {
 /* Fond d'écran pour la page Bibliothèque */
 body.bibliotheque-page {
     background-image: url("/images/bibliotheque.jpeg");
+}
+
+body.register-page {
+    background-image: url("/images/portail.jpg");
+}
+
+body.login-page {
+    background-image: url("/images/portail.jpg");
 }
 
 /* Ajouter un effet de flou / opacité */
@@ -80,126 +86,138 @@ main {
     margin-top: 360px; /* Ajuste selon le rendu */
 }
 
-/* Style pour les champs du formulaire */
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+/*Style page d'inscription*/
+
+/* Structure */
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(221, 221, 221, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Apparence des champs de formulaire */
-input, select, button {
-    padding: 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
+.form-title {
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 2rem;
 }
 
-input:focus, select:focus, button:focus {
-    border-color: #007BFF;
-    outline: none;
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
 }
 
-/* Cacher les erreurs de formulaire, mais les rendre visibles lorsqu'elles existent */
-ul.form-errors {
-    list-style-type: none;
-    padding: 0;
-    color: red;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
+.form-section {
+    background: var(--bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
 }
 
-ul.form-errors li {
-    margin-bottom: 5px;
-}
-
-/* Styliser le bouton de soumission */
-/* Réduire la taille du bouton Register */
-button[type="submit"] {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    font-size: 0.9rem;  /* Taille de texte plus petite */
-    padding: 6px 20px;  /* Réduire encore le padding pour le rendre plus petit */
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: auto;  /* Largeur automatique, mais on va limiter avec max-width */
-    max-width: 250px;  /* Limite la largeur du bouton */
-    margin-top: 20px;  /* Ajuster l'espacement autour du bouton */
-    border-radius: 5px;  /* Ajouter des coins arrondis */
-    display: block;  /* Permet d'assurer que le bouton ne prend pas trop de place */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Effet au survol */
-button[type="submit"]:hover {
-    background-color: #0056b3;
-}
-
-
-/* Modifications du label */
-label {
-    font-weight: bold;
-    margin-bottom: 8px;
-    font-size: 1rem;
-}
-
-/* Ajouter un effet de transition sur le champ de formulaire au survol */
-input:hover, select:hover {
-    border-color: #007BFF;
-}
-
-/* Cadre du formulaire avec un effet de bordure arrondie */
-.form-row {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-.form-row input, .form-row select {
+/* Champs de formulaire */
+.form-input, .form-select {
     width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
 }
 
-.form-row .form-check {
-    margin: 15px 0;
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* Styling de l'accord de termes */
-.form-check {
+/* Boutons radio */
+.form-radio {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form-radio label {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 0.5rem;
 }
 
-/* Pour l'accord des termes */
-input[type="checkbox"] {
+/* Upload de fichier */
+.form-file {
+    position: relative;
+}
+
+.form-file input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+}
+
+.form-file label {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-file label:hover {
+    background: #e2e8f0;
+}
+
+.file-hint {
+    display: block;
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+/* Checkbox */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.checkbox-group input {
     width: auto;
 }
 
-/* Séparation avec le bouton */
-.form-row button[type="submit"] {
-    margin-top: 20px;
+/* Bouton submit */
+.form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-/* Résponsive : ajuster le formulaire pour les petits écrans */
-@media (max-width: 600px) {
-    .main-content {
-        width: 90%;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .form-row {
-        margin-bottom: 15px;
-    }
-
-    button[type="submit"] {
-        font-size: 1rem;
-        padding: 10px;
-    }
+.form-submit:hover {
+    background:#007BFF;
 }
 
+.form-group {
+    margin-bottom: 2rem;
 
+}
+
+/* Erreurs */
+.form-error {
+    color: var(--error);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}

@@ -1,24 +1,96 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription{% endblock %}
+
+{% block body_class %}register-page{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
+<div class="form-container">
+    <h1 class="form-title">Création de compte</h1>
 
-    {{ form_errors(registrationForm) }}
+    {{ form_start(registrationForm, {'attr': {'class': 'custom-form'}}) }}
+    
+    <div class="form-grid">
+        <div class="form-group">
+            {{ form_row(registrationForm.nom, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_row(registrationForm.prenom, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+    </div>
 
-    {{ form_start(registrationForm) }}
-    {{ form_row(registrationForm.email) }}
-    {{ form_row(registrationForm.nom) }}
-    {{ form_row(registrationForm.prenom) }}
-    {{ form_row(registrationForm.age) }}
-    {{ form_row(registrationForm.sexe) }}
-    {{ form_row(registrationForm.type) }}
-    {{ form_row(registrationForm.photo) }}
-    {{ form_row(registrationForm.agreeTerms) }}
-    {{ form_row(registrationForm.plainPassword) }}
-    <button type="submit">S'inscrire</button>
-{{ form_end(registrationForm) }}
+    <div class="form-group">
+        {{ form_row(registrationForm.email, {
+            'attr': {'class': 'form-input'},
+            'row_attr': {'class': 'form-row'}
+        }) }}
+    </div>
 
+    <div class="form-group">
+        {{ form_row(registrationForm.plainPassword, {
+            'attr': {'class': 'form-input'},
+            'row_attr': {'class': 'form-row'}
+        }) }}
+    </div>
+
+    <div class="form-section">
+        <div class="form-group">
+            {{ form_row(registrationForm.age, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.sexe, {
+                'attr': {'class': 'form-radio'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.type, {
+                'attr': {'class': 'form-select'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.photo, {
+                'attr': {'class': 'form-file'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+    </div>
+    
+    <button type="submit" class="form-submit">S'inscrire</button>
+    
+    {{ form_end(registrationForm) }}
+</div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Script pour afficher le nom du fichier sélectionné
+        document.querySelector('.form-file input').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Aucun fichier sélectionné';
+            const hint = document.createElement('span');
+            hint.className = 'file-hint';
+            hint.textContent = fileName;
+            
+            // Supprime l'ancien hint s'il existe
+            const oldHint = e.target.parentElement.querySelector('.file-hint');
+            if (oldHint) oldHint.remove();
+            
+            e.target.parentElement.appendChild(hint);
+        });
+    </script>
 {% endblock %}
-
+{% endblock %}
