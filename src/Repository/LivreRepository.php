@@ -16,6 +16,23 @@ class LivreRepository extends ServiceEntityRepository
         parent::__construct($registry, Livre::class);
     }
 
+    public function findByFilters(?string $disponibilite, ?string $triDate)
+{
+    $qb = $this->createQueryBuilder('l');
+
+    if ($disponibilite !== null && $disponibilite !== '') {
+        $qb->andWhere('l.disponible = :disponibilite')
+           ->setParameter('disponibilite', (bool) $disponibilite);
+    }
+
+    if ($triDate === 'desc') {
+        $qb->orderBy('l.date_publication', 'DESC');
+    }
+
+    return $qb->getQuery()->getResult();
+}
+
+
     //    /**
     //     * @return Livre[] Returns an array of Livre objects
     //     */
