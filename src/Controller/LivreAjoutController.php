@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Livre;
 use App\Form\LivreType;
+use App\Entity\ReservationLivre;
+use App\Form\ReservationLivreType;
 
 class LivreAjoutController extends AbstractController
 {
@@ -58,5 +60,73 @@ public function supprimerLivre(int $id, EntityManagerInterface $entityManager): 
 
     return $this->redirectToRoute('app_bibliotheque');
 }
+
+#[Route('/bibliotheque/recherche', name: 'app_livre_recherche')]
+public function recherche(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $query = $request->query->get('q');
+
+    $livres = [];
+    if ($query) {
+        $livres = $entityManager->getRepository(Livre::class)->createQueryBuilder('l')
+            ->where('l.titre LIKE :query OR l.nom_auteur LIKE :query OR l.genre LIKE :query')
+            ->setParameter('query', "%$query%")
+            ->getQuery()
+            ->getResult();
+    }
+
+    return $this->render('livre/recherche.html.twig', [
+        'livres' => $livres,
+        'query' => $query,
+    ]);
+}
+#[Route('/livre/emprunt/{id}', name: 'app_livre_emprunt')]
+public function emprunter(Livre $livre, Request $request, EntityManagerInterface $entityManager): Response
+{
+    if (!$this->getUser()) {
+        return $this->redirectToRoute('app_login');
+    }
+
+    $reservation = new ReservationLivre();
+    $reservation->setLivre($livre);
+    $reservation->setUtilisateur($this->getUser());
+    $reservation->setDateEmprunt(new \DateTime());
+
+    $form = $this->createForm(ReservationLivreType::class, $reservation);
+    $form->handleRequest($request);
+
+    // Vérification de la date de retour avant de valider l'emprunt
+    if ($form->isSubmitted() && $form->isValid()) {
+        // Récupérer la date de retour prévue depuis le formulaire
+        $dateRetourPrevu = $reservation->getDateRetour();
+
+        // Vérifier si la date de retour est antérieure à la date actuelle
+        if ($dateRetourPrevu && $dateRetourPrevu < new \DateTime()) {
+            // Ajouter un message flash pour informer l'utilisateur
+            $this->addFlash('error', 'La date de retour ne peut pas être antérieure à la date actuelle.');
+
+            // Retourner à la même page sans persister la réservation
+            return $this->render('livre/emprunt.html.twig', [
+                'form' => $form->createView(),
+                'livre' => $livre,
+            ]);
+        }
+
+        // Si la date de retour est valide, procéder à l'emprunt
+        $livre->setDisponible(false);
+        $entityManager->persist($reservation);
+        $entityManager->flush();
+
+        // Ajouter un message flash de succès
+        $this->addFlash('success', 'Livre emprunté avec succès !');
+        return $this->redirectToRoute('app_bibliotheque');
+    }
+
+    return $this->render('livre/emprunt.html.twig', [
+        'form' => $form->createView(),
+        'livre' => $livre,
+    ]);
+}
+
     
 }

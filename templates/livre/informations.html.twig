@@ -15,10 +15,18 @@
         <p><strong>Genre :</strong> {{ livre.genre }}</p>
         
         <a href="{{ path('app_bibliotheque') }}" class="btn btn-secondary mt-3">Retour à la bibliothèque</a>
-
-        {% if (app.user.type == 'Administration' and app.user.niveau >= 1) or (app.user.type == 'Enseignant' and app.user.niveau >=2) or (app.user.type == 'Eleve' and app.user.niveau >= 3) %}
-        <a href="{{ path('app_livre_supprimer', {'id': livre.id}) }}" class="btn btn-secondary mt-3" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">Supprimer</a>
+        
+        {% if app.user is not null %}
+            {% if (app.user.type == 'Administration' and app.user.niveau >= 1) or (app.user.type == 'Enseignant' and app.user.niveau >=2) or (app.user.type == 'Eleve' and app.user.niveau >= 3) %}
+                <a href="{{ path('app_livre_supprimer', {'id': livre.id}) }}" class="btn btn-secondary mt-3" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">Supprimer</a>
+            {% endif %}
+            
+            {# Bouton Emprunter #}
+            {% if livre.disponible %}
+                <a href="{{ path('app_livre_emprunt', {'id': livre.id}) }}" class="btn btn-primary mt-3">Emprunter</a>
+            {% else %}
+                <p class="text-danger mt-3">Ce livre est actuellement indisponible.</p>
+            {% endif %}
         {% endif %}
-
     </div>
 {% endblock %}

@@ -11,6 +11,11 @@
     </header>
 
     <div class="container mt-4">
+    <form method="get" action="{{ path('app_livre_recherche') }}" class="d-flex">
+    <input type="text" name="q" class="form-control me-2" placeholder="Rechercher un livre...">
+    <button type="submit" class="btn btn-outline-light">🔍</button>
+</form>
+
         {% if app.user is not null %}
             <div class="text-center mb-4">
                 {% if app.user.type == 'Administration' and app.user.niveau >= 1 %}

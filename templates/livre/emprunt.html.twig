@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Emprunt de {{ livre.titre }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Emprunter : {{ livre.titre }}</h1>
+    <p><strong>Auteur :</strong> {{ livre.nomAuteur }} {% if livre.prenomAuteur %}{{ livre.prenomAuteur }}{% endif %}</p>
+
+    {{ form_start(form) }}
+        {{ form_row(form.date_retour) }}
+        <button type="submit" class="btn btn-success mt-3">Confirmer l'emprunt</button>
+    {{ form_end(form) }}
+
+    <a href="{{ path('app_bibliotheque') }}" class="btn btn-secondary mt-3">Annuler</a>
+</div>
+{% endblock %}
