@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes réservations{% endblock %}
+
+{% block body_class %}reservations-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Mes réservations</h1>
+        
+        {% if reservations is not empty %}
+            <ul class="list-group">
+                {% for reservation in reservations %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>Livre :</strong> {{ reservation.livre.titre }}<br>
+                            <strong>Date de l'emprunt :</strong> {{ reservation.dateEmprunt|date('d/m/Y') }}<br>
+                            
+                            {% if reservation.dateRetour is not null %}
+                                <strong>Date de retour prévue :</strong> {{ reservation.dateRetour|date('d/m/Y') }}<br>
+                                {% if reservation.dateRetour < 'now' %}
+                                    <span class="text-warning">Retour en retard</span>
+                                {% else %}
+                                    <strong>Date de retour effective :</strong> {{ reservation.dateRetour|date('d/m/Y') }}
+                                {% endif %}
+                            {% else %}
+                                <span class="text-danger">Non retourné</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div>
+                            <a href="{{ path('app_reservation_annuler', {'id': reservation.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                Annuler
+                            </a>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Vous n'avez aucune réservation.</p>
+        {% endif %}
+    </div>
+{% endblock %}
