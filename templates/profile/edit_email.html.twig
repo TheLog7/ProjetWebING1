@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier Email{% endblock %}
+
+{% block body %}
+<h1>Modifier votre Email</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.submit) }}
+{{ form_end(form) }}
+
+<a href="{{ path('app_profile_details') }}">Annuler</a>
+{% endblock %}
