@@ -21,7 +21,7 @@
         {% if app.user.type == 'Administration' or app.user.niveau >= 2 %}
             <a href="{{ path('app_ordinateur_supprimer', {'id': ordinateur.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet ordinateur ?');">🗑️ Supprimer</a>
         {% endif %}
-        {% if ordinateur.status == 'Disponible' %}
+        {% if ordinateur.status == 'disponible' %}
             <a href="{{ path('app_ordinateur_reserver', {'id': ordinateur.id}) }}" class="btn btn-warning">📅 Réserver cet ordinateur</a>
         {% endif %}
     {% endif %}

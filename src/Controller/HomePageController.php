@@ -168,6 +168,5 @@ public function annulerReservationOrdinateur(ReservationOrdinateur $reservationO
                 'controller_name' => 'HomePageController',
             ]);
         }
-
-
+        
 }
