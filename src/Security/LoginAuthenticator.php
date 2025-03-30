@@ -48,9 +48,14 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
         $user = $token->getUser();
 
         $request->getSession()->set('user_data', [
-            'nom' => $user->getnom(),
+            'nom' => $user->getNom(),
             'age' => $user->getage(),
             'prenom' => $user->getprenom(),
+            'email' => $user->getEmail(),
+            'type' => $user->getType(),
+            'niveau' => $user->getNiveau(),
+            'points' => $user->getPoints(),
+            'sexe' => $user->getSexe(),
         ]);
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
