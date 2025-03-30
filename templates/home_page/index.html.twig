@@ -19,6 +19,9 @@
             <section class="user-reservations">
                 <a href="{{ path('app_reservations') }}" class="btn btn-primary mt-3">Voir mes réservations</a>
             </section>
+            {% if app.user.niveau == 1 %}
+                <a href="{{ path('app_admin') }}" class="btn btn-primary mt-3">Module Administrateur</a>
+            {% endif %}
         {% endif %}
     </main>
 {% endblock %}

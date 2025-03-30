@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de bord Administrateur</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+            <h2 class="text-xl font-semibold mb-2">Utilisateurs</h2>
+            <p class="text-gray-600">Gérez les utilisateurs et leurs rôles.</p>
+            <a href="{{ path('admin_utilisateurs')}}" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg">Gérer</a>
+        </div>
+        
+        <div class="bg-white p-6 rounded-2xl shadow-md">
+            <h2 class="text-xl font-semibold mb-2">Emprunts</h2>
+            <p class="text-gray-600">Surveillez les emprunts et retours.</p>
+            <a href="{{ path('admin_livres')}}" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded-lg">Gérer</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
