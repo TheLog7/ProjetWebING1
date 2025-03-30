@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche de livres{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Recherche de livres</h1>
+
+    <form method="get" action="{{ path('app_livre_recherche') }}" class="mb-4">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher un livre..." class="form-control">
+        <button type="submit" class="btn btn-primary mt-2">Rechercher</button>
+    </form>
+
+    {% if query is not empty %}
+        <h2>Résultats pour "{{ query }}" :</h2>
+
+        {% if livres is empty %}
+            <p>Aucun livre trouvé.</p>
+        {% else %}
+            <ul class="list-group">
+                {% for livre in livres %}
+                    <li class="list-group-item">
+                        <a href="{{ path('app_livre_informations', {'id': livre.id}) }}">{{ livre.titre }}</a> - {{ livre.nomAuteur }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}
