@@ -47,7 +47,6 @@ final class HomePageController extends AbstractController
         if ($user) {
             // Récupère toutes les réservations de l'utilisateur
             $reservations = $reservationLivreRepository->findBy(['utilisateur' => $user]);
-
             return $this->render('reservations/index.html.twig', [
                 'reservations' => $reservations,
             ]);
