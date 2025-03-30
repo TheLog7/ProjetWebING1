@@ -83,6 +83,7 @@ public function showReservations(
         // Récupère toutes les réservations de l'utilisateur pour les ordinateurs
         $reservationsOrdinateurs = $reservationOrdinateurRepository->findBy(['utilisateur' => $user]);
 
+
         // Combine les deux listes de réservations
         $reservations = [
             'livres' => $reservationsLivres,
@@ -151,14 +152,7 @@ public function annulerReservationOrdinateur(ReservationOrdinateur $reservationO
 
 
 
-        //Route pour la page Cantine
-        #[Route('/cantine', name: 'app_cantine')]
-        public function cantine(): Response
-        {
-            return $this->render('cantine/index.html.twig', [
-                'controller_name' => 'HomePageController',
-            ]);
-        }
+      
     
         //Route pour la page Imprimerie
         #[Route('/imprimerie', name: 'app_imprimerie')]

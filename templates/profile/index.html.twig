@@ -1,13 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Votre profil{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
-    <h1>Bienvenue, {{ user.nom }}{{ user.prenom }}</h1>
-<p>Age : {{ user.age }}</p>
-
-
+    <h1>Votre profil : </h1>
+    <p>Nom : {{ user.nom }}</p>
+    <p>Prénom : {{ user.prenom }}</p>
+    <p>Age : {{ user.age }}</p>
+    <p>Sexe : {{ user.sexe }}</p>
     
+    <p>Email : {{ user.email }}
+        <a href="{{ path('app_edit_email') }}" class="edit-icon">
+            <i class="fa-solid fa-pencil"></i> <!-- Icône crayon -->
+        </a>
+    </p>
+
+    <p>Vous êtes {{ user.type }}</p>
+    <p>Niveau : {{ user.niveau }}</p>
+    <p>Points : {{ user.points }}</p>
+    <a href="{{ path('app_edit_password') }}" class="btn btn-warning">
+        Modifier le mot de passe
+    </a>
 </div>
 {% endblock %}
