@@ -203,3 +203,116 @@ input[type="checkbox"] {
 }
 
 
+/* CSS pour la cantine */
+.cantine-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.menu-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #4a90e2;
+}
+
+.menu-container h3 {
+    color: #4a90e2;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.menu-item {
+    background-color: #f0f8ff;
+    border-left: 4px solid #4a90e2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#calendar-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.calendar-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.reservation-message {
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #555;
+}
+
+.calendar-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+    font-size: 16px;
+}
+
+.fc-daygrid-day-number {
+    font-size: 12px;
+}
+
+#calendar {
+    max-width: 530px;
+    margin: 0 auto;
+}
+
+.fc-daygrid {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.fc-header-toolbar {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar .fc-prev-button,
+.fc-header-toolbar .fc-next-button {
+    margin-right: 10px;
+}
+
+.legend {
+    position: absolute;
+    top: 250px;
+    right: 50px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#reservation-message img,
+#menu-of-the-day img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#menu-of-the-day img {
+    margin-bottom: 15px;
+}
+
+
+/*fin CSS pour la cantine */

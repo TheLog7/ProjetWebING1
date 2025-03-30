@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes réservations{% endblock %}
+
+{% block body_class %}reservations-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">Mes Réservations</h2>
+
+        <div class="mt-4">
+            <h3 class="text-secondary">Livres</h3>
+            {% if reservations.livres is empty %}
+                <p class="alert alert-warning">Aucune réservation de livre.</p>
+            {% else %}
+                <ul class="list-group">
+                    {% for reservation in reservations.livres %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ reservation.livre.titre }}</strong> - Réservé le {{ reservation.dateEmprunt|date('d/m/Y') }}
+                            </div>
+                            <div>
+                                <a href="{{ path('app_reservation_annuler', {'id': reservation.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                    Annuler
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="mt-4">
+            <h3 class="text-secondary">Ordinateurs</h3>
+            {% if reservations.ordinateurs is empty %}
+                <p class="alert alert-warning">Aucune réservation d'ordinateur.</p>
+            {% else %}
+                <ul class="list-group">
+                    {% for reservation in reservations.ordinateurs %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ reservation.ordinateur.nom }}</strong> - Réservé le {{ reservation.dateReservation|date('d/m/Y') }}
+                            </div>
+                            <div>
+                                <a href="{{ path('app_reservation_annuler_ordinateur', {'id': reservation.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                                    Annuler
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

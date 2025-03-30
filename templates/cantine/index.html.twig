@@ -1,13 +1,60 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cantine{% endblock %}
+{% block title %}
+  Cantine - Réservation
+{% endblock %}
 
-{% block body_class %}cantine-page{% endblock %}
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles/app.css" />
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <script>
+        // Pass the data from Twig to JavaScript
+        var reservedDates = [{% for reservation in reservations %}'{{ reservation.date|date('Y-m-d') }}',{% endfor %}];
+        var menus = {
+            {% for menu in menus %}
+                '{{ menu.date|date('Y-m-d') }}': {
+                    entree: '{{ menu.entree }}',
+                    plat: '{{ menu.plat }}',
+                    dessert: '{{ menu.dessert }}'
+                }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+    </script>
+<script src="/assets/vendor/app.js"></script>
+{% endblock %}
 
 {% block body %}
-    <header class="site-header">
-        <h1>Cantine</h1>
-        <p>Trouvez le menu de la cantine et les tarifs📖</p>
-    </header>
+  <div class="cantine-container">
+    <!-- Affichage du menu du jour -->
+    <div id="menu-of-the-day" class="menu-container">
+      <p>Sélectionnez une date pour voir le menu.</p>
+      <div id="reservation-message" class="reservation-message">
+        <img src="https://i.postimg.cc/wTMnVyHt/cantine.jpgs" alt="Pensez à réserver" style="max-width: 100%; height: auto; border-radius: 10px;" />
+      </div>
+    </div>
 
+    <!-- Calendrier de réservation -->
+    <div id="calendar-container">
+      <div id="calendar"></div>
+      <div class="calendar-controls">
+        <div id="reservation-message" class="reservation-message">Vous pouvez annuler une réservation jusqu'à 2 jours avant.</div>
+        <div id="error-message" class="error-message" style="color: red;"></div>
+        <input type="text" id="reservation-date" name="reservation-date" class="calendar-input" placeholder="YYYY-MM-DD" oninput="validateDate()" />
+        <button class="btn btn-success" onclick="handleReservation()">Réserver</button>
+        <button class="btn btn-danger" onclick="handleUnreserve()">Déreserver</button>
+      </div>
+      <!-- Légende à droite du calendrier -->
+      <div id="legend" class="legend">
+        <div style="background-color: #cccccc; display: inline-block; width: 20px; height: 20px; margin-right: 5px;"></div>
+        <span>Réservé</span>
+      </div>
+    </div>
+  </div>
 {% endblock %}
