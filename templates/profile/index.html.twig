@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfileController!{% endblock %}
+{% block title %}Votre profil{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
@@ -19,5 +19,8 @@
     <p>Vous êtes {{ user.type }}</p>
     <p>Niveau : {{ user.niveau }}</p>
     <p>Points : {{ user.points }}</p>
+    <a href="{{ path('app_edit_password') }}" class="btn btn-warning">
+        Modifier le mot de passe
+    </a>
 </div>
 {% endblock %}

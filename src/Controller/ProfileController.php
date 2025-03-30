@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class ProfileController extends AbstractController
 {
@@ -64,6 +68,59 @@ final class ProfileController extends AbstractController
         }
 
         return $this->render('profile/edit_email.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/profile/edit-password', name: 'app_edit_password')]
+    public function editPassword(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        if (!$user instanceof PasswordAuthenticatedUserInterface) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $form = $this->createFormBuilder()
+            ->add('current_password', PasswordType::class, [
+                'label' => 'Mot de passe actuel',
+                'mapped' => false,
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('new_password', PasswordType::class, [
+                'label' => 'Nouveau mot de passe',
+                'mapped' => false,
+                'attr' => ['class' => 'form-control']
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Modifier',
+                'attr' => ['class' => 'btn btn-primary mt-2']
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $currentPassword = $form->get('current_password')->getData();
+            $newPassword = $form->get('new_password')->getData();
+
+            // Vérifier si le mot de passe actuel est correct
+            if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
+                $this->addFlash('danger', 'Mot de passe actuel incorrect.');
+                return $this->redirectToRoute('app_edit_password');
+            }
+
+            // Hacher le nouveau mot de passe
+            $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
+            $user->setPassword($hashedPassword);
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Mot de passe mis à jour avec succès.');
+            return $this->redirectToRoute('app_profile_details');
+        }
+
+        return $this->render('profile/edit_password.html.twig', [
             'form' => $form->createView(),
         ]);
     }
