@@ -35,7 +35,7 @@ class ReservationLivre
         return $this->id;
     }
 
-    public function getUtilisateur(): ?User
+    public function getUtilisateur(): ?Utilisateur
     {
         return $this->utilisateur;
     }

@@ -94,7 +94,7 @@ public function supprimer(Ordinateur $ordinateur, EntityManagerInterface $entity
 public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityManager): RedirectResponse
 {
     // Vérifier si l'ordinateur est disponible
-    if ($ordinateur->getStatus() !== 'disponible') {
+    if ($ordinateur->getStatus() !== 'Disponible') {
         $this->addFlash('error', 'Cet ordinateur n\'est pas disponible pour réservation.');
         return $this->redirectToRoute('app_ordinateur_details', ['id' => $ordinateur->getId()]);
     }

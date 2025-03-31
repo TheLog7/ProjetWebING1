@@ -1,4 +1,3 @@
-{# templates/objet_connecte/index.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block body %}
@@ -8,7 +7,7 @@
         <!-- Onglets pour différents types d'objets connectés -->
         <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="thermostats-tab" data-toggle="tab" href="#thermostats" role="tab" aria-controls="thermostats" aria-selected="true">Thermostats</a>
+                <a class="nav-link active" id="ordinateurs-tab" data-toggle="tab" href="#ordinateurs" role="tab" aria-controls="ordinateurs" aria-selected="true">Ordinateurs</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="velos-tab" data-toggle="tab" href="#velos" role="tab" aria-controls="velos" aria-selected="false">Vélos</a>
@@ -16,73 +15,31 @@
             <li class="nav-item">
                 <a class="nav-link" id="trottinettes-tab" data-toggle="tab" href="#trottinettes" role="tab" aria-controls="trottinettes" aria-selected="false">Trottinettes</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="thermostats-tab" data-toggle="tab" href="#thermostats" role="tab" aria-controls="thermostats" aria-selected="false">Thermostats</a>
+            </li>
         </ul>
 
         <!-- Contenu des onglets -->
         <div class="tab-content" id="objetTabsContent">
-            <!-- Onglet Thermostats -->
-            <div class="tab-pane fade show active" id="thermostats" role="tabpanel" aria-labelledby="thermostats-tab">
-                <div class="row">
-                    {% for thermostat in thermostats %}
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ thermostat.nom }}</h5>
-                                    <p class="card-text">ID: {{ thermostat.identifiantUnique }}</p>
-                                    <p class="card-text">Température Actuelle: {{ thermostat.temperatureActuelle }}°C</p>
-                                    <p class="card-text">Température Cible: {{ thermostat.temperatureCible }}°C</p>
-                                    <p class="card-text">Mode: {{ thermostat.mode }}</p>
-                                    <p class="card-text">Connectivité: {{ thermostat.connectivite }}</p>
-                                    <p class="card-text">Niveau de Batterie: {{ thermostat.niveauBatterie }}%</p>
-                                    <p class="card-text">Dernière Interaction: {{ thermostat.derniereInteraction|date('Y-m-d H:i') }}</p>
-                                    <p class="card-text">Salle: {{ thermostat.salle }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+            <!-- Onglet Ordinateurs -->
+            <div class="tab-pane fade show active" id="ordinateurs" role="tabpanel" aria-labelledby="ordinateurs-tab">
+                <iframe src="https://127.0.0.1:8000/ordinateurs" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
             </div>
 
             <!-- Onglet Vélos -->
             <div class="tab-pane fade" id="velos" role="tabpanel" aria-labelledby="velos-tab">
-                <div class="row">
-                    {% for velo in velos %}
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ velo.nom }}</h5>
-                                    <p class="card-text">ID: {{ velo.identifiantUnique }}</p>
-                                    <p class="card-text">Marque: {{ velo.marque }}</p>
-                                    <p class="card-text">Niveau de Batterie: {{ velo.niveauBatterie }}%</p>
-                                    <p class="card-text">Statut: {{ velo.statut }}</p>
-                                    <p class="card-text">Dernière Interaction: {{ velo.derniereInteraction|date('Y-m-d H:i') }}</p>
-                                    <p class="card-text">Salle: {{ velo.salle }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                <iframe src="https://127.0.0.1:8000/velos" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
             </div>
 
             <!-- Onglet Trottinettes -->
             <div class="tab-pane fade" id="trottinettes" role="tabpanel" aria-labelledby="trottinettes-tab">
-                <div class="row">
-                    {% for trottinette in trottinettes %}
-                        <div class="col-md-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ trottinette.nom }}</h5>
-                                    <p class="card-text">ID: {{ trottinette.identifiantUnique }}</p>
-                                    <p class="card-text">Marque: {{ trottinette.marque }}</p>
-                                    <p class="card-text">Niveau de Batterie: {{ trottinette.niveauBatterie }}%</p>
-                                    <p class="card-text">Statut: {{ trottinette.statut }}</p>
-                                    <p class="card-text">Dernière Interaction: {{ trottinette.derniereInteraction|date('Y-m-d H:i') }}</p>
-                                    <p class="card-text">Salle: {{ trottinette.salle }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
+                <iframe src="https://127.0.0.1:8000/trottinettes" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+            </div>
+
+            <!-- Onglet Thermostats -->
+            <div class="tab-pane fade" id="thermostats" role="tabpanel" aria-labelledby="thermostats-tab">
+                <iframe src="https://127.0.0.1:8000/thermostats" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
             </div>
         </div>
     </div>
@@ -112,5 +69,22 @@
             });
         });
     </script>
-    
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .no-footer {
+            position: relative;
+        }
+        .no-footer::after {
+            content: "";
+            display: none;
+            height: 50px; /* Hauteur de la barre Symfony */
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            background: white;
+        }
+    </style>
 {% endblock %}

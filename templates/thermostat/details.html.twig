@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Thermostat{% endblock %}
+
+{% block body_class %}thermostat-details-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">🌡️ Détails du Thermostat</h2>
+        <div class="card shadow-sm border-0 mx-auto mt-4" style="max-width: 500px;">
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ thermostat.nom }}</h3>
+                <p class="card-text"><strong>Identifiant Unique :</strong> {{ thermostat.identifiantUnique }}</p>
+                <p class="card-text"><strong>Température Actuelle :</strong> {{ thermostat.temperatureActuelle ? thermostat.temperatureActuelle ~ '°C' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Température Cible :</strong> {{ thermostat.temperatureCible ? thermostat.temperatureCible ~ '°C' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Mode :</strong> {{ thermostat.mode ? thermostat.mode : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Connectivité :</strong> {{ thermostat.connectivite ? thermostat.connectivite : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ thermostat.niveauBatterie ? thermostat.niveauBatterie ~ '%' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Salle :</strong> {{ thermostat.salle }}</p>
+                <p class="card-text"><strong>Dernière Interaction :</strong> {{ thermostat.derniereInteraction ? thermostat.derniereInteraction|date('d/m/Y') : 'Non spécifié' }}</p>
+
+                <div class="mt-3">
+                    <a href="{{ path('app_thermostat') }}" class="btn btn-secondary">🔙 Retour</a>
+                    {% if app.user is not null %}
+                        {% if app.user.type == 'Administration' or app.user.niveau >= 2 %}
+                            <a href="{{ path('app_thermostat_supprimer', {'id': thermostat.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce thermostat ?');">🗑️ Supprimer</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

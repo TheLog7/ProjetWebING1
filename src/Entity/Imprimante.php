@@ -5,8 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: "App\Repository\VeloRepository")]
-class Velo
+#[ORM\Entity(repositoryClass: "App\Repository\ImprimanteRepository")]
+class Imprimante
 {
     #[ORM\Id, ORM\GeneratedValue, ORM\Column(type: "integer")]
     private ?int $id = null;
@@ -19,18 +19,24 @@ class Velo
     #[Assert\NotBlank(message: "Le nom ne peut pas être vide.")]
     private string $nom;
 
-    #[ORM\Column(type: "string", length: 255)]
-    private string $marque;
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $modele = null;
+
+    #[ORM\Column(type: "string", length: 255, nullable: true)]
+    private ?string $statut = null;
 
     #[ORM\Column(type: "integer", nullable: true)]
     private ?int $niveauBatterie = null;
 
-    #[ORM\Column(type: "string", length: 255)]
-    private string $statut;
+    #[ORM\Column(type: "integer", nullable: true)]
+    private ?int $niveauEncre = null;
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $derniereInteraction = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La salle est obligatoire.")]
+    private ?string $salle = null;
 
     // Getters and setters...
 
@@ -63,14 +69,26 @@ class Velo
         return $this;
     }
 
-    public function getMarque(): string
+    public function getModele(): ?string
     {
-        return $this->marque;
+        return $this->modele;
     }
 
-    public function setMarque(string $marque): self
+    public function setModele(?string $modele): self
     {
-        $this->marque = $marque;
+        $this->modele = $modele;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }
@@ -87,14 +105,14 @@ class Velo
         return $this;
     }
 
-    public function getStatut(): string
+    public function getNiveauEncre(): ?int
     {
-        return $this->statut;
+        return $this->niveauEncre;
     }
 
-    public function setStatut(string $statut): self
+    public function setNiveauEncre(?int $niveauEncre): self
     {
-        $this->statut = $statut;
+        $this->niveauEncre = $niveauEncre;
 
         return $this;
     }
@@ -111,4 +129,15 @@ class Velo
         return $this;
     }
 
+    public function getSalle(): ?string
+    {
+        return $this->salle;
+    }
+
+    public function setSalle(?string $salle): self
+    {
+        $this->salle = $salle;
+
+        return $this;
+    }
 }

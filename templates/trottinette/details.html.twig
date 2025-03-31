@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de la Trottinette{% endblock %}
+
+{% block body_class %}trottinette-details-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">🛴 Détails de la Trottinette</h2>
+        <div class="card shadow-sm border-0 mx-auto mt-4" style="max-width: 500px;">
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ trottinette.nom }}</h3>
+                <p class="card-text"><strong>Marque :</strong> {{ trottinette.marque }}</p>
+                <p class="card-text"><strong>Identifiant Unique :</strong> {{ trottinette.identifiantUnique }}</p>
+                <p class="card-text"><strong>Statut :</strong> {{ trottinette.statut }}</p>
+                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ trottinette.niveauBatterie ? trottinette.niveauBatterie ~ '%' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Dernière Interaction :</strong> {{ trottinette.derniereInteraction ? trottinette.derniereInteraction|date('d/m/Y') : 'Non spécifié' }}</p>
+
+                <div class="mt-3">
+                    <a href="{{ path('app_trottinette') }}" class="btn btn-secondary">🔙 Retour</a>
+                    {% if app.user is not null %}
+                        {% if app.user.type == 'Administration' or app.user.niveau >= 2 %}
+                            <a href="{{ path('app_trottinette_supprimer', {'id': trottinette.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette trottinette ?');">🗑️ Supprimer</a>
+                        {% endif %}
+                        {% if trottinette.statut == 'Disponible' %}
+                            <a href="{{ path('app_trottinette_reserver', {'id': trottinette.id}) }}" class="btn btn-warning">📅 Réserver cette trottinette</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
