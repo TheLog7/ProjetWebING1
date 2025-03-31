@@ -1,6 +1,4 @@
 /* Styles généraux pour le fond d'écran */
-
-
 body {
     background-size: cover;
     background-position: center;
@@ -18,6 +16,14 @@ body.home-page {
 /* Fond d'écran pour la page Bibliothèque */
 body.bibliotheque-page {
     background-image: url("/images/bibliotheque.jpeg");
+}
+
+body.register-page {
+    background-image: url("/images/portail.jpg");
+}
+
+body.login-page {
+    background-image: url("/images/portail.jpg");
 }
 
 /* Ajouter un effet de flou / opacité */
@@ -80,4 +86,251 @@ main {
     margin-top: 360px; /* Ajuste selon le rendu */
 }
 
+/*Style page d'inscription*/
 
+/* Structure */
+.form-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(221, 221, 221, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    text-align: center;
+    color: var(--text);
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.form-section {
+    background: var(--bg);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border);
+}
+
+/* Champs de formulaire */
+.form-input, .form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form-input:focus, .form-select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Boutons radio */
+.form-radio {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.form-radio label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Upload de fichier */
+.form-file {
+    position: relative;
+}
+
+.form-file input[type="file"] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    position: absolute;
+}
+
+.form-file label {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.form-file label:hover {
+    background: #e2e8f0;
+}
+
+.file-hint {
+    display: block;
+    margin-top: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+/* Checkbox */
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem 0;
+}
+
+.checkbox-group input {
+    width: auto;
+}
+
+/* Bouton submit */
+.form-submit {
+    width: 100%;
+    padding: 1rem;
+    background: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.form-submit:hover {
+    background:#007BFF;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+
+}
+
+.form-error {
+    color: var(--error);
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* CSS pour la cantine */
+.cantine-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.menu-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #4a90e2;
+}
+
+.menu-container h3 {
+    color: #4a90e2;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.menu-item {
+    background-color: #f0f8ff;
+    border-left: 4px solid #4a90e2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#calendar-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.calendar-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.reservation-message {
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #555;
+}
+
+.calendar-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+    font-size: 16px;
+}
+
+.fc-daygrid-day-number {
+    font-size: 12px;
+}
+
+#calendar {
+    max-width: 530px;
+    margin: 0 auto;
+}
+
+.fc-daygrid {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.fc-header-toolbar {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar .fc-prev-button,
+.fc-header-toolbar .fc-next-button {
+    margin-right: 10px;
+}
+
+.legend {
+    position: absolute;
+    top: 250px;
+    right: 50px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#reservation-message img,
+#menu-of-the-day img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#menu-of-the-day img {
+    margin-bottom: 15px;
+}
+
+
+/*fin CSS pour la cantine */
