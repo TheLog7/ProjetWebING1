@@ -1,0 +1,93 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Objets{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Gestion des Objets</h1>
+
+    <!-- Table des Livres -->
+    <h2 class="text-2xl font-semibold mb-4">Livres</h2>
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3 text-left">ID</th>
+                <th class="p-3 text-left">Titre</th>
+                <th class="p-3 text-left">Nom Auteur</th>
+                <th class="p-3 text-left">Prénom Auteur</th>
+                <th class="p-3 text-left">Date de Publication</th>
+                <th class="p-3 text-left">Genre</th>
+                <th class="p-3 text-left">Disponible</th>
+                <th class="p-3 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for livre in livres %}
+                <tr class="border-b">
+                    <td class="p-3">{{ livre.id }}</td>
+                    <td class="p-3">{{ livre.titre }}</td>
+                    <td class="p-3">{{ livre.nomAuteur }}</td>
+                    <td class="p-3">{{ livre.prenomAuteur }}</td>
+                    <td class="p-3">{{ livre.datePublication ? livre.datePublication|date('d/m/Y') : 'N/A' }}</td>
+                    <td class="p-3">{{ livre.genre }}</td>
+                    <td class="p-3">
+                        {% if livre.disponible %}
+                            <span class="text-green-600">Oui</span>
+                        {% else %}
+                            <span class="text-red-600">Non</span>
+                        {% endif %}
+                    </td>
+                    <td class="p-3">
+                        <a href="{{ path('admin_livre_modifier', {id: livre.id}) }}" class="text-blue-500">Modifier</a> |
+                        <a href="{{ path('admin_livre_supprimer', {id: livre.id}) }}" class="text-red-500" onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Table des Ordinateurs -->
+    <h2 class="text-2xl font-semibold mt-8 mb-4">Ordinateurs</h2>
+    <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+        <thead class="bg-gray-200">
+            <tr>
+                <th class="p-3 text-left">ID</th>
+                <th class="p-3 text-left">Nom</th>
+                <th class="p-3 text-left">Marque</th>
+                <th class="p-3 text-left">Numéro de Série</th>
+                <th class="p-3 text-left">Statut</th>
+                <th class="p-3 text-left">Localisation</th>
+                <th class="p-3 text-left">Date d'Achat</th>
+                <th class="p-3 text-left">Dernière Maintenance</th>
+                <th class="p-3 text-left">En Service</th>
+                <th class="p-3 text-left">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ordinateur in ordinateurs %}
+                <tr class="border-b">
+                    <td class="p-3">{{ ordinateur.id }}</td>
+                    <td class="p-3">{{ ordinateur.nom }}</td>
+                    <td class="p-3">{{ ordinateur.marque }}</td>
+                    <td class="p-3">{{ ordinateur.numeroSerie }}</td>
+                    <td class="p-3">{{ ordinateur.status }}</td>
+                    <td class="p-3">{{ ordinateur.localisation }}</td>
+                    <td class="p-3">{{ ordinateur.dateAchat ? ordinateur.dateAchat|date('d/m/Y') : 'N/A' }}</td>
+                    <td class="p-3">{{ ordinateur.derniereMaintenance ? ordinateur.derniereMaintenance|date('d/m/Y') : 'N/A' }}</td>
+                    <td class="p-3">
+                        {% if ordinateur.estEnService %}
+                            <span class="text-green-600">Oui</span>
+                        {% else %}
+                            <span class="text-red-600">Non</span>
+                        {% endif %}
+                    </td>
+                    <td class="p-3">
+                        <a href="{{ path('admin_ordinateur_modifier', {id: ordinateur.id}) }}" class="text-blue-500">Modifier</a> |
+                        <a href="{{ path('admin_ordinateur_supprimer', {id: ordinateur.id}) }}" class="text-red-500" onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
