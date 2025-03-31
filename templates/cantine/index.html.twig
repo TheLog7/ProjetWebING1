@@ -4,12 +4,6 @@
   Cantine - Réservation
 {% endblock %}
 
-{% block stylesheets %}
-  {{ parent() }}
-  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/styles/app.css" />
-{% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
@@ -27,7 +21,199 @@
             {% endfor %}
         };
     </script>
-<script src="/assets/vendor/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var menuElement = document.getElementById('menu-of-the-day');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        locale: 'fr',
+        headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: ''
+        },
+        selectable: true,
+        events: reservedDates.map(date => ({
+            start: date,
+            display: 'background',
+            color: '#cccccc'
+        })),
+        dateClick: function(info) {
+            displayMenuForDate(info.dateStr);
+            document.getElementById('reservation-date').value = info.dateStr;
+            colorSelectedDate(info.dateStr);
+        }
+    });
+
+    calendar.render();
+
+    function displayMenuForDate(date) {
+        var menu = menus[date];
+        if (menu) {
+            const options = { weekday: 'long', day: 'numeric', month: 'long' };
+            const formattedDate = new Date(date).toLocaleDateString('fr-FR', options);
+            menuElement.innerHTML = `
+                <h3>Menu du ${formattedDate}</h3>
+                <div class="menu-item"><strong>Entrée :</strong> ${menu.entree}</div>
+                <div class="menu-item"><strong>Plat :</strong> ${menu.plat}</div>
+                <div class="menu-item"><strong>Dessert :</strong> ${menu.dessert}</div>
+                <img src="https://i.postimg.cc/wTMnVyHt/cantine.jpg" alt="Pensez à réserver" style="max-width: 60%; height: auto; border-radius: 10px; margin-top: 20px;" />
+            `;
+        } else {
+            menuElement.innerHTML = '<p>Aucun menu disponible pour cette date.</p>';
+        }
+    }
+
+    function canReserve(date) {
+        const today = new Date();
+        const selected = new Date(date);
+        return selected >= today;
+    }
+
+    function canUnreserve(date) {
+        const today = new Date();
+        const selected = new Date(date);
+        return selected >= today && (selected.getTime() - today.getTime()) / (1000 * 60 * 60 * 24) >= 1;
+    }
+
+    window.handleReservation = function() {
+        const selectedDate = document.getElementById('reservation-date').value;
+
+        if (!selectedDate || !isValidDate(selectedDate)) {
+            document.getElementById('error-message').innerText = 'Veuillez saisir une date valide (format: YYYY-MM-DD).';
+            return;
+        }
+
+        if (!canReserve(selectedDate)) {
+            document.getElementById('error-message').innerText = 'Vous ne pouvez pas réserver une date antérieure à aujourd\'hui.';
+            return;
+        }
+
+        if (reservedDates.includes(selectedDate)) {
+            document.getElementById('error-message').innerText = 'Cette date est déjà réservée.';
+            return;
+        }
+
+        if (!menus[selectedDate]) {
+            document.getElementById('error-message').innerText = 'Aucun menu disponible pour cette date. Vous ne pouvez pas réserver.';
+            return;
+        }
+
+        fetch('/reserve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                date: selectedDate
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                reservedDates.push(selectedDate);
+                calendar.addEvent({
+                    start: selectedDate,
+                    display: 'background',
+                    color: '#cccccc'
+                });
+                calendar.refetchEvents();
+                colorSelectedDate(selectedDate);
+                document.getElementById('error-message').innerText = '';
+            } else {
+                document.getElementById('error-message').innerText = data.error;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur dans le fetch ou la réservation:', error);
+            document.getElementById('error-message').innerText = 'Une erreur est survenue lors de la réservation.';
+        });
+    };
+
+    window.handleUnreserve = function() {
+        const selectedDate = document.getElementById('reservation-date').value;
+
+        if (!selectedDate || !isValidDate(selectedDate)) {
+            document.getElementById('error-message').innerText = 'Veuillez saisir une date valide (format: YYYY-MM-DD).';
+            return;
+        }
+
+        if (!canUnreserve(selectedDate)) {
+            document.getElementById('error-message').innerText = 'Vous ne pouvez annuler une réservation que jusqu\'à 2 jours avant et pas pour une date antérieure.';
+            return;
+        }
+
+        fetch('/unreserve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+                date: selectedDate
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                reservedDates = reservedDates.filter(date => date !== selectedDate);
+
+                const events = calendar.getEvents();
+                events.forEach(event => {
+                    if (event.startStr === selectedDate) {
+                        event.remove();
+                    }
+                });
+
+                document.querySelectorAll('.fc-day').forEach(function(day) {
+                    if (day.getAttribute('data-date') === selectedDate) {
+                        day.style.backgroundColor = '';
+                    }
+                });
+
+                calendar.refetchEvents();
+                document.getElementById('error-message').innerText = '';
+            } else {
+                document.getElementById('error-message').innerText = data.error;
+            }
+        })
+        .catch(error => {
+            console.error('Erreur dans le fetch ou la déréservation:', error);
+            document.getElementById('error-message').innerText = 'Une erreur est survenue lors de la déréservation.';
+        });
+    };
+
+    function colorSelectedDate(date) {
+        document.querySelectorAll('.fc-day').forEach(function(day) {
+            if (day.getAttribute('data-date') === date) {
+                day.style.backgroundColor = '#4a90e2';
+                day.style.color = 'white';
+            } else {
+                day.style.backgroundColor = '';
+            }
+        });
+    }
+
+    function isValidDate(date) {
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(date);
+    }
+
+    function validateDate() {
+        const dateInput = document.getElementById('reservation-date').value;
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+
+        if (!regex.test(dateInput)) {
+            document.getElementById('reservation-date').style.borderColor = 'red';
+        } else {
+            document.getElementById('reservation-date').style.borderColor = '';
+            displayMenuForDate(dateInput);
+        }
+    }
+});
+
+</script>
 {% endblock %}
 
 {% block body %}
@@ -58,3 +244,125 @@
     </div>
   </div>
 {% endblock %}
+
+
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/styles/app.css" />
+  <style>
+.cantine-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.menu-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid #4a90e2;
+}
+
+.menu-container h3 {
+    color: #4a90e2;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.menu-item {
+    background-color: #f0f8ff;
+    border-left: 4px solid #4a90e2;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+#calendar-container {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.calendar-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.reservation-message {
+    margin-bottom: 10px;
+    font-style: italic;
+    color: #555;
+}
+
+.calendar-input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 250px;
+    font-size: 16px;
+}
+
+.fc-daygrid-day-number {
+    font-size: 12px;
+}
+
+#calendar {
+    max-width: 530px;
+    margin: 0 auto;
+}
+
+.fc-daygrid {
+    height: 100%;
+    aspect-ratio: 1;
+}
+
+.fc-header-toolbar {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar button {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.fc-header-toolbar .fc-prev-button,
+.fc-header-toolbar .fc-next-button {
+    margin-right: 10px;
+}
+
+.legend {
+    position: absolute;
+    top: 250px;
+    right: 50px;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#reservation-message img,
+#menu-of-the-day img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#menu-of-the-day img {
+    margin-bottom: 15px;
+}
+</style>
+{% endblock %}
+
+

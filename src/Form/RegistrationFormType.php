@@ -120,9 +120,6 @@ class RegistrationFormType extends AbstractType
                 'EPS' => 'EPS',
                 'Arts plastiques' => 'Arts plastiques',
                 'Éducation musicale' => 'Éducation musicale',
-                'Aide au révision' => 'Révisions',
-                'LV2'=>'LV2',
-                'Conseillère d\'orientation' => 'Orientation',
             ],
         ]);
 

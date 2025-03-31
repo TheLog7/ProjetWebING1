@@ -22,20 +22,17 @@ class UtilisateurFixtures extends Fixture
 
         // Matières avec répartition réaliste
         $matieresEnseignants = [
-            'Mathématiques' => 2,    
+            'Mathématiques' => 2,
             'Français' => 2,
             'Anglais' => 2,
             'Histoire-Géographie' => 1,
-            'EMC' => 1,              
+            'EMC' => 1,
             'SVT' => 1,
             'Technologie' => 1,
             'Physique-Chimie' => 1,
-            'EPS' => 2,               
+            'EPS' => 2,
             'Arts plastiques' => 1,
             'Éducation musicale' => 1,
-            'Orientation' => 1,
-            'Révisions' => 1,
-            "LV2" => 1,
         ];
 
         $classes = ['6eme', '5eme', '4eme', '3eme'];
@@ -46,24 +43,27 @@ class UtilisateurFixtures extends Fixture
                 $enseignant = new Utilisateur();
                 $prenom = $faker->firstName;
                 $nom = $faker->lastName;
-                
+
+                // Convertir les noms en une forme sans accents
+                $prenom = $this->removeAccents($prenom);
+                $nom = $this->removeAccents($nom);
+
                 $enseignant->setNom($nom);
                 $enseignant->setPrenom($prenom);
-                $enseignant->setEmail(strtolower($prenom.'.'.$nom.'@ecole.fr')); 
+                $enseignant->setEmail(strtolower($prenom.'.'.$nom.'@ecole.fr'));
                 $enseignant->setType('Enseignant');
-                $enseignant->setPassword($this->passwordHasher->hashPassword($enseignant, 'prof123')); 
+                $enseignant->setPassword($this->passwordHasher->hashPassword($enseignant, 'prof123'));
                 $enseignant->setAge($faker->numberBetween(28, 55));
                 $enseignant->setSexe($faker->randomElement(['Homme', 'Femme']));
                 $enseignant->setMatiere($matiere);
                 $enseignant->setPhoto('default_teacher.png');
                 $manager->persist($enseignant);
-                
+
                 // Référence pour les cours
                 $this->addReference('enseignant_'.$matiere.'_'.$i, $enseignant);
             }
         }
-        
-        
+
         // Création des élèves (~25 par niveau)
         foreach ($classes as $classe) {
             for ($i = 1; $i <= 25; $i++) {
@@ -115,7 +115,12 @@ class UtilisateurFixtures extends Fixture
             '4ème' => 13,
             '3ème' => 14
         ];
-        
+
         return $ages[$classe] ?? 12;
+    }
+
+    private function removeAccents($string)
+    {
+        return iconv('UTF-8', 'ASCII//TRANSLIT', $string);
     }
 }

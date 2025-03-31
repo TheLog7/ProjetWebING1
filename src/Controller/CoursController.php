@@ -14,7 +14,7 @@ final class CoursController extends AbstractController
     
      //Affiche l'emploi du temps selon le rôle de l'utilisateur connecté.
      
-    #[Route('/cours', name: 'cours')]
+    #[Route('/cours', name: 'app_cours')]
     public function Cours(CoursRepository $coursRepository): Response
     {
         $user = $this->getUser();

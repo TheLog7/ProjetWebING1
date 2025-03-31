@@ -1,5 +1,4 @@
 <?php
-// src/DataFixtures/CoursFixtures.php
 namespace App\DataFixtures;
 
 use App\Entity\Cours;
@@ -16,17 +15,16 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         'EPS' => 4,
         'Arts plastiques' => 1,
         'Éducation musicale' => 1,
-        'Français' => 4.5,
-        'Histoire-Géographie' => 1.5,
-        'EMC' => 1.5,
+        'Français' => 4,
+        'Histoire-Géographie' => 3,
+        'EMC' => 1,
         'Anglais' => 4,
-        'Mathématiques' => 4.5,
-        'SVT' => 1.33,
-        'Technologie' => 1.33,
-        'Physique-Chimie' => 1.34
+        'Mathématiques' => 4,
+        'SVT' => 2,
+        'Technologie' => 1,
+        'Physique-Chimie' => 2,
     ];
 
-    // Vacances scolaires Zone C
     private $vacances = [
         ['2024-10-19', '2024-11-03'],
         ['2024-12-21', '2025-01-05'],
@@ -34,7 +32,6 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         ['2025-04-12', '2025-04-27']
     ];
 
-    // Mapping des jours en français vers anglais
     private $joursMapping = [
         'Lundi' => 'monday',
         'Mardi' => 'tuesday',
@@ -43,6 +40,17 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         'Vendredi' => 'friday'
     ];
 
+    private $creneaux = [
+        ['08:00', '09:00'],
+        ['09:00', '10:00'],
+        ['10:15', '11:15'],
+        ['13:30', '14:30'],
+        ['14:30', '15:30'],
+        ['15:45','16:45'],
+    ];
+
+    private $emploiDuTempsProfs = [];
+
     public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
@@ -50,71 +58,105 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager): void
     {
-        $enseignants = $manager->getRepository(Utilisateur::class)->findBy(['type' => 'Enseignant']);
-        $classes = ['6ème', '5ème', '4ème', '3ème'];
-
-        $profsParClasse = $this->assignerProfs($enseignants, $classes);
-
+        $classes = ['6eme', '5eme', '4eme', '3eme'];
+        
         foreach ($classes as $classe) {
-            $this->genererEmploiDuTempsAnnuel($manager, $profsParClasse[$classe], $classe);
+            $this->genererEmploiDuTempsAnnuel($manager, $classe);
         }
 
         $manager->flush();
     }
 
-    private function assignerProfs(array $enseignants, array $classes): array
-    {
-        $assignations = [];
-        shuffle($enseignants);
-
-        foreach ($classes as $classe) {
-            $i = 0;
-            foreach ($this->matieres as $matiere => $h) {
-                $assignations[$classe][$matiere] = $enseignants[$i % count($enseignants)];
-                $i++;
-            }
-        }
-        return $assignations;
-    }
-
-    private function genererEmploiDuTempsAnnuel(ObjectManager $manager, array $profsClasse, string $classe): void
+    private function genererEmploiDuTempsAnnuel(ObjectManager $manager, string $classe): void
     {
         $debutAnnee = new \DateTime('2024-09-02');
         $finAnnee = new \DateTime('2025-06-30');
 
+        // On génère 2 semaines types différentes pour varier
+        $edtType1 = $this->genererEDTType($manager, $classe);
+        $edtType2 = $this->genererEDTType($manager, $classe);
+
         $semaine = clone $debutAnnee;
+        $alternance = false;
         while ($semaine <= $finAnnee) {
             if (!$this->estEnVacances($semaine)) {
-                $this->genererSemaine($manager, $profsClasse, $classe, $semaine);
+                $this->appliquerEDTType(
+                    $manager, 
+                    $alternance ? $edtType2 : $edtType1, 
+                    $semaine, 
+                    $classe
+                );
+                $alternance = !$alternance;
             }
             $semaine->modify('+1 week');
         }
     }
+    
 
-    private function genererSemaine(ObjectManager $manager, array $profsClasse, string $classe, \DateTime $lundi): void
+    private function genererEDTType(ObjectManager $manager, string $classe): array
     {
-        $emploiType = [
-            'Lundi' => ['Mathématiques', 'Français', 'Anglais', 'EPS'],
-            'Mardi' => ['Histoire-Géographie', 'EMC', 'SVT', 'Technologie'],
-            'Mercredi' => ['Français', 'Arts plastiques', 'Physique-Chimie'],
-            'Jeudi' => ['Mathématiques', 'Anglais', 'Éducation musicale'],
-            'Vendredi' => ['EPS', 'Français', 'Mathématiques']
-        ];
+        $edt = [];
+        $jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
+        
+        // Récupère tous les profs avec leur matière définie
+        $enseignants = $manager->getRepository(Utilisateur::class)->findBy(['type' => 'Enseignant']);
+        
+        // Préparation des cours à répartir (groupés par matière)
+        $coursParMatiere = [];
+        foreach ($this->matieres as $matiere => $nbHeures) {
+            // Trouve un prof qui a cette matière
+            foreach ($enseignants as $prof) {
+                if ($prof->getMatiere() === $matiere) {
+                    for ($i = 0; $i < $nbHeures; $i++) {
+                        $coursParMatiere[] = [
+                            'matiere' => $matiere,
+                            'profId' => $prof->getId()
+                        ];
+                    }
+                    break; // On prend le premier prof trouvé pour cette matière
+                }
+            }
+        }
+        shuffle($coursParMatiere);
 
-        foreach ($emploiType as $jourFr => $matieres) {
+        // Répartition sur la semaine
+        foreach ($jours as $jour) {
+            $edt[$jour] = [];
+            $creneauxDispos = $this->creneaux;
+            shuffle($creneauxDispos);
+            
+            while (!empty($coursParMatiere) && !empty($creneauxDispos)) {
+                $cours = array_shift($coursParMatiere);
+                $creneau = array_shift($creneauxDispos);
+                
+                $edt[$jour][] = [
+                    'matiere' => $cours['matiere'],
+                    'profId' => $cours['profId'],
+                    'creneau' => $creneau
+                ];
+            }
+        }
+
+        return $edt;
+    }
+
+    private function appliquerEDTType(ObjectManager $manager, array $edtType, \DateTime $lundi, string $classe): void
+    {
+        foreach ($edtType as $jourFr => $coursJour) {
             $jourEn = $this->joursMapping[$jourFr];
             $date = $jourFr === 'Lundi' 
                 ? clone $lundi 
                 : (clone $lundi)->modify($jourEn);
 
-            foreach ($matieres as $matiere) {
+            foreach ($coursJour as $cours) {
+                $prof = $manager->getRepository(Utilisateur::class)->find($cours['profId']);
                 $this->creerCours(
                     $manager,
-                    $profsClasse[$matiere],
+                    $prof,
                     $classe,
-                    $matiere,
-                    $this->matieres[$matiere] / count($emploiType[$jourFr]),
-                    $date
+                    $cours['matiere'],
+                    $date,
+                    $cours['creneau']
                 );
             }
         }
@@ -125,34 +167,33 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         Utilisateur $enseignant,
         string $classe,
         string $matiere,
-        float $dureeHeures,
-        \DateTimeInterface $dateJour
+        \DateTimeInterface $dateJour,
+        array $creneau
     ): void {
-        // Conversion en DateTime concret pour utiliser setTime()
         $dateConcrete = \DateTime::createFromFormat('Y-m-d H:i:s', $dateJour->format('Y-m-d H:i:s'));
         
-        // Génération de la salle
         $salle = $this->faker->randomElement(['A','B','C']) 
                 . $this->faker->randomElement(['05','10','15','20','25','30']);
-    
-        // Conversion de la durée
-        $heures = (int)floor($dureeHeures);
-        $minutes = (int)round(($dureeHeures - $heures) * 60);
-    
-        // Début aléatoire entre 8h et 16h
-        $debut = (clone $dateConcrete)->setTime(
-            $this->faker->numberBetween(8, 16),
-            $this->faker->randomElement([0, 30])
-        );
+
+        $debut = clone $dateConcrete;
+        list($heureDebut, $minuteDebut) = explode(':', $creneau[0]);
+        $debut->setTime($heureDebut, $minuteDebut);
         
-        $fin = (clone $debut)->modify("+{$heures} hours +{$minutes} minutes");
-    
-        // Ajustement si chevauchement avec la pause déjeuner
-        if ($debut->format('H:i') < '12:00' && $fin->format('H:i') > '12:00') {
-            $debut->setTime(13, 30);
-            $fin = (clone $debut)->modify("+{$heures} hours +{$minutes} minutes");
+        $fin = clone $dateConcrete;
+        list($heureFin, $minuteFin) = explode(':', $creneau[1]);
+        $fin->setTime($heureFin, $minuteFin);
+
+        // Vérification conflit horaire
+        $profId = $enseignant->getId();
+        if (isset($this->emploiDuTempsProfs[$profId])) {
+            foreach ($this->emploiDuTempsProfs[$profId] as $coursExist) {
+                if (($debut >= $coursExist['debut'] && $debut < $coursExist['fin']) ||
+                    ($fin > $coursExist['debut'] && $fin <= $coursExist['fin'])) {
+                    return; // Skip si conflit
+                }
+            }
         }
-    
+
         $cours = new Cours();
         $cours->setMatiere($matiere)
               ->setEnseignant($enseignant)
@@ -160,9 +201,16 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
               ->setSalle($salle)
               ->setDebut($debut)
               ->setFin($fin);
-    
+
         $manager->persist($cours);
+        
+        // Mise à jour EDT prof
+        if (!isset($this->emploiDuTempsProfs[$profId])) {
+            $this->emploiDuTempsProfs[$profId] = [];
+        }
+        $this->emploiDuTempsProfs[$profId][] = ['debut' => $debut, 'fin' => $fin];
     }
+
     private function estEnVacances(\DateTimeInterface $date): bool
     {
         foreach ($this->vacances as $periode) {
