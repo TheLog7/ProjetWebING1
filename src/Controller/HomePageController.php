@@ -100,6 +100,7 @@ public function showReservations(
 }
 
 
+
     // Dans le contrôleur des réservations
     #[Route("/reservation/livre/{id}/annuler", name: "app_reservation_annuler")]
     public function annulerReservationLivre(ReservationLivre $reservationLivre, EntityManagerInterface $entityManager): RedirectResponse
@@ -152,15 +153,17 @@ public function annulerReservationOrdinateur(ReservationOrdinateur $reservationO
 
 
 
-      
+
     
-        //Route pour la page Imprimerie
-        #[Route('/imprimerie', name: 'app_imprimerie')]
-        public function imprimerie(): Response
-        {
-            return $this->render('imprimerie/index.html.twig', [
-                'controller_name' => 'HomePageController',
+    //Route pour la page Imprimerie
+    #[Route('/imprimerie', name: 'app_imprimerie')]
+    public function imprimerie(): Response
+    {
+        return $this->render('imprimerie/index.html.twig', [
+            'controller_name' => 'HomePageController',
             ]);
-        }
-        
+
+    }
+
+
 }
