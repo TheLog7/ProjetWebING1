@@ -94,35 +94,6 @@ class RegistrationFormType extends AbstractType
                 ],
             ]);
 
-   
-        $builder->add('classe', ChoiceType::class, [
-            'label' => 'Classe (si Eleve)',
-            'choices' => [
-                'Aucune' => null, 
-                '6eme' => '6eme',
-                '5eme' => '5eme',
-                '4eme' => '4eme',
-                '3eme' => '3eme',
-            ],
-        ]);
-
-        $builder->add('matiere', ChoiceType::class, [
-            'label' => 'Matière (si Professeur)',
-            'choices' => [
-                'Aucune' => null, 
-                'Mathématiques' => 'Mathématiques',
-                'Français' => 'Français',
-                'Anglais' => 'Anglais',
-                'Histoire-Géographie' => 'Histoire-Géographie',
-                'SVT' => 'SVT',
-                'Technologie' => 'Technologie',
-                'Physique-Chimie' => 'Physique-Chimie',
-                'EPS' => 'EPS',
-                'Arts plastiques' => 'Arts plastiques',
-                'Éducation musicale' => 'Éducation musicale',
-            ],
-        ]);
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

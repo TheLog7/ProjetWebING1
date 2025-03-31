@@ -41,6 +41,6 @@ final class CoursController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('app_home'); 
+        return $this->redirectToRoute('app_home_page'); 
     }
 }
