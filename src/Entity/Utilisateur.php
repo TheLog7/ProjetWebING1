@@ -62,11 +62,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
 
-    /**
-     * @var Collection<int, Professeur>
-     */
-    #[ORM\OneToMany(targetEntity: Professeur::class, mappedBy: 'id_utilisateur')]
-    private Collection $professeurs;
 
     public function __construct()
     {

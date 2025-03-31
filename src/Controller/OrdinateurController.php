@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse; // Assure-toi de cette importation
 use App\Entity\ReservationOrdinateur;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 
 
 class OrdinateurController extends AbstractController
@@ -91,30 +93,57 @@ public function supprimer(Ordinateur $ordinateur, EntityManagerInterface $entity
 }
 
 #[Route('/ordinateur/{id}/reserver', name: 'app_ordinateur_reserver')]
-public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityManager): RedirectResponse
+public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityManager, Request $request): RedirectResponse
 {
     // Vérifier si l'ordinateur est disponible
-    if ($ordinateur->getStatus() !== 'disponible') {
+    if ($ordinateur->getStatus() !== 'Disponible') {
         $this->addFlash('error', 'Cet ordinateur n\'est pas disponible pour réservation.');
         return $this->redirectToRoute('app_ordinateur_details', ['id' => $ordinateur->getId()]);
+    }
+
+    // Récupérer l'utilisateur connecté
+    $user = $this->getUser();
+    if (!$user) {
+        $this->addFlash('error', 'Vous devez être connecté pour réserver un ordinateur.');
+        return $this->redirectToRoute('app_login');
     }
 
     // Créer une nouvelle réservation
     $reservation = new ReservationOrdinateur();
     $reservation->setOrdinateur($ordinateur);
-    $reservation->setUtilisateur($this->getUser());  // Enregistrer l'utilisateur connecté
-    $reservation->setDateReservation(new \DateTime());  // Date de réservation
+    $reservation->setUtilisateur($user);
+    $reservation->setDateReservation(new \DateTime());
+
+    // Incrémenter le niveau de l'utilisateur
+    $user->setPoints($user->getPoints() + 1);
+
+    // Vérifier si le niveau doit être mis à jour
+    if ($user->getPoints() == 30) {
+        $user->setNiveau(2);
+    } elseif ($user->getPoints() == 80) {
+        $user->setNiveau(3);
+    }
+
+    // Mettre à jour la session
+    $session = $request->getSession();
+    $userData = $session->get('user_data', []);
+    $userData['points'] = $user->getPoints(); // Mettre à jour avec la nouvelle valeur
+    $userData['niveau'] = $user->getNiveau();
+    $session->set('user_data', $userData);
 
     // Mettre à jour le statut de l'ordinateur à "Indisponible"
     $ordinateur->setStatus('Indisponible');
-    
-    // Persister les modifications
+
+    // Persister les modifications en base de données
     $entityManager->persist($reservation);
+    $entityManager->persist($user); // Mettre à jour l'utilisateur
+    $entityManager->persist($ordinateur);
     $entityManager->flush();
 
     $this->addFlash('success', 'Ordinateur réservé avec succès !');
     return $this->redirectToRoute('app_ordinateur_details', ['id' => $ordinateur->getId()]);
 }
+
 
 
 
