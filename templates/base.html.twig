@@ -40,6 +40,14 @@
   </head>
   <body class="{% block body_class %}
     {% endblock %}">
+    {% for label, messages in app.flashes %}
+          {% for message in messages %}
+              <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          {% endfor %}
+      {% endfor %}
     {# Ajoute l'en-tête ici #}
     <header class="en-tete">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
