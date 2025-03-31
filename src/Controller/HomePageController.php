@@ -148,7 +148,7 @@ public function annulerReservationOrdinateur(ReservationOrdinateur $reservationO
     $ordinateur = $reservationOrdinateur->getOrdinateur();
 
     // Changer le statut de l'ordinateur à 'disponible'
-    $ordinateur->setStatus('disponible');
+    $ordinateur->setStatus('Disponible');
     
     // Sauvegarder les modifications dans la base de données
     $entityManager->persist($ordinateur);
