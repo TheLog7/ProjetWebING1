@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -59,7 +61,24 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
-    
+
+    // Relation ManyToMany avec Cours (cours associés à cet utilisateur)
+    #[ORM\ManyToMany(targetEntity: Cours::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_cours')] // Table de jonction
+    private Collection $cours;
+
+   //Classe de l'élève 
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $classe = null;
+ 
+     //Matière de l'enseignant (nullable pour les élèves)
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $matiere = null;
+
+    public function __construct()
+    {
+        $this->cours = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -202,6 +221,50 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoints(int $points): static
     {
         $this->points = $points;
+
+        return $this;
+    }
+
+
+
+    public function getClasse(): ?string
+    {
+        return $this->classe;
+    }
+
+    public function setClasse(?string $classe): static
+    {
+        $this->classe = $classe;
+        return $this;
+    }
+
+    public function getMatiere(): ?string
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?string $matiere): static
+    {
+        $this->matiere = $matiere;
+        return $this;
+    }
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCours(Cours $cours): self
+    {
+        if (!$this->cours->contains($cours)) {
+            $this->cours[] = $cours;
+        }
+
+        return $this;
+    }
+
+    public function removeCours(Cours $cours): self
+    {
+        $this->cours->removeElement($cours);
 
         return $this;
     }
