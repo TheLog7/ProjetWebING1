@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -62,12 +64,25 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
 
+    // Relation ManyToMany avec Cours (cours associés à cet utilisateur)
+    #[ORM\ManyToMany(targetEntity: Cours::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'user_cours')] // Table de jonction
+    private Collection $cours;
+
+   //Classe de l'élève 
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $classe = null;
+ 
+     //Matière de l'enseignant (nullable pour les élèves)
+     #[ORM\Column(length: 255, nullable: true)]
+     private ?string $matiere = null;
 
     public function __construct()
     {
-        $this->professeurs = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
-    
+
+
 
     public function getId(): ?int
     {
@@ -214,32 +229,48 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Professeur>
-     */
-    public function getProfesseurs(): Collection
+
+
+    public function getClasse(): ?string
     {
-        return $this->professeurs;
+        return $this->classe;
     }
 
-    public function addProfesseur(Professeur $professeur): static
+    public function setClasse(?string $classe): static
     {
-        if (!$this->professeurs->contains($professeur)) {
-            $this->professeurs->add($professeur);
-            $professeur->setIdUtilisateur($this);
+        $this->classe = $classe;
+        return $this;
+    }
+
+    public function getMatiere(): ?string
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?string $matiere): static
+    {
+        $this->matiere = $matiere;
+        return $this;
+    }
+    public function getCours(): Collection
+    {
+        return $this->cours;
+    }
+
+    public function addCours(Cours $cours): self
+    {
+        if (!$this->cours->contains($cours)) {
+            $this->cours[] = $cours;
+
         }
 
         return $this;
     }
 
-    public function removeProfesseur(Professeur $professeur): static
+    public function removeCours(Cours $cours): self
     {
-        if ($this->professeurs->removeElement($professeur)) {
-            // set the owning side to null (unless already changed)
-            if ($professeur->getIdUtilisateur() === $this) {
-                $professeur->setIdUtilisateur(null);
-            }
-        }
+        $this->cours->removeElement($cours);
+
 
         return $this;
     }
