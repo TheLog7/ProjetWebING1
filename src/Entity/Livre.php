@@ -29,6 +29,9 @@ class Livre
     #[ORM\Column(length: 255)]
     private ?string $genre = null;
 
+    #[ORM\Column(type: 'boolean')]
+    private bool $disponible = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +93,18 @@ class Livre
     public function setGenre(string $genre): static
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function isDisponible(): bool
+    {
+        return $this->disponible;
+    }
+
+    public function setDisponible(bool $disponible): static
+    {
+        $this->disponible = $disponible;
 
         return $this;
     }

@@ -1,87 +1,23 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Register{% endblock %}
+
 {% block body %}
-    <div class="auth-container">
+    <h1>Register</h1>
 
-        <div class="form-container">
-               <h1>Inscription</h1>
-            {{ form_errors(registrationForm) }}
+    {{ form_errors(registrationForm) }}
 
-            {{ form_start(registrationForm) }}
+    {{ form_start(registrationForm) }}
+    {{ form_row(registrationForm.email) }}
+    {{ form_row(registrationForm.nom) }}
+    {{ form_row(registrationForm.prenom) }}
+    {{ form_row(registrationForm.age) }}
+    {{ form_row(registrationForm.sexe) }}
+    {{ form_row(registrationForm.type) }}
+    {{ form_row(registrationForm.photo) }}
+    {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_row(registrationForm.plainPassword) }}
+    <button type="submit">S'inscrire</button>
+{{ form_end(registrationForm) }}
 
-            <div class="form-row double-column">
-                <div class="form-group">
-                    {{ form_row(registrationForm.nom) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(registrationForm.prenom) }}
-                </div>
-            </div>
-
-            <div class="form-row double-column">
-                <div class="form-group">
-                    {{ form_row(registrationForm.age) }}
-                </div>
-                <div class="form-group sexe-group">
-                    {{ form_label(registrationForm.sexe) }}
-                    <div class="radio-options">
-                        {% for child in registrationForm.sexe %}
-                            <div class="radio-option">
-                                {{ form_widget(child) }}
-                                {{ form_label(child) }}
-                            </div>
-                        {% endfor %}
-                    </div>
-                    {{ form_errors(registrationForm.sexe) }}
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    {{ form_row(registrationForm.email) }}
-                </div>
-            </div>
-
-            <div class="form-row double-column">
-                <div class="form-group">
-                    {{ form_row(registrationForm.type) }}
-                </div>
-                <div class="form-group photo-upload">
-                    {{ form_label(registrationForm.photo) }}
-                    <div class="file-input-wrapper">
-                        {{ form_widget(registrationForm.photo) }}
-                        <span class="file-name">Aucun fichier sélectionné</span>
-                    </div>
-                    {{ form_errors(registrationForm.photo) }}
-                </div>
-            </div>
-
-            <div class="form-row double-column">
-                <div class="form-group">
-                    {{ form_row(registrationForm.classe) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(registrationForm.matiere) }}
-                </div>
-            </div>
-
-            <div class="form-row double-column">
-                <div class="form-group">
-                    {{ form_row(registrationForm.agreeTerms) }}
-                </div>
-                <div class="form-group">
-                    {{ form_row(registrationForm.plainPassword) }}
-                </div>
-            </div>
-
-            <div class="form-footer">
-                <button type="submit" class="submit-btn">S'inscrire</button>
-                <div class="auth-link">
-                    Déjà un compte ? <a href="{{ path('app_login') }}">Connectez-vous</a>
-                </div>
-            </div>
-            
-            {{ form_end(registrationForm) }}
-        </div>
-    </div>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations sur le livre{% endblock %}
+
+{% block body_class %}livre-informations-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>{{ livre.titre }}</h1>
+        
+        <p><strong>Auteur :</strong> {{ livre.nomAuteur }} {% if livre.prenomAuteur %}{{ livre.prenomAuteur }}{% endif %}</p>
+        
+        <p><strong>Date de publication :</strong> {{ livre.datePublication|date('d/m/Y') }}</p>
+        
+        <p><strong>Genre :</strong> {{ livre.genre }}</p>
+        
+        <a href="{{ path('app_bibliotheque') }}" class="btn btn-secondary mt-3">Retour à la bibliothèque</a>
+        
+        {% if app.user is not null %}
+            {% if (app.user.type == 'Administration' and app.user.niveau >= 1) or (app.user.type == 'Enseignant' and app.user.niveau >=2) or (app.user.type == 'Eleve' and app.user.niveau >= 3) %}
+                <a href="{{ path('app_livre_supprimer', {'id': livre.id}) }}" class="btn btn-secondary mt-3" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">Supprimer</a>
+            {% endif %}
+            
+            {# Bouton Emprunter #}
+            {% if livre.disponible %}
+                <a href="{{ path('app_livre_emprunt', {'id': livre.id}) }}" class="btn btn-primary mt-3">Emprunter</a>
+            {% else %}
+                <p class="text-danger mt-3">Ce livre est actuellement indisponible.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}
