@@ -41,14 +41,13 @@
   <body class="{% block body_class %}
     {% endblock %}">
     {% for label, messages in app.flashes %}
-        {% for message in messages %}
-            <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        {% endfor %}
-    {% endfor %}
-
+          {% for message in messages %}
+              <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          {% endfor %}
+      {% endfor %}
     {# Ajoute l'en-tête ici #}
     <header class="en-tete">
       <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -91,20 +90,20 @@
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <li>
                       <a class="dropdown-item" href="/profile">Mon Profil</a>
-                    </li> <!-- Remplacer par une page valide -->
+                    </li>
+                    {% if app.user.type != "Administration" %}
+                    <li> 
+                        <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_cours') }}';" class="dropdown-item">Emploi du temps</a>
+                    </li>    
+                    {% endif %}
                     <li>
-                      <a class="dropdown-item" href="/notes">Mes Notes</a>
-                    </li> <!-- Remplacer par une page valide -->
-                    <li>
-                      <a class="dropdown-item" href="/timetable">Emploi du Temps</a>
-                    </li> <!-- Remplacer par une page valide -->
-                    <li>
+                    
                       <a class="dropdown-item" href="{{ path('app_logout') }}">Se Déconnecter</a>
                     </li>
                   </ul>
                 </div>
               {% else %}
-                <!-- Si l'utilisateur n'est pas connecté, afficher les boutons Connexion et Inscription -->
+                <!-- Si l'utilisateur n'est pas connecté -->
                 <a href="{{ path('app_login') }}" class="btn btn-outline-primary">Connexion</a>
                 <a href="{{ path('app_register') }}" class="btn btn-outline-primary">Inscription</a>
               {% endif %}
