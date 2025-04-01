@@ -66,6 +66,9 @@ class AdminController extends AbstractController
         // Récupération de l'utilisateur
         $utilisateur = $entityManager->getRepository(Utilisateur::class)->find($id);
 
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+
         if (!$utilisateur) {
             throw $this->createNotFoundException('Utilisateur non trouvé.');
         }
@@ -76,7 +79,10 @@ class AdminController extends AbstractController
         }
 
         // Création du formulaire
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        // Créer le formulaire en passant l'utilisateur comme option
+$form = $this->createForm(UtilisateurType::class, $utilisateur, [
+    'current_user' => $user,  // Passer l'utilisateur connecté
+]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

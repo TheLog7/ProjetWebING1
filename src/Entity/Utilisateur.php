@@ -63,6 +63,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
 
+    #[ORM\Column]
+    private ?string $valide = "non";
+    
     // Relation ManyToMany avec Cours (cours associés à cet utilisateur)
     #[ORM\ManyToMany(targetEntity: Cours::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_cours')] // Table de jonction
@@ -228,7 +231,15 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function isValide(): ?string
+    {
+        return $this->valide;
+    }
 
+    public function setValide(string $valide): static
+    {
+        $this->valide = $valide;
+    }
 
     public function getClasse(): ?string
     {

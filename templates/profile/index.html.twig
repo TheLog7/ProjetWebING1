@@ -19,6 +19,12 @@
     <p>Vous êtes {{ user.type }}</p>
     <p>Niveau : {{ user.niveau }}</p>
     <p>Points : {{ user.points }}</p>
+    {% if user.valide %}
+    <p class="text-green-600 font-bold">Compte validé ✅</p>
+{% else %}
+    <p class="text-red-600 font-bold">Compte non validé ❌</p>
+{% endif %}
+
     <a href="{{ path('app_edit_password') }}" class="btn btn-warning">
         Modifier le mot de passe
     </a>
