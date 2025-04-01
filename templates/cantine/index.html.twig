@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-
+{% block body_class %}cantine-page{% endblock %}
 {% block title %}
   Cantine - Réservation
 {% endblock %}
@@ -32,6 +32,7 @@
 
 {% block body %}
   <div class="cantine-container">
+  <header class="site-header">
     <!-- Affichage du menu du jour -->
     <div id="menu-of-the-day" class="menu-container">
       <p>Sélectionnez une date pour voir le menu.</p>
@@ -39,8 +40,9 @@
         <img src="https://i.postimg.cc/wTMnVyHt/cantine.jpgs" alt="Pensez à réserver" style="max-width: 100%; height: auto; border-radius: 10px;" />
       </div>
     </div>
-
+    </header>
     <!-- Calendrier de réservation -->
+      <header class="site-header">
     <div id="calendar-container">
       <div id="calendar"></div>
       <div class="calendar-controls">
@@ -49,12 +51,15 @@
         <input type="text" id="reservation-date" name="reservation-date" class="calendar-input" placeholder="YYYY-MM-DD" oninput="validateDate()" />
         <button class="btn btn-success" onclick="handleReservation()">Réserver</button>
         <button class="btn btn-danger" onclick="handleUnreserve()">Déreserver</button>
+        </div>
+      </div>
       </div>
       <!-- Légende à droite du calendrier -->
+            <header class="site-header">
       <div id="legend" class="legend">
         <div style="background-color: #cccccc; display: inline-block; width: 20px; height: 20px; margin-right: 5px;"></div>
         <span>Réservé</span>
       </div>
-    </div>
-  </div>
+    </header>
+  
 {% endblock %}
