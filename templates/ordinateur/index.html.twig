@@ -49,6 +49,8 @@
                                 <p class="card-text">Marque: {{ ordinateur.marque }}</p>
                                 <p class="card-text">Statut: <strong>{{ ordinateur.status }}</strong></p>
                                 <p class="card-text">Localisation: {{ ordinateur.localisation }}</p>
+                                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ ordinateur.niveauBatterie ? ordinateur.niveauBatterie : 'Non spécifié' }} %</p>
+
                                 <a href="{{ path('app_ordinateur_details', {'id': ordinateur.id}) }}" class="btn btn-info mt-2">ℹ️ Détails</a>
                             </div>
                         </div>
