@@ -25,10 +25,10 @@
                     <label for="status" class="sr-only">Statut</label>
                     <select name="status" id="status" class="form-control">
                         <option value="">Tous</option>
-                        <option value="disponible" {% if app.request.get('status') == 'disponible' %}selected{% endif %}>Disponible</option>
-                        <option value="indisponible" {% if app.request.get('status') == 'indisponible' %}selected{% endif %}>Indisponible</option>
-                        <option value="En maintenance" {% if app.request.get('status') == 'indisponible' %}selected{% endif %}>En maintenance</option>
-                        <option value="Hors service" {% if app.request.get('status') == 'indisponible' %}selected{% endif %}>Hors service</option>
+                        <option value="Disponible" {% if app.request.get('status') == 'Disponible' %}selected{% endif %}>Disponible</option>
+                        <option value="Indisponible" {% if app.request.get('status') == 'Indisponible' %}selected{% endif %}>Indisponible</option>
+                        <option value="En maintenance" {% if app.request.get('status') == 'Indisponible' %}selected{% endif %}>En maintenance</option>
+                        <option value="Hors service" {% if app.request.get('status') == 'Indisponible' %}selected{% endif %}>Hors service</option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -49,6 +49,8 @@
                                 <p class="card-text">Marque: {{ ordinateur.marque }}</p>
                                 <p class="card-text">Statut: <strong>{{ ordinateur.status }}</strong></p>
                                 <p class="card-text">Localisation: {{ ordinateur.localisation }}</p>
+                                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ ordinateur.niveauBatterie ? ordinateur.niveauBatterie : 'Non spécifié' }} %</p>
+
                                 <a href="{{ path('app_ordinateur_details', {'id': ordinateur.id}) }}" class="btn btn-info mt-2">ℹ️ Détails</a>
                             </div>
                         </div>

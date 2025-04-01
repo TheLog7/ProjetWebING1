@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails de l'Imprimante{% endblock %}
+
+{% block body_class %}imprimante-details-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">🖨️ Détails de l'Imprimante</h2>
+        <div class="card shadow-sm border-0 mx-auto mt-4" style="max-width: 500px;">
+            <div class="card-body text-center">
+                <h3 class="card-title">{{ imprimante.nom }}</h3>
+                <p class="card-text"><strong>Identifiant Unique :</strong> {{ imprimante.identifiantUnique }}</p>
+                <p class="card-text"><strong>Modèle :</strong> {{ imprimante.modele }}</p>
+                <p class="card-text"><strong>Statut :</strong> {{ imprimante.statut }}</p>
+                <p class="card-text"><strong>Niveau d'Encre :</strong> {{ imprimante.niveauEncre ? imprimante.niveauEncre ~ '%' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ imprimante.niveauBatterie ? imprimante.niveauBatterie ~ '%' : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Dernière Interaction :</strong> {{ imprimante.derniereInteraction ? imprimante.derniereInteraction|date('d/m/Y') : 'Non spécifié' }}</p>
+                <p class="card-text"><strong>Salle :</strong> {{ imprimante.salle }}</p>
+
+                <div class="mt-3">
+                    <a href="{{ path('app_imprimante') }}" class="btn btn-secondary">🔙 Retour</a>
+                    {% if app.user is not null %}
+                        {% if app.user.type == 'Administration' or app.user.niveau >= 2 %}
+                            <a href="{{ path('app_imprimante_supprimer', {'id': imprimante.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette imprimante ?');">🗑️ Supprimer</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

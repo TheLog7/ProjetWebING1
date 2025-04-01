@@ -2,35 +2,33 @@
 
 namespace App\Form;
 
-use App\Entity\Ordinateur;
+use App\Entity\Trottinette;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
-
-class OrdinateurType extends AbstractType
+class TrottinetteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('nom', TextType::class, [
-                'label' => 'Nom de l\'ordinateur',
-                'attr' => ['placeholder' => 'Ex: PC Bureau 1']
+                'label' => 'Nom de la trottinette',
+                'attr' => ['placeholder' => 'Ex: Trottinette 1']
             ])
             ->add('marque', TextType::class, [
                 'label' => 'Marque',
-                'attr' => ['placeholder' => 'Ex: Dell, HP, Lenovo...']
+                'attr' => ['placeholder' => 'Ex: Xiaomi, Segway...']
             ])
-            ->add('numeroSerie', TextType::class, [
-                'label' => 'Numéro de série',
-                'attr' => ['placeholder' => 'Ex: ABC123456']
+            ->add('identifiantUnique', TextType::class, [
+                'label' => 'Identifiant unique',
+                'attr' => ['placeholder' => 'Ex: TROT123456']
             ])
-            ->add('status', ChoiceType::class, [
+            ->add('statut', ChoiceType::class, [
                 'label' => 'Statut',
                 'choices' => [
                     'Disponible' => 'Disponible',
@@ -40,28 +38,13 @@ class OrdinateurType extends AbstractType
                 ],
                 'placeholder' => 'Sélectionnez un statut'
             ])
-            ->add('localisation', TextType::class, [
-                'label' => 'Localisation',
-                'attr' => ['placeholder' => 'Ex: Salle informatique, Bureau 2...']
-            ])
-
             ->add('niveauBatterie', IntegerType::class, [
                 'label' => 'Niveau de batterie',
                 'required' => false
             ])
-
-            ->add('date_achat', DateType::class, [
-                'label' => 'Date d\'achat',
+            ->add('derniereInteraction', DateType::class, [
+                'label' => 'Dernière interaction',
                 'widget' => 'single_text',
-                'required' => false
-            ])
-            ->add('derniere_maintenance', DateType::class, [
-                'label' => 'Dernière maintenance',
-                'widget' => 'single_text',
-                'required' => false
-            ])
-            ->add('est_en_service', CheckboxType::class, [
-                'label' => 'En service ?',
                 'required' => false
             ]);
     }
@@ -69,7 +52,7 @@ class OrdinateurType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Ordinateur::class,
+            'data_class' => Trottinette::class,
         ]);
     }
 }
