@@ -30,6 +30,10 @@
                         {{ form_label(form.localisation) }}
                         {{ form_widget(form.localisation, {'attr': {'class': 'form-control'}}) }}
                     </div>
+                    <div class="mb-3">
+                        {{ form_label(form.niveauBatterie) }}
+                        {{ form_widget(form.niveauBatterie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
                     <button type="submit" class="btn btn-success w-100">Ajouter</button>
                 {{ form_end(form) }}
             </div>

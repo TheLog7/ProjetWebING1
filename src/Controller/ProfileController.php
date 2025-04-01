@@ -13,26 +13,32 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use App\Repository\UtilisateurRepository;
 
 final class ProfileController extends AbstractController
 {
 
     #[Route('/profile', name: 'app_profile_details')]
-    public function profile(Request $request): Response
-    {
-        // Récupérer les données utilisateur depuis la session
-        $userData = $request->getSession()->get('user_data', []);
+public function profile(Request $request, UtilisateurRepository $utilisateurRepository): Response
+{
+    $userData = $request->getSession()->get('user_data', []);
 
-        // Vérifier si les données sont présentes
-        if (empty($userData)) {
-            return $this->redirectToRoute('app_login');  // Si aucune donnée n'est trouvée, rediriger vers la page de login
-        }
-
-        // Passer les données utilisateur au template
-        return $this->render('profile/index.html.twig', [
-            'user' => $userData,  // transmettre les données à Twig
-        ]);
+    if (empty($userData) || !isset($userData['email'])) {
+        return $this->redirectToRoute('app_login');
     }
+
+    // Récupérer l'utilisateur depuis la base de données
+    $user = $utilisateurRepository->findOneBy(['email' => $userData['email']]);
+
+    if (!$user) {
+        return $this->redirectToRoute('app_login');
+    }
+
+    return $this->render('profile/index.html.twig', [
+        'user' => $user, // Maintenant c'est un objet Utilisateur
+    ]);
+}
+
     #[Route('/profile/edit-email', name: 'app_edit_email')]
     public function editEmail(Request $request, EntityManagerInterface $entityManager): Response
     {

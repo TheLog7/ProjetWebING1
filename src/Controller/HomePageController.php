@@ -16,6 +16,12 @@ use App\Entity\ReservationOrdinateur;
 use App\Entity\ReservationJeux;
 use App\Repository\ReservationJeuxRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Repository\ReservationVeloRepository;
+use App\Entity\ReservationVelo;
+use App\Repository\ReservationTrottinetteRepository;
+use App\Entity\ReservationTrottinette;
+
+
 
 
 final class HomePageController extends AbstractController
@@ -73,6 +79,11 @@ public function showReservations(
     ReservationLivreRepository $reservationLivreRepository,
     ReservationOrdinateurRepository $reservationOrdinateurRepository,
     ReservationJeuxRepository $reservationJeuxRepository
+    ReservationVeloRepository $reservationVeloRepository,
+    ReservationTrottinetteRepository $reservationTrottinetteRepository,
+
+
+
 )
 {
     // Récupère l'utilisateur connecté
@@ -88,12 +99,16 @@ public function showReservations(
 
         // Récupère toutes les réservations de l'utilisateur pour les jeux
         $reservationsJeux = $reservationJeuxRepository->findBy(['utilisateur' => $user]);
+        $reservationsVelos = $reservationVeloRepository->findBy(['utilisateur' => $user]);
+        $reservationsTrottinettes =$reservationTrottinetteRepository->findBy(['utilisateur' => $user]);
 
         // Combine les deux listes de réservations
         $reservations = [
             'livres' => $reservationsLivres,
             'ordinateurs' => $reservationsOrdinateurs,
             'jeux' => $reservationsJeux
+            'velos' => $reservationsVelos,
+            'trottinettes' => $reservationsTrottinettes,
         ];
 
         return $this->render('reservations/index.html.twig', [
@@ -144,6 +159,7 @@ public function showReservations(
         // Sauvegarder les modifications dans la base de données
         $entityManager->persist($ordinateur);
 
+
         // Suppression de la réservation
         $entityManager->remove($reservationOrdinateur);
 
@@ -167,22 +183,58 @@ public function showReservations(
         // Appliquer les changements
         $entityManager->flush();
 
-        // Ajouter un message flash de succès
-        $this->addFlash('success', 'Réservation de livre annulée avec succès !');
 
-        // Redirige vers la page des réservations
-        return $this->redirectToRoute('app_reservations');
-    }    
+#[Route('/reservations/velo/{id}/supprimer', name: 'app_reservation_annuler_velo')]
+public function annulerReservationVelo(ReservationVelo $reservationVelo, EntityManagerInterface $entityManager): RedirectResponse
+{
+    // Récupérer le vélo associé à la réservation
+    $velo = $reservationVelo->getVelo();
 
-    //Route pour la page Imprimerie
-    #[Route('/imprimerie', name: 'app_imprimerie')]
-    public function imprimerie(): Response
-    {
-        return $this->render('imprimerie/index.html.twig', [
-            'controller_name' => 'HomePageController',
-            ]);
+    // Changer le statut du vélo à 'disponible'
+    $velo->setStatut('disponible');
 
-    }
+    // Sauvegarder les modifications dans la base de données
+    $entityManager->persist($velo);
+
+    // Suppression de la réservation
+    $entityManager->remove($reservationVelo);
+
+    // Appliquer les changements
+    $entityManager->flush();
+
+    // Ajouter un message flash de succès
+    $this->addFlash('success', 'Réservation de vélo annulée avec succès et le vélo est maintenant disponible!');
+
+    // Redirige vers la page des réservations
+    return $this->redirectToRoute('app_reservations');
+}
+
+
+
+#[Route('/reservations/trottinette/{id}/supprimer', name: 'app_reservation_annuler_trottinette')]
+public function annulerReservationTrottinette(ReservationTrottinette $reservationTrottinette, EntityManagerInterface $entityManager): RedirectResponse
+{
+    // Récupérer la trottinette associée à la réservation
+    $trottinette = $reservationTrottinette->getTrottinette();
+
+    // Changer le statut de la trottinette à 'disponible'
+    $trottinette->setStatut('disponible');
+
+    // Sauvegarder les modifications dans la base de données
+    $entityManager->persist($trottinette);
+
+    // Suppression de la réservation
+    $entityManager->remove($reservationTrottinette);
+
+    // Appliquer les changements
+    $entityManager->flush();
+
+    // Ajouter un message flash de succès
+    $this->addFlash('success', 'Réservation de trottinette annulée avec succès et la trottinette est maintenant disponible!');
+
+    // Redirige vers la page des réservations
+    return $this->redirectToRoute('app_reservations');
+}
 
 
 }

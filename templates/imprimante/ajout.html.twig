@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Imprimante{% endblock %}
+
+{% block body_class %}ajout-imprimante-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">Ajouter une nouvelle imprimante</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.nom) }}
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.identifiantUnique) }}
+                        {{ form_widget(form.identifiantUnique, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.modele) }}
+                        {{ form_widget(form.modele, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.statut) }}
+                        {{ form_widget(form.statut, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.niveauEncre) }}
+                        {{ form_widget(form.niveauEncre, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.niveauBatterie) }}
+                        {{ form_widget(form.niveauBatterie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.salle) }}
+                        {{ form_widget(form.salle, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Ajouter</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
