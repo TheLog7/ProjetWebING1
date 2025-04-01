@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1>Réserver le {{ jeu.name }}</h1>
+    
+    <form action="{{ path('app_reservation', { id: jeu.id }) }}" method="POST">
+        <input type="hidden" name="jeu_id" value="{{ jeu.id }}">
+        
+        <div class="mb-3">
+            <label class="form-label">Choisissez un créneau :</label>
+            <select name="creneau" class="form-select" required>
+                {% for slot in creneaux %}
+                <option value="{{ slot.value }}">
+                    {{ slot.start }} - {{ slot.end }}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Nombre de joueurs (max {{ jeu.maxPlaces }})</label>
+            <input type="number" name="nb_joueurs" 
+                   min="1" max="{{ jeu.maxPlaces }}" 
+                   class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn btn-success">
+            Confirmer la réservation
+        </button>
+    </form>
+</div>
+
+{% endblock %}

@@ -6,6 +6,8 @@ use App\Repository\UtilisateurRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
@@ -60,6 +62,8 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
     
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: ReservationJeux::class)]
+    private Collection $reservationsUtilisateur;
 
     public function getId(): ?int
     {
@@ -205,4 +209,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function __construct() {
+        $this->reservationsUtilisateur = new ArrayCollection();
+    }
+
 }
