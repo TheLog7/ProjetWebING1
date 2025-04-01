@@ -1,0 +1,100 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+  <div class="container mt-5">
+    <h1 class="text-center">Objets Connectés</h1>
+
+    <!-- Onglets pour différents types d'objets connectés -->
+    <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="ordinateurs-tab" data-toggle="tab" href="#ordinateurs" role="tab" aria-controls="ordinateurs" aria-selected="true">Ordinateurs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="velos-tab" data-toggle="tab" href="#velos" role="tab" aria-controls="velos" aria-selected="false">Vélos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="trottinettes-tab" data-toggle="tab" href="#trottinettes" role="tab" aria-controls="trottinettes" aria-selected="false">Trottinettes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="thermostats-tab" data-toggle="tab" href="#thermostats" role="tab" aria-controls="thermostats" aria-selected="false">Thermostats</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="imprimantes-tab" data-toggle="tab" href="#imprimantes" role="tab" aria-controls="imprimantes" aria-selected="false">Imprimantes</a>
+      </li>
+    </ul>
+
+    <!-- Contenu des onglets -->
+    <div class="tab-content" id="objetTabsContent">
+      <!-- Onglet Ordinateurs -->
+      <div class="tab-pane fade show active" id="ordinateurs" role="tabpanel" aria-labelledby="ordinateurs-tab">
+        <iframe src="http://127.0.0.1:8000/ordinateurs" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+      </div>
+
+      <!-- Onglet Vélos -->
+      <div class="tab-pane fade" id="velos" role="tabpanel" aria-labelledby="velos-tab">
+        <iframe src="http://127.0.0.1:8000/velos" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+      </div>
+
+      <!-- Onglet Trottinettes -->
+      <div class="tab-pane fade" id="trottinettes" role="tabpanel" aria-labelledby="trottinettes-tab">
+        <iframe src="http://127.0.0.1:8000/trottinettes" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+      </div>
+
+      <!-- Onglet Thermostats -->
+      <div class="tab-pane fade" id="thermostats" role="tabpanel" aria-labelledby="thermostats-tab">
+        <iframe src="http://127.0.0.1:8000/thermostats" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+      </div>
+
+      <!-- Onglet Imprimantes -->
+      <div class="tab-pane fade" id="imprimantes" role="tabpanel" aria-labelledby="imprimantes-tab">
+        <iframe src="http://127.0.0.1:8000/imprimantes" width="100%" height="800px" frameborder="0" class="no-footer"></iframe>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <!-- jQuery et Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#objetTabs a').on('click', function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+      });
+
+      // Garder l'onglet actif après un rechargement
+      let activeTab = localStorage.getItem('activeTab');
+      if (activeTab) {
+        $('#objetTabs a[href="' + activeTab + '"]').tab('show');
+      }
+
+      $('#objetTabs a').on('shown.bs.tab', function (e) {
+        localStorage.setItem('activeTab', $(e.target).attr('href'));
+      });
+
+      function hideElements(iframe) {
+        let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!iframeDoc) return;
+
+        // Cache l'en-tête et le footer
+        $(iframeDoc).find('.navbar, .sf-toolbar').hide();
+      }
+
+      // Appliquer la suppression au chargement de l'iframe
+      $('iframe').on('load', function () {
+        setTimeout(() => hideElements(this), 0); // Petit délai pour s'assurer que le contenu est bien chargé
+      });
+
+      // Réappliquer la suppression toutes les 500ms au cas où le contenu change
+      setInterval(function () {
+        $('iframe').each(function () {
+          hideElements(this);
+        });
+      }, 0);
+    });
+  </script>
+{% endblock %}

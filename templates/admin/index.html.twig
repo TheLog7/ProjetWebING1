@@ -14,10 +14,81 @@
         </div>
         
         <div class="bg-white p-6 rounded-2xl shadow-md">
-            <h2 class="text-xl font-semibold mb-2">Emprunts</h2>
-            <p class="text-gray-600">Surveillez les emprunts et retours.</p>
-            <a href="{{ path('admin_livres')}}" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded-lg">Gérer</a>
+            <h2 class="text-xl font-semibold mb-2">Objets</h2>
+            <p class="text-gray-600">Gérez les objets connectés</p>
+            <a href="{{ path('admin_objets')}}" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded-lg">Tous les objets connectés du site</a>
         </div>
     </div>
+
+    <a href="{{ path('admin_entity_create')}}" class="text-3xl font-bold text-gray-800 mb-6">Ajouter une entité</a>
+
+    <!-- Bouton pour la sauvegarde -->
+    <button id="backup-btn" class="btn btn-primary">Sauvegarder la base de données</button>
+    <div id="backup-message"></div>
+
+    <!-- Nouveau bouton pour vérifier l'intégrité des données -->
+    <button id="verify-integrity-btn" class="btn btn-warning mt-4">Vérifier l'intégrité des données</button>
+    
+    <!-- Zone d'affichage des résultats de l'intégrité -->
+    <div id="integrity-results" class="mt-4"></div>
+
+    <script>
+        // Sauvegarde de la base de données
+        document.getElementById('backup-btn').addEventListener('click', function() {
+            fetch("{{ path('admin_backup') }}", {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                let messageDiv = document.getElementById('backup-message');
+                if (data.status === "success") {
+                    messageDiv.innerHTML = "<div class='alert alert-success'>" + data.message + "</div>";
+                } else {
+                    messageDiv.innerHTML = "<div class='alert alert-danger'>" + data.message + "</div>";
+                }
+            })
+            .catch(error => console.error("Erreur AJAX:", error));
+        });
+
+        // Vérification de l'intégrité des données
+        document.getElementById('verify-integrity-btn').addEventListener('click', function() {
+            fetch("{{ path('admin_verify_data_integrity') }}", {
+                method: "POST",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                let resultsDiv = document.getElementById('integrity-results');
+                if (data.status === "success") {
+                    resultsDiv.innerHTML = "<div class='alert alert-success'>" + data.message + "</div>";
+                } else {
+                    let errorMsg = `<div class="alert alert-danger">${data.message}</div>`;
+                    if (data.invalidUsers) {
+                        errorMsg += `<ul>`;
+                        data.invalidUsers.forEach(user => {
+                            errorMsg += `<li>Utilisateur ${user.name} : ${user.error}</li>`;
+                        });
+                        errorMsg += `</ul>`;
+                    }
+                    resultsDiv.innerHTML = errorMsg;
+                }
+            })
+            .catch(error => {
+                const resultsDiv = document.getElementById('integrity-results');
+                resultsDiv.innerHTML = `<div class="alert alert-danger">Une erreur est survenue lors de la vérification de l'intégrité.</div>`;
+                console.error("Erreur AJAX:", error);
+            });
+        });
+    </script>
+    <div class="container mt-5">
+    <h1>Générer un rapport</h1>
+    <a href="{{ path('admin_report_export', {'format': 'csv'}) }}" class="btn btn-primary">Exporter en CSV</a>
+    <a href="{{ path('admin_report_export', {'format': 'pdf'}) }}" class="btn btn-secondary">Exporter en PDF</a>
+</div>
 </div>
 {% endblock %}

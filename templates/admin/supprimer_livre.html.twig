@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer un Livre{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Supprimer un Livre</h1>
+
+    <div class="bg-white p-6 rounded-2xl shadow-md">
+        <p class="text-lg text-gray-700 mb-4">
+            Êtes-vous sûr de vouloir supprimer le livre <strong>{{ livre.titre }}</strong> de <strong>{{ livre.nomAuteur }} {{ livre.prenomAuteur }}</strong> ?
+        </p>
+
+        <form method="post" action="{{ path('admin_livre_supprimer', {id: livre.id}) }}">
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-lg">
+                Supprimer définitivement
+            </button>
+            <a href="{{ path('admin_objets') }}" class="ml-4 text-blue-500">Annuler</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des objets et services{% endblock %}
+
+{% block body %}
+    <h1 class="text-center my-4">Gestion des objets et services</h1>
+
+    <div class="container">
+        {% for categorie, objets in data %}
+            <div class="category-section mb-5">
+                <h2 class="text-primary">{{ categorie }}</h2>
+                
+                {% if objets is not empty %}
+                    <ul class="list-unstyled">
+                        {% for objet in objets %}
+                            <li class="mb-3">
+                            
+
+                                {% if categorie == 'Livres' %}
+                                    <p><strong>Auteur:</strong> {{ objet.getNomAuteur() }} {{ objet.getPrenomAuteur() }}</p>
+                                {% elseif categorie == 'Ordinateurs' %}
+                                    <p><strong>Numéro de Série:</strong> {{ objet.getNumeroSerie() }}</p>
+                                {% elseif categorie == 'Imprimantes' %}
+                                    <p><strong>Modèle:</strong> {{ objet.getModele() }}</p>
+                                {% elseif categorie == 'Vélos' or categorie == 'Trottinettes' %}
+                                    <p><strong>Modèle:</strong> {{ objet.getMarque() }}</p>
+                                {% elseif categorie == 'Thermostats' %}
+                                    <p><strong>Température:</strong> {{ objet.getTemperatureActuelle() }}°C</p>
+                                {% elseif categorie == 'Menus' %}
+                                    <p><strong>Description:</strong> {{ objet.getDescription() }}</p>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Aucun {{ categorie|lower }} disponible.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

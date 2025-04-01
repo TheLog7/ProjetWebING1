@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un Livre{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Modifier un Livre</h1>
+
+    <div class="bg-white p-6 rounded-2xl shadow-md">
+        {{ form_start(form) }}
+
+        <div class="mb-4">
+            {{ form_label(form.titre, 'Titre') }}
+            {{ form_widget(form.titre, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.nomAuteur, 'Nom de l\'Auteur') }}
+            {{ form_widget(form.nomAuteur, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.prenomAuteur, 'Prénom de l\'Auteur') }}
+            {{ form_widget(form.prenomAuteur, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.datePublication, 'Date de Publication') }}
+            {{ form_widget(form.datePublication, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.genre, 'Genre') }}
+            {{ form_widget(form.genre, {'attr': {'class': 'w-full p-2 border rounded'}}) }}
+        </div>
+
+        <div class="mb-4">
+            {{ form_label(form.disponible, 'Disponible') }}
+            {{ form_widget(form.disponible, {'attr': {'class': 'w-6 h-6 border rounded'}}) }}
+        </div>
+
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Modifier</button>
+        <a href="{{ path('admin_objets') }}" class="ml-4 text-gray-500">Annuler</a>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

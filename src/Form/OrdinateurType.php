@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+
 
 class OrdinateurType extends AbstractType
 {
@@ -42,6 +44,12 @@ class OrdinateurType extends AbstractType
                 'label' => 'Localisation',
                 'attr' => ['placeholder' => 'Ex: Salle informatique, Bureau 2...']
             ])
+
+            ->add('niveauBatterie', IntegerType::class, [
+                'label' => 'Niveau de batterie',
+                'required' => false
+            ])
+
             ->add('date_achat', DateType::class, [
                 'label' => 'Date d\'achat',
                 'widget' => 'single_text',
