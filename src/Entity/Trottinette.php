@@ -30,8 +30,6 @@ class Trottinette
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $derniereInteraction = null;
 
-    #[ORM\Column(type: "string", length: 255)]
-    private string $salle;
 
     // Getters and setters...
 
@@ -108,18 +106,6 @@ class Trottinette
     public function setDerniereInteraction(?\DateTimeInterface $derniereInteraction): self
     {
         $this->derniereInteraction = $derniereInteraction;
-
-        return $this;
-    }
-
-    public function getSalle(): string
-    {
-        return $this->salle;
-    }
-
-    public function setSalle(string $salle): self
-    {
-        $this->salle = $salle;
 
         return $this;
     }

@@ -144,9 +144,6 @@ public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityM
     return $this->redirectToRoute('app_ordinateur_details', ['id' => $ordinateur->getId()]);
 }
 
-
-
-
 }
 
 
