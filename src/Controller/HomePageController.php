@@ -13,6 +13,8 @@ use App\Entity\ReservationLivre;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\ReservationOrdinateurRepository;
 use App\Entity\ReservationOrdinateur;
+use App\Entity\ReservationJeux;
+use App\Repository\ReservationJeuxRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Repository\ReservationVeloRepository;
 use App\Entity\ReservationVelo;
@@ -76,6 +78,7 @@ public function recherche(LivreRepository $livreRepository, Request $request): R
 public function showReservations(
     ReservationLivreRepository $reservationLivreRepository,
     ReservationOrdinateurRepository $reservationOrdinateurRepository,
+    ReservationJeuxRepository $reservationJeuxRepository
     ReservationVeloRepository $reservationVeloRepository,
     ReservationTrottinetteRepository $reservationTrottinetteRepository,
 
@@ -94,6 +97,8 @@ public function showReservations(
         // Récupère toutes les réservations de l'utilisateur pour les ordinateurs
         $reservationsOrdinateurs = $reservationOrdinateurRepository->findBy(['utilisateur' => $user]);
 
+        // Récupère toutes les réservations de l'utilisateur pour les jeux
+        $reservationsJeux = $reservationJeuxRepository->findBy(['utilisateur' => $user]);
         $reservationsVelos = $reservationVeloRepository->findBy(['utilisateur' => $user]);
         $reservationsTrottinettes =$reservationTrottinetteRepository->findBy(['utilisateur' => $user]);
 
@@ -101,6 +106,7 @@ public function showReservations(
         $reservations = [
             'livres' => $reservationsLivres,
             'ordinateurs' => $reservationsOrdinateurs,
+            'jeux' => $reservationsJeux
             'velos' => $reservationsVelos,
             'trottinettes' => $reservationsTrottinettes,
         ];
@@ -141,30 +147,41 @@ public function showReservations(
     }
     
 
-#[Route('/reservations/ordinateur/{id}/supprimer', name: 'app_reservation_annuler_ordinateur')]
-public function annulerReservationOrdinateur(ReservationOrdinateur $reservationOrdinateur, EntityManagerInterface $entityManager): RedirectResponse
-{
-    // Récupérer l'ordinateur associé à la réservation
-    $ordinateur = $reservationOrdinateur->getOrdinateur();
+    #[Route('/reservations/ordinateur/{id}/supprimer', name: 'app_reservation_annuler_ordinateur')]
+    public function annulerReservationOrdinateur(ReservationOrdinateur $reservationOrdinateur, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        // Récupérer l'ordinateur associé à la réservation
+        $ordinateur = $reservationOrdinateur->getOrdinateur();
 
-    // Changer le statut de l'ordinateur à 'disponible'
-    $ordinateur->setStatus('Disponible');
+        // Changer le statut de l'ordinateur à 'disponible'
+        $ordinateur->setStatus('disponible');
+        
+        // Sauvegarder les modifications dans la base de données
+        $entityManager->persist($ordinateur);
+
+
+        // Suppression de la réservation
+        $entityManager->remove($reservationOrdinateur);
+
+        // Appliquer les changements
+        $entityManager->flush();
+
+        // Ajouter un message flash de succès
+        $this->addFlash('success', 'Réservation d\'ordinateur annulée avec succès et l\'ordinateur est maintenant disponible!');
+
+        // Redirige vers la page des réservations
+        return $this->redirectToRoute('app_reservations');
+    }
+
+    #[Route('/reservations/jeux/{id}/supprimer', name: 'app_reservation_annuler_jeux')]
+    public function annulerReservationJeux(ReservationJeux $reservationJeux, EntityManagerInterface $entityManager): RedirectResponse
+    {
     
-    // Sauvegarder les modifications dans la base de données
-    $entityManager->persist($ordinateur);
+        // Suppression de la réservation
+        $entityManager->remove($reservationJeux);
 
-    // Suppression de la réservation
-    $entityManager->remove($reservationOrdinateur);
-
-    // Appliquer les changements
-    $entityManager->flush();
-
-    // Ajouter un message flash de succès
-    $this->addFlash('success', 'Réservation d\'ordinateur annulée avec succès et l\'ordinateur est maintenant disponible!');
-
-    // Redirige vers la page des réservations
-    return $this->redirectToRoute('app_reservations');
-}
+        // Appliquer les changements
+        $entityManager->flush();
 
 
 #[Route('/reservations/velo/{id}/supprimer', name: 'app_reservation_annuler_velo')]
