@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,6 +68,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $valide = "non";
     
+    #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: ReservationJeux::class)]
+    private Collection $reservationsUtilisateur;
+
     // Relation ManyToMany avec Cours (cours associés à cet utilisateur)
     #[ORM\ManyToMany(targetEntity: Cours::class, inversedBy: 'users')]
     #[ORM\JoinTable(name: 'user_cours')] // Table de jonction
@@ -229,6 +234,11 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         $this->points = $points;
 
         return $this;
+    }
+
+
+    public function __construct() {
+        $this->reservationsUtilisateur = new ArrayCollection();
     }
 
     public function isValide(): ?string

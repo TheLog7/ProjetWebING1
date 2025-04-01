@@ -96,4 +96,26 @@
             {% endif %}
         </div>
     </div>
+
+    <div class="mt-4">
+    <h3 class="text-secondary">Jeux</h3>
+    {% if reservations.jeux is empty %}
+        <p class="alert alert-warning">Aucune réservation de jeu.</p>
+    {% else %}
+        <ul class="list-group">
+            {% for reservation in reservations.jeux %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <strong>{{ reservation.jeux.name }}</strong>
+                    </div>
+                    <div>
+                        <a href="{{ path('app_reservation_annuler_jeux', {'id': reservation.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Êtes-vous sûr de vouloir annuler cette réservation ?');">
+                            Annuler
+                        </a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
 {% endblock %}
