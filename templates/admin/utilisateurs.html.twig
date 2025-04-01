@@ -6,26 +6,60 @@
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Liste des Utilisateurs</h1>
     
+    <div class="mb-4">
+        <a href="{{ path('app_register') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Ajouter un utilisateur</a>
+    </div>
+    
     <table class="w-full bg-white shadow-md rounded-lg">
         <thead>
             <tr class="bg-gray-200">
+                <th class="p-3 text-left">Photo</th>
                 <th class="p-3 text-left">ID</th>
                 <th class="p-3 text-left">Nom</th>
+                <th class="p-3 text-left">Prénom</th>
+                <th class="p-3 text-left">Âge</th>
+                <th class="p-3 text-left">Sexe</th>
                 <th class="p-3 text-left">Email</th>
+                <th class="p-3 text-left">Mot de passe</th>
+                <th class="p-3 text-left">Type</th>
                 <th class="p-3 text-left">Niveau</th>
+                <th class="p-3 text-left">Points</th>
+                <th class="p-3 text-left">Actions</th>
             </tr>
         </thead>
         <tbody>
             {% for utilisateur in utilisateurs %}
                 <tr class="border-b">
+                    <td class="p-3">
+                        {% if utilisateur.photo %}
+                            <img src="{{ asset(utilisateur.photo) }}" alt="Photo de {{ utilisateur.nom }}" class="w-12 h-12 rounded-full object-cover">
+                        {% else %}
+                            <span class="text-gray-500">Aucune photo</span>
+                        {% endif %}
+                    </td>
                     <td class="p-3">{{ utilisateur.id }}</td>
                     <td class="p-3">{{ utilisateur.nom }}</td>
+                    <td class="p-3">{{ utilisateur.prenom }}</td>
+                    <td class="p-3">{{ utilisateur.age }}</td>
+                    <td class="p-3">{{ utilisateur.sexe }}</td>
                     <td class="p-3">{{ utilisateur.email }}</td>
+                    <td class="p-3 text-gray-500 italic">Mot de passe sécurisé</td>
+                    <td class="p-3">{{ utilisateur.type }}</td>
                     <td class="p-3">{{ utilisateur.niveau }}</td>
+                    <td class="p-3">{{ utilisateur.points }}</td>
+                    <td class="p-3">
+                        <a href="{{ path('admin_utilisateur_modifier', {'id': utilisateur.id}) }}" class="text-yellow-500">Modifier</a> |
+                        <form action="{{ path('admin_utilisateur_supprimer', {'id': utilisateur.id}) }}" method="post" class="inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('supprimer_utilisateur_' ~ utilisateur.id) }}">
+                            <button type="submit" class="text-red-500" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                                Supprimer
+                            </button>
+                        </form>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="4" class="p-3 text-center">Aucun utilisateur trouvé.</td>
+                    <td colspan="12" class="p-3 text-center">Aucun utilisateur trouvé.</td>
                 </tr>
             {% endfor %}
         </tbody>

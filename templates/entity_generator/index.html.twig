@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer une Entité{% endblock %}
+
+{% block body %}
+<div class="container mx-auto p-6">
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Créer une nouvelle entité</h1>
+
+    {% for message in app.flashes('success') %}
+        <div class="bg-green-500 text-white p-4 rounded-md mb-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('error') %}
+        <div class="bg-red-500 text-white p-4 rounded-md mb-4">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="bg-white p-6 rounded-xl shadow-md">
+        {{ form_start(form, {'attr': {'class': 'space-y-4'}}) }}
+
+        <div>
+            <label class="block text-gray-700 font-semibold">Nom de l'entité</label>
+            {{ form_widget(form.nom, {'attr': {'class': 'w-full p-2 border rounded-lg'}}) }}
+        </div>
+
+        <div>
+            <label class="block text-gray-700 font-semibold">Attributs (format: nom:type, séparés par des virgules)</label>
+            {{ form_widget(form.attributs, {'attr': {'class': 'w-full p-2 border rounded-lg', 'placeholder': 'ex: titre:string, pages:int, auteur:string'}}) }}
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+            Générer l'entité
+        </button>
+
+        {{ form_end(form) }}
+    </div>
+
+    <div class="mt-6">
+        <a href="{{ path('app_admin') }}" class="text-blue-500 hover:underline">Retour au tableau de bord</a>
+    </div>
+</div>
+{% endblock %}
