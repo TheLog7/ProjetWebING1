@@ -20,8 +20,6 @@ class TrottinetteFixtures extends Fixture
             $trottinette->setNiveauBatterie($faker->numberBetween(0, 100));
             $trottinette->setStatut($faker->randomElement(['Disponible', 'Réservé', 'En maintenance']));
             $trottinette->setDerniereInteraction($faker->dateTimeThisDecade);
-            $trottinette->setSalle($faker->randomElement(['A05', 'B10', 'C15']));
-
             $manager->persist($trottinette);
         }
 
