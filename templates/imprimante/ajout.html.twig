@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter un Ordinateur{% endblock %}
+{% block title %}Ajouter une Imprimante{% endblock %}
 
-{% block body_class %}ajout-ordinateur-page{% endblock %}
+{% block body_class %}ajout-imprimante-page{% endblock %}
 
 {% block body %}
     <div class="container mt-4">
-        <h2 class="text-center">Ajouter un nouvel ordinateur</h2>
+        <h2 class="text-center">Ajouter une nouvelle imprimante</h2>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 {{ form_start(form) }}
@@ -15,24 +15,28 @@
                         {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.marque) }}
-                        {{ form_widget(form.marque, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(form.identifiantUnique) }}
+                        {{ form_widget(form.identifiantUnique, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.numeroSerie) }}
-                        {{ form_widget(form.numeroSerie, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(form.modele) }}
+                        {{ form_widget(form.modele, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.status) }}
-                        {{ form_widget(form.status, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_label(form.statut) }}
+                        {{ form_widget(form.statut, {'attr': {'class': 'form-select'}}) }}
                     </div>
                     <div class="mb-3">
-                        {{ form_label(form.localisation) }}
-                        {{ form_widget(form.localisation, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_label(form.niveauEncre) }}
+                        {{ form_widget(form.niveauEncre, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <div class="mb-3">
                         {{ form_label(form.niveauBatterie) }}
                         {{ form_widget(form.niveauBatterie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.salle) }}
+                        {{ form_widget(form.salle, {'attr': {'class': 'form-control'}}) }}
                     </div>
                     <button type="submit" class="btn btn-success w-100">Ajouter</button>
                 {{ form_end(form) }}

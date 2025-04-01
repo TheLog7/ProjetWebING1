@@ -20,8 +20,6 @@ class VeloFixtures extends Fixture
             $velo->setNiveauBatterie($faker->numberBetween(0, 100));
             $velo->setStatut($faker->randomElement(['Disponible', 'Réservé', 'En maintenance']));
             $velo->setDerniereInteraction($faker->dateTimeThisDecade);
-            $velo->setSalle($faker->randomElement(['A05', 'B10', 'C15']));
-
             $manager->persist($velo);
         }
 
