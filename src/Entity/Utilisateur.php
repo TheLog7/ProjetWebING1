@@ -59,6 +59,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     #[Assert\PositiveOrZero]
     private ?int $points = 0;
+
+    #[ORM\Column]
+    private ?string $valide = "non";
     
 
     public function getId(): ?int
@@ -202,6 +205,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPoints(int $points): static
     {
         $this->points = $points;
+
+        return $this;
+    }
+
+    public function isValide(): ?string
+    {
+        return $this->valide;
+    }
+
+    public function setValide(string $valide): static
+    {
+        $this->valide = $valide;
 
         return $this;
     }
