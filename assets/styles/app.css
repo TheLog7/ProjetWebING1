@@ -219,7 +219,7 @@ main {
     color: var(--error);
     font-size: 0.875rem;
     margin-top: 0.25rem;
-
+}
 
 /* CSS pour la cantine */
 .cantine-container {
@@ -334,4 +334,3 @@ main {
 
 
 /*fin CSS pour la cantine */
-

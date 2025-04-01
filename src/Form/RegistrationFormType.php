@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Form;
 
 use App\Entity\Utilisateur;
@@ -94,13 +93,14 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ]);
-            
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
+            'allow_extra_fields' => true, // Permet d'ajouter des champs supplémentaires comme matière et classe
         ]);
     }
 }
