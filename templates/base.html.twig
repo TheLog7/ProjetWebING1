@@ -66,14 +66,29 @@
               <li class="nav-item">
                 <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_objet_connecte') }}';" class="nav-link">Objets connectés</a>
               </li>
+              {% if app.user and app.user.niveau >= 2 %}
+
+                <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_gestion') }}';" class="nav-link">Module gestion</a>
+
+              {% endif %}
 
               {% if app.user %}
                 <li class="nav-item">
                   <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_cantine') }}';" class="nav-link">Cantine</a>
                 </li>
+                {% if app.user.niveau == 3 %}
+                <li class=nav-item">
+                <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_admin')}}';" class="nav-link">Module administration</a>
+                </li>
+                <li class=nav-item">
+                <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_reservations')}}';" class="nav-link">Mes réservations</a>
+                </li>
+                {% endif %}
+
               <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_game_room') }}">Salle de jeux</a>
               </li>
+
 
               {% endif %}
             </ul>
