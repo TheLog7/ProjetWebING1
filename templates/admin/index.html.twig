@@ -1,26 +1,26 @@
 {% extends 'base.html.twig' %}
-
+{% block body_class %}home-page{% endblock %}
 {% block title %}Administration{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de bord Administrateur</h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow-md">
+  
+
             <h2 class="text-xl font-semibold mb-2">Utilisateurs</h2>
             <p class="text-gray-600">Gérez les utilisateurs et leurs rôles.</p>
-            <a href="{{ path('admin_utilisateurs')}}" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded-lg">Gérer</a>
-        </div>
+            <a href="{{ path('admin_utilisateurs')}}" class="btn btn-primary">Gérer</a>
         
-        <div class="bg-white p-6 rounded-2xl shadow-md">
             <h2 class="text-xl font-semibold mb-2">Objets</h2>
-            <p class="text-gray-600">Gérez les objets connectés</p>
-            <a href="{{ path('admin_objets')}}" class="mt-4 inline-block bg-red-500 text-white px-4 py-2 rounded-lg">Tous les objets connectés du site</a>
-        </div>
-    </div>
+            <a href="{{ path('admin_objets')}}" class="btn btn-primary">Gérer tous les objets connectés du site</a>
+            </br>
+ 
+    
 
-    <a href="{{ path('admin_entity_create')}}" class="text-3xl font-bold text-gray-800 mb-6">Ajouter une entité</a>
+    <a href="{{ path('admin_entity_create')}}" class="btn btn-primary">Ajouter une entité</a>
+    </br>
 
     <!-- Bouton pour la sauvegarde -->
     <button id="backup-btn" class="btn btn-primary">Sauvegarder la base de données</button>
@@ -91,4 +91,5 @@
     <a href="{{ path('admin_report_export', {'format': 'pdf'}) }}" class="btn btn-secondary">Exporter en PDF</a>
 </div>
 </div>
+</header>
 {% endblock %}

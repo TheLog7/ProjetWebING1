@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}bibliotheque-page{% endblock %}
 
 {% block title %}Ajouter un livre{% endblock %}
 
 {% block body %}
+                <header class="site-header">
     <h1>Ajouter un livre</h1>
 
     {{ form_start(form) }}
@@ -12,4 +14,6 @@
     {{ form_end(form) }}
 
     <a href="{{ path('app_bibliotheque') }}">Retour à la bibliothèque</a>
+    </header>
 {% endblock %}
+

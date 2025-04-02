@@ -7,20 +7,63 @@ body {
     margin: 0;
     padding: 0;
 }
-
+/* Fond d'écran pour la page de la salle de jeux */
+body.jeu-page {
+    background-image: url("/images/jeu.png");
+    background-size: 100vw 100vh; /* largeur = 100% de la fenêtre, hauteur =100% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+/* Fond d'écran pour la page des velos */
+body.velo-page {
+    background-image: url("/images/velo.png");
+}
+/* Fond d'écran pour la page des imprimantes */
+body.imprimante-page {
+    background-image: url("/images/imprimante.png");
+}
+/* Fond d'écran pour la page des chauffages */
+body.chauffage-page {
+    background-image: url("/images/chauffage.png");
+}
 /* Fond d'écran pour la page d'accueil */
 body.home-page {
     background-image: url("/images/college.jpeg");
 }
 /* Fond d'écran pour la cantine */
-body.reservation-page {
+body.cantine-page {
     background-image: url("/images/college.jpeg");
 }
+body.trotinette-page {
+    background-image: url("/images/trotinette.png");
+}
+
+/* Fond d'écran pour la page admin */
+body.admin-page {
+  background-image: url("/images/admin.png");
+  background-size: 100vw 100vh; /* largeur = 80% de la fenêtre, hauteur = 60% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+/* Fond d'écran pour la page reservation */
+body.reservation-page {
+  background-image: url("/images/reservation.jpeg");
+  background-size: 100vw 100vh; /* largeur =100de la fenêtre, hauteur = 60% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;
+}
+
+
+
 
 
 /* Fond d'écran pour la page Bibliothèque */
 body.bibliotheque-page {
-    background-image: url("/images/bibliotheque.jpeg");
+    background-image: url("/images/bibliotheque.png");
+  background-size: 100vw 100vh; /* largeur = 80% de la fenêtre, hauteur = 60% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;");
 }
 /* CSS pour la cantine */
 .cantine-container {
@@ -36,12 +79,19 @@ body.cantine-page {
 
 /* Fond d'écran pour la page Mon Profil */
 body.monprofil-page {
-    background-image: url("/images/monprofil.jpg");
-    background-size: cover; /* L'image couvre toute la page */
-    background-position: center; /* Centre l'image dans la page */
-    background-repeat: no-repeat; /* Empêche la répétition de l'image */
-    height: 150vh; /* Augmente la hauteur de l'image (120% de la hauteur de la fenêtre) */
+    background-image: url("/images/monprofil.png");
+    background-size: 100vw 100vh; /* largeur = 100% de la fenêtre, hauteur = 100% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;");
 }
+/* Fond d'écran pour la page ordinateurs */
+body.ordinateurs-page {
+    background-image: url("/images/ordinateur.png");
+    background-size: 100vw 100vh; /* largeur = 80% de la fenêtre, hauteur = 60% de la hauteur écran */
+  background-repeat: no-repeat;
+  background-position: center top;");
+}
+
 body.register-page {
     background-image: url("/images/portail.jpg");
 }
@@ -422,5 +472,4 @@ main {
         text-align: center;
     }
 }
-
 

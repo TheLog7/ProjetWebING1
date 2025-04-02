@@ -2,7 +2,7 @@
 
 {% block title %}Liste des Trottinettes{% endblock %}
 
-{% block body_class %}trottinettes-page{% endblock %}
+{% block body_class %}trotinette-page{% endblock %}
 
 {% block body %}
     <header class="site-header text-center py-5 bg-dark text-white">
@@ -12,7 +12,9 @@
 
     <div class="container mt-4">
         <div class="d-flex justify-content-between mb-3">
-            <h2>Trottinettes enregistrées</h2>
+                    <header class="site-header">
+                    <h2>Trottinettes enregistrées</h2>
+                    </header>
             {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
                 <a href="{{ path('app_trottinette_ajout') }}" class="btn btn-success">➕ Ajouter une trottinette</a>
             {% endif %}

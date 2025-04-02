@@ -1,8 +1,9 @@
 {% extends 'base.html.twig' %}
-
+{% block body_class %}home-page{% endblock %}
 {% block title %}Gestion des objets et services{% endblock %}
 
 {% block body %}
+                <header class="site-header">
     <h1 class="text-center my-4">Gestion des objets et services</h1>
 
     <div class="container">
@@ -38,4 +39,5 @@
             </div>
         {% endfor %}
     </div>
+                    </header>
 {% endblock %}

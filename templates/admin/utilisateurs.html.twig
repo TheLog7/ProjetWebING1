@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}home-page{% endblock %}
 
 {% block title %}Liste des Utilisateurs{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Liste des Utilisateurs</h1>
     
@@ -150,4 +152,5 @@
         </tbody>
     </table>
 </div>
+</header>
 {% endblock %}
