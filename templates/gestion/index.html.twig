@@ -13,19 +13,37 @@
                 {% if objets is not empty %}
                     <ul class="list-unstyled">
                         {% for objet in objets %}
-                            <li class="mb-3">
+                            <li class="mb-3 border p-3 rounded shadow-sm">
                                 {% if categorie == 'Livres' %}
                                     <p><strong>Auteur:</strong> {{ objet.getNomAuteur() }} {{ objet.getPrenomAuteur() }}</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_livre_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    </div>
                                 {% elseif categorie == 'Ordinateurs' %}
                                     <p><strong>Numéro de Série:</strong> {{ objet.getNumeroSerie() }}</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_ordinateur_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    </div>
                                 {% elseif categorie == 'Imprimantes' %}
                                     <p><strong>Modèle:</strong> {{ objet.getModele() }}</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_imprimante_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                </div>
                                 {% elseif categorie == 'Vélos' or categorie == 'Trottinettes' %}
-                                    <p><strong>Modèle:</strong> {{ objet.getMarque() }}</p>
+                                    <p><strong>Marque:</strong> {{ objet.getMarque() }}</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_velo_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                </div>
                                 {% elseif categorie == 'Thermostats' %}
                                     <p><strong>Température:</strong> {{ objet.getTemperatureActuelle() }}°C</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_thermostat_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                </div>
                                 {% elseif categorie == 'Menus' %}
                                     <p><strong>Description:</strong> {{ objet.getDescription() }}</p>
+                                     <div class="mt-2">
+                                    <a href="{{ path('admin_menu_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                </div>
                                 {% endif %}
                             </li>
                         {% endfor %}
