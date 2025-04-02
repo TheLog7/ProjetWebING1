@@ -14,8 +14,6 @@
                     <ul class="list-unstyled">
                         {% for objet in objets %}
                             <li class="mb-3">
-                            
-
                                 {% if categorie == 'Livres' %}
                                     <p><strong>Auteur:</strong> {{ objet.getNomAuteur() }} {{ objet.getPrenomAuteur() }}</p>
                                 {% elseif categorie == 'Ordinateurs' %}
