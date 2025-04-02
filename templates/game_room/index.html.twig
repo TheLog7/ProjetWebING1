@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+    <h1>Salle de jeux</h1>
+    
+    <div class="row">
+        {% for jeu in game_objects %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ jeu.name }}</h5>
+                    <p>Type : {{ jeu.type|capitalize }}</p>
+                    <p>Capacité : {{ jeu.maxPlaces }} joueurs</p>
+                    
+                    <a href="{{ path('app_reservation', {'id': jeu.id}) }}" 
+                       class="btn btn-primary">
+                        Réserver
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

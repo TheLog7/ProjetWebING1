@@ -12,12 +12,36 @@ body {
 body.home-page {
     background-image: url("/images/college.jpeg");
 }
+/* Fond d'écran pour la cantine */
+body.reservation-page {
+    background-image: url("/images/college.jpeg");
+}
+
 
 /* Fond d'écran pour la page Bibliothèque */
 body.bibliotheque-page {
     background-image: url("/images/bibliotheque.jpeg");
 }
+/* CSS pour la cantine */
+.cantine-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
 
+/* Fond d'écran pour la page Cantine */
+body.cantine-page {
+    background-image: url("/images/cantine.jpg");
+}
+
+/* Fond d'écran pour la page Mon Profil */
+body.monprofil-page {
+    background-image: url("/images/monprofil.jpg");
+    background-size: cover; /* L'image couvre toute la page */
+    background-position: center; /* Centre l'image dans la page */
+    background-repeat: no-repeat; /* Empêche la répétition de l'image */
+    height: 150vh; /* Augmente la hauteur de l'image (120% de la hauteur de la fenêtre) */
+}
 body.register-page {
     background-image: url("/images/portail.jpg");
 }
@@ -333,4 +357,70 @@ main {
 }
 
 
-/*fin CSS pour la cantine */
+/* Responsive : pour les écrans inférieurs à 768px */
+@media screen and (max-width: 768px) {
+
+    /* Ajustements généraux */
+    .main-content,
+    .site-header,
+    .presentation,
+    .form-container {
+        width: 90%;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr; /* 1 seule colonne en mobile */
+    }
+
+    .cantine-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .menu-container,
+    #calendar-container {
+        width: 100%;
+    }
+
+    .presentation {
+        position: static;
+        transform: none;
+        top: auto;
+        left: auto;
+        margin-top: 20px;
+    }
+
+    .legend {
+        position: static;
+        margin-top: 20px;
+        right: auto;
+        top: auto;
+    }
+
+    .calendar-input {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .bloc-bas {
+        margin-top: 100px; /* moins d’espace sur mobile */
+    }
+
+    .fc-daygrid {
+        aspect-ratio: auto; /* évite d’écraser le calendrier */
+    }
+
+    .fc-header-toolbar {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .form-file label {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+

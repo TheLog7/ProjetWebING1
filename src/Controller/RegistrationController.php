@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 namespace App\Controller;
 
 use App\Entity\Utilisateur;
@@ -42,6 +41,7 @@ class RegistrationController extends AbstractController
                 }
             }
 
+            // Sauvegarder les données supplémentaires (matière ou classe)
             $entityManager->persist($user);
             $entityManager->flush();
 

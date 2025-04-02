@@ -15,13 +15,5 @@
             <p>Une éducation de qualité avec des enseignants passionnés et des infrastructures modernes.</p>
         </section>
 
-        {% if app.user is not null %}
-            <section class="user-reservations">
-                <a href="{{ path('app_reservations') }}" class="btn btn-primary mt-3">Voir mes réservations</a>
-            </section>
-            {% if app.user.niveau == 1 %}
-                <a href="{{ path('app_admin') }}" class="btn btn-primary mt-3">Module Administrateur</a>
-            {% endif %}
-        {% endif %}
     </main>
 {% endblock %}

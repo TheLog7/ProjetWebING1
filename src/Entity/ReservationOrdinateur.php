@@ -16,7 +16,7 @@ class ReservationOrdinateur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: ordinateur::class, inversedBy: 'reservations')]
+    #[ORM\ManyToOne(targetEntity: ordinateur::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?ordinateur $ordinateur = null;
 

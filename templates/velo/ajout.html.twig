@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Vélo{% endblock %}
+
+{% block body_class %}ajout-velo-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center">Ajouter un nouveau vélo</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.nom) }}
+                        {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.marque) }}
+                        {{ form_widget(form.marque, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.identifiantUnique) }}
+                        {{ form_widget(form.identifiantUnique, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.statut) }}
+                        {{ form_widget(form.statut, {'attr': {'class': 'form-select'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.niveauBatterie) }}
+                        {{ form_widget(form.niveauBatterie, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form_label(form.derniereInteraction) }}
+                        {{ form_widget(form.derniereInteraction, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Ajouter</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
