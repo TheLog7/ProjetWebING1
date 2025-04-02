@@ -60,6 +60,9 @@
                         <div class="card shadow-sm border-0">
                             <div class="card-body text-center">
                                 <h5 class="card-title">{{ livre.titre }}</h5>
+                                <p class="mt-2 {% if livre.disponible %}text-success{% else %}text-danger{% endif %}">
+                                    {% if livre.disponible %}Disponible{% else %}Indisponible{% endif %}
+                                </p>
                                 <a href="{{ path('app_livre_informations', {'id': livre.id}) }}" class="btn btn-info mt-2">ℹ️ Informations</a>
                             </div>
                         </div>

@@ -1,220 +1,95 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Inscription{% endblock %}
+
+{% block body_class %}register-page{% endblock %}
+
+
 {% block body %}
-
-    <div class="form-container">
-        <h1>Inscription</h1>
-
-        {{ form_errors(registrationForm) }}
-
-        {{ form_start(registrationForm) }}
-
-        <div class="form-row double-column">
-            <div class="form-group">
-                {{ form_row(registrationForm.nom) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(registrationForm.prenom) }}
-            </div>
-        </div>
-
-        <div class="form-row double-column">
-            <div class="form-group">
-                {{ form_row(registrationForm.age) }}
-            </div>
-            <div class="form-group sexe-group">
-                {{ form_label(registrationForm.sexe) }}
-                <div class="radio-options">
-                    {% for child in registrationForm.sexe %}
-                        <div class="radio-option">
-                            {{ form_widget(child) }}
-                            {{ form_label(child) }}
-                        </div>
-                    {% endfor %}
-                </div>
-                {{ form_errors(registrationForm.sexe) }}
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                {{ form_row(registrationForm.email) }}
-            </div>
-        </div>
-
-        <div class="form-row double-column">
-            <div class="form-group">
-                {{ form_row(registrationForm.type) }}
-            </div>
-            <div class="form-group photo-upload">
-                {{ form_label(registrationForm.photo) }}
-                <div class="file-input-wrapper">
-                    {{ form_widget(registrationForm.photo) }}
-                    <span class="file-name">Aucun fichier sélectionné</span>
-                </div>
-                {{ form_errors(registrationForm.photo) }}
-            </div>
-        </div>
-
-        <div class="form-row double-column">
-            <div class="form-group">
-                {{ form_row(registrationForm.classe) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(registrationForm.matiere) }}
-            </div>
-        </div>
-
-        <div class="form-row double-column">
-            <div class="form-group">
-                {{ form_row(registrationForm.agreeTerms) }}
-            </div>
-            <div class="form-group">
-                {{ form_row(registrationForm.plainPassword) }}
-            </div>
-        </div>
-
-        <button type="submit" class="submit-btn">S'inscrire</button>
-        
-        {{ form_end(registrationForm) }}
-    </div>
-{% endblock %}
-
-{% block stylesheets %}
-    <style>
-        .form-container {
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            padding: 50px;
-            background-color: #f9f9f9;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        form .form-row {
-            margin-bottom: 20px;
-        }
-
-        form label {
-            font-size: 14px;
-            font-weight: bold;
-            color: #555;
-            margin-bottom: 5px;
-            display: block;
-        }
-
-        form input[type="text"],
-        form input[type="email"],
-        form input[type="password"],
-        form input[type="number"],
-        form select,
-        form input[type="file"],
-        form input[type="checkbox"] {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            margin-top: 5px;
-        }
-
-        form input[type="radio"] {
-            width: auto;
-            margin-top: 0;
-            margin-right: 5px;
-        }
-
-        .sexe-group {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .sexe-group > label {
-            margin-bottom: 8px;
-        }
-
-        .radio-options {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            align-items: center;
-            padding: 8px 0;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .radio-option label {
-            margin-bottom: 0;
-            font-weight: normal;
-        }
-
-        .photo-upload {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .file-input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .file-name {
-            font-size: 14px;
-            color: #666;
-            white-space: nowrap;
-        }
-
-        .form-row.double-column {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-        }
-
-        .form-row.double-column .form-group {
-            flex: 1;
-        }
-
-        .submit-btn {
-            width: 100%;
-            max-width: 300px;
-            padding: 12px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
-
-        @media (max-width: 768px) {
-            .form-row.double-column {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .radio-options {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 5px;
-            }
-
-            .submit-btn {
-                max-width: 100%;
-            }
-        }
-    </style>
+<div class="form-container">
+    {{ form_start(registrationForm, {'attr': {'class': 'custom-form'}}) }}
     
+    <div class="form-grid">
+        <div class="form-group">
+            {{ form_row(registrationForm.nom, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_row(registrationForm.prenom, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.email, {
+            'attr': {'class': 'form-input'},
+            'row_attr': {'class': 'form-row'}
+        }) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_row(registrationForm.plainPassword, {
+            'attr': {'class': 'form-input'},
+            'row_attr': {'class': 'form-row'}
+        }) }}
+    </div>
+
+    <div class="form-section">
+        <div class="form-group">
+            {{ form_row(registrationForm.age, {
+                'attr': {'class': 'form-input'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.sexe, {
+                'attr': {'class': 'form-radio'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.type, {
+                'attr': {'class': 'form-select'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(registrationForm.photo, {
+                'attr': {'class': 'form-file'},
+                'row_attr': {'class': 'form-row'}
+            }) }}
+        </div>
+    </div>
+    
+    <button type="submit" class="form-submit">S'inscrire</button>
+    
+    {{ form_end(registrationForm) }}
+</div>
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        // Script pour afficher le nom du fichier sélectionné
+        document.querySelector('.form-file input').addEventListener('change', function(e) {
+            const fileName = e.target.files[0] ? e.target.files[0].name : 'Aucun fichier sélectionné';
+            const hint = document.createElement('span');
+            hint.className = 'file-hint';
+            hint.textContent = fileName;
+            
+            // Supprime l'ancien hint s'il existe
+            const oldHint = e.target.parentElement.querySelector('.file-hint');
+            if (oldHint) oldHint.remove();
+            
+            e.target.parentElement.appendChild(hint);
+        });
+    </script>
+{% endblock %}
 {% endblock %}
