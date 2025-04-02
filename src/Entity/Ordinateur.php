@@ -157,6 +157,6 @@ class Ordinateur
 
     public function __toString(): string
     {
-        return sprintf('%s (%s)', $this->nom, $this->numero_serie);
+        return sprintf('%s (%s)', $this->nom, $this->numeroSerie);
     }
 }

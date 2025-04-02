@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Article{% endblock %}
+
+{% block body_class %}ajout-article-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h2 class="text-center text-primary">📝 Ajouter un nouvel article</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm p-4">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.title) }}
+                            {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.content) }}
+                            {{ form_widget(form.content, {'attr': {'class': 'form-control', 'rows': 5}}) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.category) }}
+                            {{ form_widget(form.category, {'attr': {'class': 'form-select'}}) }}
+                            <small class="form-text text-muted">Veuillez sélectionner une catégorie.</small>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.image) }}
+                            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">✅ Ajouter l'article</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
