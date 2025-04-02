@@ -14,10 +14,12 @@
         <div class="d-flex justify-content-between mb-3">
                 <header class="site-header">
             <h2>Imprimantes enregistrées</h2>
+
             </header>
             {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
                 <a href="{{ path('app_imprimante_ajout') }}" class="btn btn-success">➕ Ajouter une imprimante</a>
             {% endif %}
+
         </div>
 
         {% if imprimantes is empty %}

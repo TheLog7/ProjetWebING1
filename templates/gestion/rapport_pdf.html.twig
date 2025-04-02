@@ -1,0 +1,92 @@
+{# templates/rapport_pdf.html.twig #}
+
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .categorie {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .objet {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .objet p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rapport des Objets</h1>
+
+    <div class="categorie">
+        <h2>Vélos</h2>
+        {% for velo in velos %}
+            <div class="objet">
+                <p><strong>Nom:</strong> {{ velo.nom }}</p>
+                <p><strong>Batterie:</strong> {{ velo.niveauBatterie }}</p>
+            </div>
+        {% else %}
+            <p>Aucun vélo disponible.</p>
+        {% endfor %}
+    </div>
+
+    <div class="categorie">
+        <h2>Trottinettes</h2>
+        {% for trottinette in trottinettes %}
+            <div class="objet">
+                <p><strong>Nom:</strong> {{ trottinette.nom }}</p>
+                <p><strong>Marque:</strong> {{ trottinette.marque }}</p>
+            </div>
+        {% else %}
+            <p>Aucune trottinette disponible.</p>
+        {% endfor %}
+    </div>
+
+    <div class="categorie">
+        <h2>Thermostats</h2>
+        {% for thermostat in thermostats %}
+            <div class="objet">
+                <p><strong>Nom:</strong> {{ thermostat.nom }}</p>
+                <p><strong>Température:</strong> {{ thermostat.temperatureActuelle }}°C</p>
+            </div>
+        {% else %}
+            <p>Aucun thermostat disponible.</p>
+        {% endfor %}
+    </div>
+
+    <div class="categorie">
+        <h2>Imprimantes</h2>
+        {% for imprimante in imprimantes %}
+            <div class="objet">
+                <p><strong>Modèle:</strong> {{ imprimante.modele }}</p>
+               
+            </div>
+        {% else %}
+            <p>Aucune imprimante disponible.</p>
+        {% endfor %}
+    </div>
+
+    <div class="categorie">
+        <h2>Ordinateurs</h2>
+        {% for ordinateur in ordinateurs %}
+            <div class="objet">
+                <p><strong>Numéro de Série:</strong> {{ ordinateur.numeroSerie }}</p>
+                <p><strong>Marque:</strong> {{ ordinateur.marque }}</p>
+            </div>
+        {% else %}
+            <p>Aucun ordinateur disponible.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>

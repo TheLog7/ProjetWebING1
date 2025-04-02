@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objets Défaillants{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center">Objets Défaillants</h1>
+
+        {% if objetsDefaillants is not empty %}
+            <ul class="nav nav-tabs" id="objetsTabs" role="tablist">
+                {% for type in ['velo', 'trottinette', 'thermostat', 'imprimante', 'ordinateur'] %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {% if loop.first %}active{% endif %}" id="{{ type }}-tab" data-bs-toggle="tab" data-bs-target="#{{ type }}" type="button" role="tab" aria-controls="{{ type }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">
+                            {{ type | capitalize }}
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content mt-3" id="objetsTabsContent">
+                {% for type in ['velo', 'trottinette', 'thermostat', 'imprimante', 'ordinateur'] %}
+                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">
+                        <ul class="list-unstyled">
+                            {% for objet in objetsDefaillants %}
+                                {% if objet.getType() == type %}
+                                    <li class="mb-3 border p-3 rounded shadow-sm">
+                                        <p><strong>Nom:</strong> {{ objet.nom }}</p>
+                                        <p><strong>Niveau de Batterie:</strong> {{ objet.niveauBatterie }}%</p>
+                                        <p><strong>Problème:</strong> Batterie faible</p>
+                                        <a href="{{ path('admin_' ~ type ~ '_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">Aucun objet défaillant n'a été trouvé.</p>
+        {% endif %}
+    </div>
+{% endblock %}

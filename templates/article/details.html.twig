@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body_class %}article-details-page{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="card shadow-lg border-0 mx-auto p-4" style="max-width: 700px;">
+            <div class="text-center">
+                {% if article.image %}
+                    <img src="{{ article.image }}" alt="Illustration de l'article" class="img-fluid rounded mb-3">
+                {% endif %}
+                <h2 class="text-primary">📰 {{ article.title }}</h2>
+                <p class="text-muted"> Publié le {{ article.createAt|date('d/m/Y') }}</p>
+            </div>
+            <hr>
+            <p><strong> Catégorie :</strong> {{ article.category }}</p>
+            <p>{{ article.content|nl2br }}</p>
+            <div class="text-center mt-4">
+                <a href="{{ path('app_article') }}" class="btn btn-secondary">🔙 Retour</a>
+                {% if app.user and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
+                    <a href="{{ path('app_article_supprimer', {'id': article.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet article ?');">🗑️ Supprimer</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

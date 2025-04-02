@@ -8,7 +8,6 @@
   {{ parent() }}
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <script>
-        // Pass the data from Twig to JavaScript
         var reservedDates = [{% for reservation in reservations %}'{{ reservation.date|date('Y-m-d') }}',{% endfor %}];
         var menus = {
             {% for menu in menus %}

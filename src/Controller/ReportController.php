@@ -1,6 +1,5 @@
 <?php
 
-// src/Controller/ReportController.php
 
 namespace App\Controller;
 
@@ -10,6 +9,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Repository\UtilisateurRepository;
 use App\Service\CsvExporter;
 use App\Service\PdfExporter;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use App\Repository\VeloRepository;
+use App\Repository\TrottinetteRepository;
+use App\Repository\ThermostatRepository;
+use App\Repository\ImprimanteRepository;
+use App\Repository\OrdinateurRepository;
 
 class ReportController extends AbstractController
 {
@@ -27,10 +33,11 @@ class ReportController extends AbstractController
     #[Route('/admin/report/export/{format}', name: 'admin_report_export')]
     public function exportReport(string $format): Response
     {
-        // Récupération des données à exporter
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $users = $this->userRepository->findAll();
 
-        // Export CSV
         if ($format === 'csv') {
             $csvData = $this->csvExporter->export($users);
             return new Response(
@@ -43,7 +50,6 @@ class ReportController extends AbstractController
             );
         }
 
-        // Export PDF
         if ($format === 'pdf') {
             $pdfContent = $this->pdfExporter->export($users);
             return new Response(
@@ -56,7 +62,47 @@ class ReportController extends AbstractController
             );
         }
 
-        // Format inconnu
         return new Response('Format non supporté', 400);
+    }
+
+    #[Route("/generer-rapport-pdf", name:"generer_rapport_pdf")]  
+    public function genererRapport(
+        VeloRepository $veloRepository,
+        TrottinetteRepository $trottinetteRepository,
+        ThermostatRepository $thermostatRepository,
+        ImprimanteRepository $imprimanteRepository,
+        OrdinateurRepository $ordinateurRepository
+    ): Response {
+        $velos = $veloRepository->findAll();
+        $trottinettes = $trottinetteRepository->findAll();
+        $thermostats = $thermostatRepository->findAll();
+        $imprimantes = $imprimanteRepository->findAll();
+        $ordinateurs = $ordinateurRepository->findAll();
+
+        $html = $this->renderView('gestion/rapport_pdf.html.twig', [
+            'velos' => $velos,
+            'trottinettes' => $trottinettes,
+            'thermostats' => $thermostats,
+            'imprimantes' => $imprimantes,
+            'ordinateurs' => $ordinateurs,
+        ]);
+
+        $options = new Options();
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+
+        $dompdf->setPaper('A4', 'portrait');
+
+        $dompdf->render();
+
+        $pdf = $dompdf->output();
+
+        return new Response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="rapport_objets.pdf"',
+        ]);
     }
 }

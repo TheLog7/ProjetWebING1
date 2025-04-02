@@ -33,7 +33,6 @@
     <div id="integrity-results" class="mt-4"></div>
 
     <script>
-        // Sauvegarde de la base de données
         document.getElementById('backup-btn').addEventListener('click', function() {
             fetch("{{ path('admin_backup') }}", {
                 method: "POST",
@@ -53,7 +52,6 @@
             .catch(error => console.error("Erreur AJAX:", error));
         });
 
-        // Vérification de l'intégrité des données
         document.getElementById('verify-integrity-btn').addEventListener('click', function() {
             fetch("{{ path('admin_verify_data_integrity') }}", {
                 method: "POST",

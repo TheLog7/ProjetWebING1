@@ -24,7 +24,9 @@ final class ObjetConnecteController extends AbstractController
     #[Route('/objet', name: 'app_objet_connecte')]
     public function index(): Response
     {
-        // Récupérer tous les objets sans filtrage
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $thermostats = $this->entityManager
             ->getRepository(Thermostat::class)
             ->findAll();

@@ -16,6 +16,14 @@ class ThermostatRepository extends ServiceEntityRepository
         parent::__construct($registry, Thermostat::class);
     }
 
+    public function findByBatterieFaible()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.niveauBatterie < :niveauBatterie')
+            ->setParameter('niveauBatterie', 30)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Thermostat[] Returns an array of Thermostat objects
     //     */

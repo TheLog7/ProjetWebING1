@@ -31,7 +31,6 @@ class Trottinette
     private ?\DateTimeInterface $derniereInteraction = null;
 
 
-    // Getters and setters...
 
     public function getId(): ?int
     {
@@ -109,4 +108,9 @@ class Trottinette
 
         return $this;
     }
+    public function getType(): string
+{
+    return 'trottinette';
+}
+
 }

@@ -45,7 +45,7 @@ class RegistrationFormType extends AbstractType
                     'Femme' => 'Femme',
                     'Autre' => 'Autre',
                 ],
-                'expanded' => true,  // Affiche des boutons radio
+                'expanded' => true, 
                 'multiple' => false,
             ])
             ->add('type', ChoiceType::class, [
@@ -55,12 +55,12 @@ class RegistrationFormType extends AbstractType
                     'Enseignant' => 'Enseignant',
                     'Eleve' => 'Eleve',
                 ],
-                'expanded' => false, // Affiche un menu déroulant
+                'expanded' => false, 
                 'multiple' => false,
             ])
             ->add('photo', FileType::class, [
                 'label' => 'Photo de profil',
-                'mapped' => false, // Ne lie pas ce champ directement à l'entité
+                'mapped' => false, 
                 'required' => false,
                 'constraints' => [
                     new File([
@@ -100,7 +100,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
-            'allow_extra_fields' => true, // Permet d'ajouter des champs supplémentaires comme matière et classe
+            'allow_extra_fields' => true, 
         ]);
     }
 }

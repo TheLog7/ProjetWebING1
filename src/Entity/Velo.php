@@ -32,7 +32,6 @@ class Velo
     private ?\DateTimeInterface $derniereInteraction = null;
 
 
-    // Getters and setters...
 
     public function getId(): ?int
     {
@@ -110,5 +109,10 @@ class Velo
 
         return $this;
     }
+    public function getType(): string
+{
+    return 'velo';
+}
+
 
 }

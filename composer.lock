@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "6bd6ccab908ab6ea71dba460fc265b2f",
+
     "packages": [
         {
             "name": "composer/semver",
