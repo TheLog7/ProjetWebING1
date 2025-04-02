@@ -1,24 +1,26 @@
 {% extends 'base.html.twig' %}
-
+{% block body_class %}home-page{% endblock %}
 {% block title %}Administration{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Tableau de bord Administrateur</h1>
     
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-white p-6 rounded-2xl shadow-md">
+  
+
             <h2 class="text-xl font-semibold mb-2">Utilisateurs</h2>
             <p class="text-gray-600">Gérez les utilisateurs et leurs rôles.</p>
             <a href="{{ path('admin_utilisateurs')}}" class="mt-4 inline-block bg-blue-500 text-blue px-4 py-2 rounded-lg">Gérer</a>
         </div>
+
         
-        <div class="bg-white p-6 rounded-2xl shadow-md">
             <h2 class="text-xl font-semibold mb-2">Objets</h2>
             <p class="text-gray-600">Gérez les objets du site à l'aide du module gestion</p>
             <a href="{{ path('app_gestion')}}" class="mt-4 inline-block bg-red-500 text-blue px-4 py-2 rounded-lg">Tous les objets du site</a>
         </div>
     </div>
+
 
 
 
@@ -28,7 +30,6 @@
     
 
     <script>
-        // Sauvegarde de la base de données
         document.getElementById('backup-btn').addEventListener('click', function() {
             fetch("{{ path('admin_backup') }}", {
                 method: "POST",
@@ -48,6 +49,7 @@
             .catch(error => console.error("Erreur AJAX:", error));
         });
 
+
     </script>
     <div class="container mt-5">
     <h1>Générer un rapport</h1>
@@ -55,4 +57,5 @@
     <a href="{{ path('admin_report_export', {'format': 'pdf'}) }}" class="btn btn-secondary">Exporter en PDF</a>
 </div>
 </div>
+</header>
 {% endblock %}

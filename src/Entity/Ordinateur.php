@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\OrdinateurRepository;
-//ajout pas sur
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
@@ -53,7 +52,6 @@ class Ordinateur
     #[ORM\Column]
     private bool $est_en_service = true;
 
-    //ajout pas sur
     #[ORM\OneToMany(mappedBy: 'ordinateur', targetEntity: ReservationOrdinateur::class)]
     private Collection $reservations;
 
@@ -169,10 +167,9 @@ class Ordinateur
 
     public function __toString(): string
     {
-        return sprintf('%s (%s)', $this->nom, $this->numero_serie);
+        return sprintf('%s (%s)', $this->nom, $this->numeroSerie);
     }
 
-    //ajout pas sur
     public function __construct()
     {
     $this->reservations = new ArrayCollection();

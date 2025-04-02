@@ -38,7 +38,6 @@ class Imprimante
     #[Assert\NotBlank(message: "La salle est obligatoire.")]
     private ?string $salle = null;
 
-    // Getters and setters...
 
     public function getId(): ?int
     {

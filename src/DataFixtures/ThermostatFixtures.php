@@ -12,7 +12,6 @@ class ThermostatFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        // Créer des thermostats avec des salles aléatoires
         for ($i = 0; $i < 20; $i++) {
             $thermostat = new Thermostat();
             $thermostat->setIdentifiantUnique('Thermo' . $faker->unique()->randomNumber(3));

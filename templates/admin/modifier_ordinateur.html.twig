@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}home-page{% endblock %}
 
 {% block title %}Modifier un Ordinateur{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Modifier un Ordinateur</h1>
 
@@ -55,4 +57,5 @@
         {{ form_end(form) }}
     </div>
 </div>
+</header>
 {% endblock %}

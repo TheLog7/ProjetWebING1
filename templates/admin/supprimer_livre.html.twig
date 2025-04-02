@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}home-page{% endblock %}
 
 {% block title %}Supprimer un Livre{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Supprimer un Livre</h1>
 
@@ -19,4 +21,5 @@
         </form>
     </div>
 </div>
+</header>
 {% endblock %}

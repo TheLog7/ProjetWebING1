@@ -87,8 +87,7 @@ public function emprunter(Livre $livre, Request $request, EntityManagerInterface
         return $this->redirectToRoute('app_login');
     }
 
-    $user = $this->getUser(); // Récupérer l'utilisateur connecté
-
+    $user = $this->getUser(); 
     $reservation = new ReservationLivre();
     $reservation->setLivre($livre);
     $reservation->setUtilisateur($user);
@@ -97,12 +96,9 @@ public function emprunter(Livre $livre, Request $request, EntityManagerInterface
     $form = $this->createForm(ReservationLivreType::class, $reservation);
     $form->handleRequest($request);
 
-    // Vérification de la date de retour avant de valider l'emprunt
     if ($form->isSubmitted() && $form->isValid()) {
-        // Récupérer la date de retour prévue depuis le formulaire
         $dateRetourPrevu = $reservation->getDateRetour();
 
-        // Vérifier si la date de retour est antérieure à la date actuelle
         if ($dateRetourPrevu && $dateRetourPrevu < new \DateTime()) {
             $this->addFlash('error', 'La date de retour ne peut pas être antérieure à la date actuelle.');
 
@@ -112,35 +108,29 @@ public function emprunter(Livre $livre, Request $request, EntityManagerInterface
             ]);
         }
 
-        // Si la date de retour est valide, procéder à l'emprunt
         $livre->setDisponible(false);
 
         $livre->incrementNombreEmprunts();
 
-        // Incrémenter les points de l'utilisateur
         $user->setPoints($user->getPoints() + 1);
 
-        // Vérifier si le niveau doit être mis à jour
         if ($user->getPoints() == 30) {
             $user->setNiveau(2);
         } elseif ($user->getPoints() == 80) {
             $user->setNiveau(3);
         }
 
-        // Mettre à jour la session avec le nouveau nombre de points
         $session = $request->getSession();
         $userData = $session->get('user_data', []);
-        $userData['points'] = $user->getPoints(); // Mise à jour
+        $userData['points'] = $user->getPoints(); 
         $userData['niveau'] = $user->getNiveau();
         $session->set('user_data', $userData);
 
-        // Persister les changements
         $entityManager->persist($reservation);
-        $entityManager->persist($user); // Mise à jour des points de l'utilisateur
+        $entityManager->persist($user); 
         $entityManager->persist($livre);
         $entityManager->flush();
 
-        // Ajouter un message flash de succès
         $this->addFlash('success', 'Livre emprunté avec succès ! Vous avez gagné 1 point.');
         return $this->redirectToRoute('app_bibliotheque');
     }

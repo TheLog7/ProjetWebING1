@@ -118,19 +118,18 @@
                 slotDuration: '01:00:00',
                 allDaySlot: false,
                 slotMinTime: '08:00:00',
-                slotMaxTime: '18:00:00', // Heure de fin ajustée à 18h00
-                hiddenDays: [0, 6], // Cache samedi et dimanche
+                slotMaxTime: '18:00:00', 
+                hiddenDays: [0, 6], 
                 height: 'auto',
                 
                 nowIndicator: true,
                 
                 contentHeight: 'auto',
-                locale: 'fr', // Ajout de la locale en français
+                locale: 'fr', 
                 events: [
-                    // Événement fixe pour la cantine
                     {
                         title: 'CANTINE',
-                        daysOfWeek: [1, 2, 3, 4, 5], // Lundi à Vendredi
+                        daysOfWeek: [1, 2, 3, 4, 5], 
                         startTime: '12:00',
                         endTime: '13:30',
                         className: 'fc-event-cantine',
@@ -139,7 +138,6 @@
                         }
                     },
 
-                    // Cours dynamiques depuis la base de données
                     {% for cours in cours %}
                     {
                         title: '{{ cours.matiere }}',

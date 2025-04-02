@@ -1,0 +1,129 @@
+{% extends 'base.html.twig' %}
+
+{% block body_class %}recherche-utilisateur-page{% endblock %}
+
+{% block title %}Résultats de recherche{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        /* Style général pour la page */
+        .recherche-utilisateur-page {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        /* Style pour l'en-tête */
+        .site-header {
+            margin-bottom: 20px;
+        }
+
+        .site-header h1 {
+            color: #333;
+            font-size: 24px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        /* Style pour les profils trouvés */
+        .profil-trouve {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .profil-trouve h2 {
+            color: #007bff;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .profil-trouve p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        /* Style pour les messages d'état */
+        .text-green-600 {
+            color: #28a745;
+        }
+
+        .text-red-600 {
+            color: #dc3545;
+        }
+
+        .font-bold {
+            font-weight: bold;
+        }
+
+        /* Style pour le message d'absence de résultats */
+        .no-results {
+            text-align: center;
+            color: #777;
+            margin-top: 50px;
+        }
+
+        .no-results p {
+            font-size: 18px;
+        }
+
+        /* Style pour les icônes d'édition */
+        .edit-icon {
+            margin-left: 10px;
+            color: #007bff;
+        }
+
+        .edit-icon:hover {
+            text-decoration: underline;
+        }
+
+        /* Style pour les boutons */
+        .btn-warning {
+            background-color: #ffc107;
+            border-color: #ffc107;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="example-wrapper">
+    {% if utilisateurs is not empty %}
+        <header class="site-header">
+            <h1>Profils trouvés pour "{{ query }}":</h1>
+            <p>{{ utilisateurs|length }} profil(s) trouvé(s)</p>
+        </header>
+        {% for utilisateur in utilisateurs %}
+            <div class="profil-trouve">
+                <h2>Profil trouvé :</h2>
+                <p>Nom : {{ utilisateur.nom }}</p>
+                <p>Prénom : {{ utilisateur.prenom }}</p>
+                <p>Age : {{ utilisateur.age }}</p>
+                <p>Sexe : {{ utilisateur.sexe }}</p>
+                <p>Email : {{ utilisateur.email }}</p>
+                <p>Type : {{ utilisateur.type }}</p>
+                <p>Niveau : {{ utilisateur.niveau }}</p>
+                <p>Points : {{ utilisateur.points }}</p>
+               
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-results">
+            <p>Aucun profil trouvé pour "{{ query }}".</p>
+            <p>Veuillez essayer une autre recherche ou vérifiez l'orthographe.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

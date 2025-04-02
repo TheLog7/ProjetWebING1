@@ -35,7 +35,6 @@ class Velo
     private ?int $nombreEmprunts = 0;
 
 
-    // Getters and setters...
 
     public function getId(): ?int
     {

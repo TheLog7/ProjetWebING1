@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}home-page{% endblock %}
 
 {% block title %}Liste des Utilisateurs{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Liste des Utilisateurs</h1>
     
@@ -30,6 +32,7 @@
                     <label for="search" class="text-sm font-semibold">Recherche par nom:</label>
                     <input type="text" name="search" id="search" class="bg-white border p-2 rounded-md" placeholder="Nom de famille" value="{{ search }}">
                 </div>
+
 
                 <!-- Bouton de soumission -->
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg self-center">Filtrer</button>
@@ -81,4 +84,5 @@
         </tbody>
     </table>
 </div>
+</header>
 {% endblock %}

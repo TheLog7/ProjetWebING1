@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}home-page{% endblock %}
 
 {% block title %}Modifier Utilisateur{% endblock %}
 
 {% block body %}
+                <header class="site-header">
 <div class="container mx-auto p-6">
     <h1 class="text-3xl font-bold text-gray-800 mb-6">Modifier l'utilisateur</h1>
 
@@ -39,6 +41,7 @@
         </div>
 
         {{ form_row(form.photo) }}
+        {{ form_row(form.valide) }}
 
         <div class="mt-4">
             {{ form_widget(form.submit, { 'attr': {'class': 'bg-blue-500 text-white px-4 py-2 rounded-lg'} }) }}
@@ -49,4 +52,5 @@
 
     <a href="{{ path('admin_utilisateurs') }}" class="mt-4 inline-block text-blue-500 hover:underline">← Retour à la liste</a>
 </div>
+</header>
 {% endblock %}

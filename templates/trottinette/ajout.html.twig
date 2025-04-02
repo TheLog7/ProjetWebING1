@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Ajouter une Trottinette{% endblock %}
+{% block body_class %}trotinette-page{% endblock %}
 
-{% block body_class %}ajout-trottinette-page{% endblock %}
+
 
 {% block body %}
+                <header class="site-header">
     <div class="container mt-4">
         <h2 class="text-center">Ajouter une nouvelle trottinette</h2>
         <div class="row justify-content-center">
@@ -39,4 +41,5 @@
             </div>
         </div>
     </div>
+    </header>
 {% endblock %}
