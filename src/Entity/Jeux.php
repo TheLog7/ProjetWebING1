@@ -76,7 +76,7 @@ class Jeux
 
     public function setMaxPlaces(int $max_places): self
     {
-        $this->maxPlaces = $maxPlaces;
+        $this->maxPlaces = $max_places;
 
         return $this;
     }

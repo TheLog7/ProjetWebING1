@@ -78,13 +78,10 @@ public function recherche(LivreRepository $livreRepository, Request $request): R
 public function showReservations(
     ReservationLivreRepository $reservationLivreRepository,
     ReservationOrdinateurRepository $reservationOrdinateurRepository,
-    ReservationJeuxRepository $reservationJeuxRepository
+    ReservationJeuxRepository $reservationJeuxRepository,
     ReservationVeloRepository $reservationVeloRepository,
     ReservationTrottinetteRepository $reservationTrottinetteRepository,
-
-
-
-)
+    )
 {
     // Récupère l'utilisateur connecté
     $user = $this->getUser();
@@ -106,7 +103,7 @@ public function showReservations(
         $reservations = [
             'livres' => $reservationsLivres,
             'ordinateurs' => $reservationsOrdinateurs,
-            'jeux' => $reservationsJeux
+            'jeux' => $reservationsJeux,
             'velos' => $reservationsVelos,
             'trottinettes' => $reservationsTrottinettes,
         ];
@@ -182,7 +179,7 @@ public function showReservations(
 
         // Appliquer les changements
         $entityManager->flush();
-
+    }
 
 #[Route('/reservations/velo/{id}/supprimer', name: 'app_reservation_annuler_velo')]
 public function annulerReservationVelo(ReservationVelo $reservationVelo, EntityManagerInterface $entityManager): RedirectResponse
