@@ -66,7 +66,6 @@
         $(this).tab('show');
       });
 
-      // Garder l'onglet actif après un rechargement
       let activeTab = localStorage.getItem('activeTab');
       if (activeTab) {
         $('#objetTabs a[href="' + activeTab + '"]').tab('show');
@@ -80,16 +79,13 @@
         let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (!iframeDoc) return;
 
-        // Cache l'en-tête et le footer
         $(iframeDoc).find('.navbar, .sf-toolbar').hide();
       }
 
-      // Appliquer la suppression au chargement de l'iframe
       $('iframe').on('load', function () {
-        setTimeout(() => hideElements(this), 0); // Petit délai pour s'assurer que le contenu est bien chargé
+        setTimeout(() => hideElements(this), 0); 
       });
 
-      // Réappliquer la suppression toutes les 500ms au cas où le contenu change
       setInterval(function () {
         $('iframe').each(function () {
           hideElements(this);

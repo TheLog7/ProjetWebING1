@@ -17,6 +17,9 @@ class ThermostatController extends AbstractController
     #[Route('/thermostats', name: 'app_thermostat')]
     public function index(Request $request, ThermostatRepository $thermostatRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $thermostats = $thermostatRepository->findAll();
 
         return $this->render('thermostat/index.html.twig', [
@@ -27,6 +30,9 @@ class ThermostatController extends AbstractController
     #[Route('/thermostats/ajout', name: 'app_thermostat_ajout')]
     public function ajouter(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $thermostat = new Thermostat();
         $form = $this->createForm(ThermostatType::class, $thermostat);
         $form->handleRequest($request);
@@ -47,6 +53,9 @@ class ThermostatController extends AbstractController
     #[Route('/thermostats/{id}', name: 'app_thermostat_details', requirements: ['id' => '\d+'])]
     public function details(Thermostat $thermostat): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         return $this->render('thermostat/details.html.twig', [
             'thermostat' => $thermostat,
         ]);
@@ -55,6 +64,9 @@ class ThermostatController extends AbstractController
     #[Route('/thermostat/{id}/supprimer', name: 'app_thermostat_supprimer')]
     public function supprimer(Thermostat $thermostat, EntityManagerInterface $entityManager): RedirectResponse
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         if ($this->getUser()->getType() === 'Administration' || $this->getUser()->getNiveau() === 3) {
             $entityManager->remove($thermostat);
             $entityManager->flush();

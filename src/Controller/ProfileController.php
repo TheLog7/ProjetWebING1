@@ -21,13 +21,15 @@ final class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile_details')]
 public function profile(Request $request, UtilisateurRepository $utilisateurRepository): Response
 {
+    if (!$this->getUser()) {
+        return $this->redirectToRoute('app_home_page');
+    }
     $userData = $request->getSession()->get('user_data', []);
 
     if (empty($userData) || !isset($userData['email'])) {
         return $this->redirectToRoute('app_login');
     }
 
-    // Récupérer l'utilisateur depuis la base de données
     $user = $utilisateurRepository->findOneBy(['email' => $userData['email']]);
 
     if (!$user) {
@@ -35,17 +37,20 @@ public function profile(Request $request, UtilisateurRepository $utilisateurRepo
     }
 
     return $this->render('profile/index.html.twig', [
-        'user' => $user, // Maintenant c'est un objet Utilisateur
+        'user' => $user, 
     ]);
 }
 
     #[Route('/profile/edit-email', name: 'app_edit_email')]
     public function editEmail(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $user = $this->getUser();
 
         if (!$user) {
-            return $this->redirectToRoute('app_login'); // Redirection si l'utilisateur n'est pas connecté
+            return $this->redirectToRoute('app_login'); 
         }
 
         $form = $this->createFormBuilder($user)
@@ -109,13 +114,11 @@ public function profile(Request $request, UtilisateurRepository $utilisateurRepo
             $currentPassword = $form->get('current_password')->getData();
             $newPassword = $form->get('new_password')->getData();
 
-            // Vérifier si le mot de passe actuel est correct
             if (!$passwordHasher->isPasswordValid($user, $currentPassword)) {
                 $this->addFlash('danger', 'Mot de passe actuel incorrect.');
                 return $this->redirectToRoute('app_edit_password');
             }
 
-            // Hacher le nouveau mot de passe
             $hashedPassword = $passwordHasher->hashPassword($user, $newPassword);
             $user->setPassword($hashedPassword);
 

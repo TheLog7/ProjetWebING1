@@ -30,9 +30,9 @@ class ArticleController extends AbstractController
         }
     
         if ($dateFilter === 'asc') {
-            $queryBuilder->orderBy('a.createAt', 'ASC'); // Moins récent en premier
+            $queryBuilder->orderBy('a.createAt', 'ASC'); 
         } elseif ($dateFilter === 'desc') {
-            $queryBuilder->orderBy('a.createAt', 'DESC'); // Plus récent en premier
+            $queryBuilder->orderBy('a.createAt', 'DESC'); 
         }
     
         $articles = $queryBuilder->getQuery()->getResult();

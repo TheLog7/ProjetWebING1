@@ -18,6 +18,9 @@ class VeloController extends AbstractController
     #[Route('/velos', name: 'app_velo')]
     public function index(Request $request, VeloRepository $veloRepository): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $status = $request->query->get('status');
 
         if ($status) {
@@ -34,6 +37,9 @@ class VeloController extends AbstractController
     #[Route('/velos/ajout', name: 'app_velo_ajout')]
     public function ajouter(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $velo = new Velo();
         $form = $this->createForm(VeloType::class, $velo);
         $form->handleRequest($request);
@@ -54,6 +60,9 @@ class VeloController extends AbstractController
     #[Route('/velos/{id}', name: 'app_velo_details', requirements: ['id' => '\d+'])]
     public function details(Velo $velo): Response
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         return $this->render('velo/details.html.twig', [
             'velo' => $velo,
         ]);
@@ -62,6 +71,9 @@ class VeloController extends AbstractController
     #[Route('/velo/{id}/supprimer', name: 'app_velo_supprimer')]
     public function supprimer(Velo $velo, EntityManagerInterface $entityManager): RedirectResponse
     {
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         if ($this->getUser()->getType() === 'Administration' || $this->getUser()->getNiveau() === 3) {
             $entityManager->remove($velo);
             $entityManager->flush();
@@ -77,7 +89,9 @@ class VeloController extends AbstractController
     #[Route('/velo/{id}/reserver', name: 'app_velo_reserver')]
     public function reserver(Velo $velo, EntityManagerInterface $entityManager): RedirectResponse
     {
-        // Récupérer l'utilisateur connecté
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         $user = $this->getUser();
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour réserver une trottinette.');
@@ -93,20 +107,17 @@ class VeloController extends AbstractController
         $reservation->setUtilisateur($this->getUser());
         $reservation->setDateReservation(new \DateTime());
 
-        // Incrémenter le niveau de l'utilisateur
         $user->setPoints($user->getPoints() + 1);
 
-        // Vérifier si le niveau doit être mis à jour
         if ($user->getPoints() == 30) {
             $user->setNiveau(2);
         } elseif ($user->getPoints() == 80) {
             $user->setNiveau(3);
         }
 
-        // Mettre à jour la session
         $session = $request->getSession();
         $userData = $session->get('user_data', []);
-        $userData['points'] = $user->getPoints(); // Mettre à jour avec la nouvelle valeur
+        $userData['points'] = $user->getPoints(); 
         $userData['niveau'] = $user->getNiveau();
         $session->set('user_data', $userData);
 
@@ -114,7 +125,7 @@ class VeloController extends AbstractController
         $velo->setStatut('Indisponible');
 
         $entityManager->persist($reservation);
-        $entityManager->persist($user); // Mettre à jour l'utilisateur
+        $entityManager->persist($user); 
         $entityManager->persist($velo);
         $entityManager->flush();
 

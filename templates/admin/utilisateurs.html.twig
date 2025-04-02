@@ -15,11 +15,11 @@
     {% set rejetes = [] %}
 
     {% for utilisateur in utilisateurs %}
-        {% if utilisateur.valide == 'non' %}
+        {% if utilisateur.valide == 'En attente de validation' %}
             {% set non_verifies = non_verifies|merge([utilisateur]) %}
-        {% elseif utilisateur.valide == 'Oui' %}
+        {% elseif utilisateur.valide == 'Validé' %}
             {% set verifies = verifies|merge([utilisateur]) %}
-        {% elseif utilisateur.valide == 'Non' %}
+        {% elseif utilisateur.valide == 'Refusé' %}
             {% set rejetes = rejetes|merge([utilisateur]) %}
         {% endif %}
     {% endfor %}

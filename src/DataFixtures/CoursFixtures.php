@@ -72,7 +72,6 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         $debutAnnee = new \DateTime('2024-09-02');
         $finAnnee = new \DateTime('2025-06-30');
 
-        // On génère 2 semaines types différentes pour varier
         $edtType1 = $this->genererEDTType($manager, $classe);
         $edtType2 = $this->genererEDTType($manager, $classe);
 
@@ -98,13 +97,10 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         $edt = [];
         $jours = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi'];
         
-        // Récupère tous les profs avec leur matière définie
         $enseignants = $manager->getRepository(Utilisateur::class)->findBy(['type' => 'Enseignant']);
         
-        // Préparation des cours à répartir (groupés par matière)
         $coursParMatiere = [];
         foreach ($this->matieres as $matiere => $nbHeures) {
-            // Trouve un prof qui a cette matière
             foreach ($enseignants as $prof) {
                 if ($prof->getMatiere() === $matiere) {
                     for ($i = 0; $i < $nbHeures; $i++) {
@@ -113,13 +109,12 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
                             'profId' => $prof->getId()
                         ];
                     }
-                    break; // On prend le premier prof trouvé pour cette matière
+                    break; 
                 }
             }
         }
         shuffle($coursParMatiere);
 
-        // Répartition sur la semaine
         foreach ($jours as $jour) {
             $edt[$jour] = [];
             $creneauxDispos = $this->creneaux;
@@ -183,13 +178,12 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
         list($heureFin, $minuteFin) = explode(':', $creneau[1]);
         $fin->setTime($heureFin, $minuteFin);
 
-        // Vérification conflit horaire
         $profId = $enseignant->getId();
         if (isset($this->emploiDuTempsProfs[$profId])) {
             foreach ($this->emploiDuTempsProfs[$profId] as $coursExist) {
                 if (($debut >= $coursExist['debut'] && $debut < $coursExist['fin']) ||
                     ($fin > $coursExist['debut'] && $fin <= $coursExist['fin'])) {
-                    return; // Skip si conflit
+                    return; 
                 }
             }
         }
@@ -204,7 +198,6 @@ class CoursFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($cours);
         
-        // Mise à jour EDT prof
         if (!isset($this->emploiDuTempsProfs[$profId])) {
             $this->emploiDuTempsProfs[$profId] = [];
         }

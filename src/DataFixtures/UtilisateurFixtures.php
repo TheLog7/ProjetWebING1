@@ -20,7 +20,6 @@ class UtilisateurFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        // Matières avec répartition réaliste
         $matieresEnseignants = [
             'Mathématiques' => 2,
             'Français' => 2,
@@ -37,14 +36,12 @@ class UtilisateurFixtures extends Fixture
 
         $classes = ['6eme', '5eme', '4eme', '3eme'];
 
-        // Création des enseignants (15 au total)
         foreach ($matieresEnseignants as $matiere => $nombre) {
             for ($i = 0; $i < $nombre; $i++) {
                 $enseignant = new Utilisateur();
                 $prenom = $faker->firstName;
                 $nom = $faker->lastName;
 
-                // Convertir les noms en une forme sans accents
                 $prenom = $this->removeAccents($prenom);
                 $nom = $this->removeAccents($nom);
 
@@ -59,12 +56,10 @@ class UtilisateurFixtures extends Fixture
                 $enseignant->setPhoto('default_teacher.png');
                 $manager->persist($enseignant);
 
-                // Référence pour les cours
                 $this->addReference('enseignant_'.$matiere.'_'.$i, $enseignant);
             }
         }
 
-        // Création des élèves (~25 par niveau)
         foreach ($classes as $classe) {
             for ($i = 1; $i <= 25; $i++) {
                 $eleve = new Utilisateur();
@@ -77,13 +72,12 @@ class UtilisateurFixtures extends Fixture
                 $eleve->setSexe($faker->randomElement(['Homme', 'Femme']));
                 $eleve->setClasse($classe);
                 $eleve->setPhoto('default_student.png');
-                $eleve->setNiveau(1); // Niveau de départ
+                $eleve->setNiveau(1); 
                 $eleve->setPoints(0);
                 $manager->persist($eleve);
             }
         }
 
-        // Création des admins (3 au total)
         $admins = [
             ['nom' => 'Admin', 'prenom' => 'Principal', 'email' => 'principal@ecole.fr'],
             ['nom' => 'Admin', 'prenom' => 'Secretariat', 'email' => 'secretariat@ecole.fr'],
@@ -108,7 +102,6 @@ class UtilisateurFixtures extends Fixture
 
     private function getAgeByClasse(string $classe): int
     {
-        // Âge moyen par classe
         $ages = [
             '6ème' => 11,
             '5ème' => 12,

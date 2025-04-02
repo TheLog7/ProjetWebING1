@@ -10,7 +10,6 @@ class ArticleFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Articles pour chaque catégorie
         $articlesData = [
             'Actualités' => [
                 [
@@ -120,7 +119,6 @@ class ArticleFixtures extends Fixture
 
         ];
 
-        // Création des articles
         foreach ($articlesData as $categoryName => $articles) {
             foreach ($articles as $articleData) {
                 $article = new Article();
@@ -134,7 +132,6 @@ class ArticleFixtures extends Fixture
             }
         }
 
-        // Enregistrement en base de données
         $manager->flush();
     }
 }

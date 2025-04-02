@@ -24,7 +24,7 @@ class Jeux
     private ?string $type = null;
 
     #[ORM\Column(name: "max_places", type: "integer")]
-    private ?int $maxPlaces = null; // Modifiez le nom de la propriété
+    private ?int $maxPlaces = null; 
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -114,7 +114,6 @@ class Jeux
     public function removeReservationsjeux(ReservationJeux $reservationsJeux): static
     {
         if ($this->reservationsJeux->removeElement($reservationsJeux)) {
-            // set the owning side to null (unless already changed)
             if ($reservationsJeux->getJeux() === $this) {
                 $reservationsJeux->setJeux(null);
             }

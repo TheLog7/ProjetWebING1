@@ -16,8 +16,9 @@ class GameRoomController extends AbstractController
     #[Route('/game/room', name: 'app_game_room')]
     public function index(EntityManagerInterface $em): Response
     {
-        // Récupère tous les jeux disponibles
-        $jeux = $em->getRepository(Jeux::class)->findAll();
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }        $jeux = $em->getRepository(Jeux::class)->findAll();
 
         return $this->render('game_room/index.html.twig', [
             'game_objects' => $jeux,
@@ -28,7 +29,9 @@ class GameRoomController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function manageReservation(Request $request, EntityManagerInterface $em, Jeux $jeu): Response
     {
-        // Si la méthode est GET, on génère les créneaux horaires et on les affiche
+        if (!$this->getUser()) {
+            return $this->redirectToRoute('app_home_page');
+        }
         if ($request->isMethod('GET')) {
             $creneaux = $this->generateTimeSlots();
             
@@ -38,19 +41,15 @@ class GameRoomController extends AbstractController
             ]);
         }
     
-        // Si la méthode est POST, on crée la réservation
         if ($request->isMethod('POST')) {
-            // Récupération Données Formulaire
             $creneau = new \DateTime($request->request->get('creneau'));
             $nbJoueurs = (int) $request->request->get('nb_joueurs');
     
-            // Validation basique
             if ($nbJoueurs > $jeu->getMaxPlaces()) {
                 $this->addFlash('error', 'Le nombre de joueurs dépasse la capacité maximale');
                 return $this->redirectToRoute('app_reservation', ['id' => $jeu->getId()]);
             }
     
-            // Création de la réservation
             $reservation = new ReservationJeux();
             $reservation
                 ->setJeux($jeu)
@@ -66,25 +65,20 @@ class GameRoomController extends AbstractController
             return $this->redirectToRoute('app_game_room');
         }
     
-        // Si ce n'est ni GET ni POST, on renvoie une erreur (logiquement ce cas ne devrait pas arriver)
         throw $this->createNotFoundException('Méthode non supportée.');
     }
     
-    /**
-     * Génère des créneaux horaires de 1h à partir de l'heure actuelle
-     */
+
     private function generateTimeSlots(): array
     {
         $slots = [];
         $start = new \DateTime('now');
-        $start->setTime((int) $start->format('H'), 0); // Heure ronde (ex: 14:00)
+        $start->setTime((int) $start->format('H'), 0); 
     
-        // On propose 6 créneaux de 1h
         for ($i = 0; $i < 6; $i++) {
             $end = clone $start;
             $end->modify('+1 hour');
     
-            // On ne propose pas de créneau dans le passé
             if ($start > new \DateTime('now')) {
                 $slots[] = [
                     'start' => $start->format('H:i'),

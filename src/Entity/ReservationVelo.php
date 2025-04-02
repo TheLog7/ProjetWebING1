@@ -25,7 +25,6 @@ class ReservationVelo
     #[ORM\Column(type: "datetime")]
     private \DateTimeInterface $dateReservation;
 
-    // Getters and setters...
 
     public function getId(): ?int
     {

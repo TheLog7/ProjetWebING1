@@ -32,7 +32,6 @@ class Article
     #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $createAt = null;
 
-    // Initialisation du champ createAt si ce n'est pas déjà fait
     #[ORM\PrePersist]
     public function prePersist(): void
     {

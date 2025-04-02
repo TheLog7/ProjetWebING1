@@ -31,7 +31,6 @@ class Trottinette
     private ?\DateTimeInterface $derniereInteraction = null;
 
 
-    // Getters and setters...
 
     public function getId(): ?int
     {

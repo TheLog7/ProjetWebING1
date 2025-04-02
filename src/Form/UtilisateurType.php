@@ -1,5 +1,4 @@
 <?php
-// src/Form/UtilisateurType.php
 
 namespace App\Form;
 
@@ -18,7 +17,6 @@ class UtilisateurType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // Récupérer l'utilisateur depuis les options
         $user = $options['current_user'] ?? null;
         $isAdmin = $user && method_exists($user, 'getNiveau') && $user->getNiveau() === 3;
 
@@ -58,11 +56,11 @@ class UtilisateurType extends AbstractType
             ->add('valide', ChoiceType::class, [
                 'label' => 'Validation',
                 'choices' => [
-                    'Oui' => 'Oui',
-                    'Non' => 'Non',
-                    'non' => 'non',
+                    'Validé' => 'Validé',
+                    'Refusé' => 'Refusé',
+                    'En attente de validation' => 'En attente de validation',
                 ],
-                'disabled' => !$isAdmin, // Désactivé si l'utilisateur n'a pas le niveau 3
+                'disabled' => !$isAdmin, 
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
@@ -74,7 +72,7 @@ class UtilisateurType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
-            'current_user' => null,  // Ajouter l'option 'current_user' ici
+            'current_user' => null,  
         ]);
     }
 }
