@@ -151,7 +151,7 @@ public function showReservations(
         $ordinateur = $reservationOrdinateur->getOrdinateur();
 
         // Changer le statut de l'ordinateur à 'disponible'
-        $ordinateur->setStatus('disponible');
+        $ordinateur->setStatus('Disponible');
         
         // Sauvegarder les modifications dans la base de données
         $entityManager->persist($ordinateur);
@@ -189,7 +189,7 @@ public function annulerReservationVelo(ReservationVelo $reservationVelo, EntityM
     $velo = $reservationVelo->getVelo();
 
     // Changer le statut du vélo à 'disponible'
-    $velo->setStatut('disponible');
+    $velo->setStatut('Disponible');
 
     // Sauvegarder les modifications dans la base de données
     $entityManager->persist($velo);
@@ -216,7 +216,7 @@ public function annulerReservationTrottinette(ReservationTrottinette $reservatio
     $trottinette = $reservationTrottinette->getTrottinette();
 
     // Changer le statut de la trottinette à 'disponible'
-    $trottinette->setStatut('disponible');
+    $trottinette->setStatut('Disponible');
 
     // Sauvegarder les modifications dans la base de données
     $entityManager->persist($trottinette);

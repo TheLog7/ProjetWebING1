@@ -77,6 +77,13 @@ class TrottinetteController extends AbstractController
     #[Route('/trottinette/{id}/reserver', name: 'app_trottinette_reserver')]
     public function reserver(Trottinette $trottinette, EntityManagerInterface $entityManager): RedirectResponse
     {
+
+        // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour réserver une trottinette.');
+            return $this->redirectToRoute('app_login');
+        }
         if ($trottinette->getStatut() !== 'Disponible') {
             $this->addFlash('error', 'Cette trottinette n\'est pas disponible pour réservation.');
             return $this->redirectToRoute('app_trottinette_details', ['id' => $trottinette->getId()]);
@@ -87,9 +94,28 @@ class TrottinetteController extends AbstractController
         $reservation->setUtilisateur($this->getUser());
         $reservation->setDateReservation(new \DateTime());
 
+        // Incrémenter le niveau de l'utilisateur
+        $user->setPoints($user->getPoints() + 1);
+
+        // Vérifier si le niveau doit être mis à jour
+        if ($user->getPoints() == 30) {
+            $user->setNiveau(2);
+        } elseif ($user->getPoints() == 80) {
+            $user->setNiveau(3);
+        }
+
+        // Mettre à jour la session
+        $session = $request->getSession();
+        $userData = $session->get('user_data', []);
+        $userData['points'] = $user->getPoints(); // Mettre à jour avec la nouvelle valeur
+        $userData['niveau'] = $user->getNiveau();
+        $session->set('user_data', $userData);
+
         $trottinette->setStatut('Indisponible');
 
         $entityManager->persist($reservation);
+        $entityManager->persist($user); // Mettre à jour l'utilisateur
+        $entityManager->persist($trottinette);
         $entityManager->flush();
 
         $this->addFlash('success', 'Trottinette réservée avec succès !');
