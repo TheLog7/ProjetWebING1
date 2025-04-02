@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}Liste des Ordinateurs{% endblock %}
 
 {% block body_class %}ordinateurs-page{% endblock %}
@@ -9,13 +10,10 @@
         <h1>💻 Liste des Ordinateurs</h1>
         <p class="lead">Gérez et consultez les ordinateurs disponibles</p>
     </header>
-
+<header class="site-header">
     <div class="container mt-4">
         <div class="d-flex justify-content-between mb-3">
             <h2>Ordinateurs enregistrés</h2>
-            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
-                <a href="{{ path('app_ordinateur_ajout') }}" class="btn btn-success">➕ Ajouter un ordinateur</a>
-            {% endif %}
         </div>
 
         <!-- Formulaire de filtre -->
@@ -36,7 +34,6 @@
                 </div>
             </div>
         </form>
-
         {% if ordinateurs is empty %}
             <p class="alert alert-warning text-center">Aucun ordinateur enregistré pour le moment.</p>
         {% else %}
@@ -50,8 +47,8 @@
                                 <p class="card-text">Statut: <strong>{{ ordinateur.status }}</strong></p>
                                 <p class="card-text">Localisation: {{ ordinateur.localisation }}</p>
                                 <p class="card-text"><strong>Niveau de Batterie :</strong> {{ ordinateur.niveauBatterie ? ordinateur.niveauBatterie : 'Non spécifié' }} %</p>
-
                                 <a href="{{ path('app_ordinateur_details', {'id': ordinateur.id}) }}" class="btn btn-info mt-2">ℹ️ Détails</a>
+                                <header class="site-header">
                             </div>
                         </div>
                     </div>
@@ -59,4 +56,5 @@
             </div>
         {% endif %}
     </div>
+    </header>
 {% endblock %}

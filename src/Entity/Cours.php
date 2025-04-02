@@ -40,7 +40,6 @@ class Cours
     #[Assert\GreaterThan(propertyPath: "debut", message: "La date de fin doit être après la date de début.")]
     private ?\DateTime $fin = null;
 
-    // Relation ManyToMany avec Utilisateur (élèves ou professeurs)
     #[ORM\ManyToMany(targetEntity: Utilisateur::class, mappedBy: 'cours')]
     private Collection $users;
 
@@ -120,13 +119,11 @@ class Cours
         return $this;
     }
 
-    // Getter pour récupérer les utilisateurs associés à ce cours
     public function getUsers(): Collection
     {
         return $this->users;
     }
 
-    // Méthodes pour ajouter et enlever un utilisateur associé à ce cours
     public function addUser(Utilisateur $user): self
     {
         if (!$this->users->contains($user)) {

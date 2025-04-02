@@ -32,6 +32,9 @@ class Livre
     #[ORM\Column(type: 'boolean')]
     private bool $disponible = true;
 
+    #[ORM\Column]
+    private ?int $nombreEmprunts = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +109,23 @@ class Livre
     {
         $this->disponible = $disponible;
 
+        return $this;
+    }
+    public function getNombreEmprunts(): ?int
+    {
+        return $this->nombreEmprunts;
+    }
+
+    public function setNombreEmprunts(int $nombreEmprunts): static
+    {
+        $this->nombreEmprunts = $nombreEmprunts;
+
+        return $this;
+    }
+
+    public function incrementNombreEmprunts(): self
+    {
+        $this->nombreEmprunts++;
         return $this;
     }
 }

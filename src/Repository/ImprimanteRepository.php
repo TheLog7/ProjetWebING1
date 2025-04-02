@@ -16,6 +16,14 @@ class ImprimanteRepository extends ServiceEntityRepository
         parent::__construct($registry, Imprimante::class);
     }
 
+    public function findByBatterieFaible()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.niveauBatterie < :niveauBatterie')
+            ->setParameter('niveauBatterie', 30)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Imprimante[] Returns an array of Imprimante objects
     //     */

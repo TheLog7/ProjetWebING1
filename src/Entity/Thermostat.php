@@ -41,7 +41,6 @@ class Thermostat
     #[Assert\NotBlank(message: "La salle est obligatoire.")]
     private ?string $salle = null;
 
-    // Getters and setters...
 
     public function getId(): ?int
     {
@@ -155,4 +154,9 @@ class Thermostat
 
         return $this;
     }
+    public function getType(): string
+{
+    return 'thermostat';
+}
+
 }

@@ -24,7 +24,7 @@ class Jeux
     private ?string $type = null;
 
     #[ORM\Column(name: "max_places", type: "integer")]
-    private ?int $maxPlaces = null; // Modifiez le nom de la propriété
+    private ?int $maxPlaces = null; 
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
@@ -34,6 +34,9 @@ class Jeux
      */
     #[ORM\OneToMany(targetEntity: ReservationJeux::class, mappedBy: 'jeux')]
     private Collection $reservationsJeux;
+
+    #[ORM\Column]
+    private ?int $nombreEmprunts = 0;
 
     public function __construct()
     {
@@ -114,12 +117,29 @@ class Jeux
     public function removeReservationsjeux(ReservationJeux $reservationsJeux): static
     {
         if ($this->reservationsJeux->removeElement($reservationsJeux)) {
-            // set the owning side to null (unless already changed)
             if ($reservationsJeux->getJeux() === $this) {
                 $reservationsJeux->setJeux(null);
             }
         }
 
+        return $this;
+    }
+
+    public function getNombreEmprunts(): ?int
+    {
+        return $this->nombreEmprunts;
+    }
+
+    public function setNombreEmprunts(int $nombreEmprunts): static
+    {
+        $this->nombreEmprunts = $nombreEmprunts;
+
+        return $this;
+    }
+
+    public function incrementNombreEmprunts(): self
+    {
+        $this->nombreEmprunts++;
         return $this;
     }
 }

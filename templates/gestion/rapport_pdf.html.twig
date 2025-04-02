@@ -1,0 +1,156 @@
+{# templates/rapport_pdf.html.twig #}
+
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        table, th, td {
+            border: 1px solid #000;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-size: 18px;
+        }
+        .categorie {
+            font-size: 20px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+        .objet {
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        .objet p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rapport des Objets</h1>
+
+    <div class="categorie">
+        <h2>Vélos</h2>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Batterie (%)</th>
+                <th>Nombre d'emprunts</th>
+            </tr>
+            {% for velo in velos %}
+                <tr>
+                    <td>{{ velo.nom }}</td>
+                    <td>{{ velo.niveauBatterie }}</td>
+                    <td>{{ velo.nombreEmprunts }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun vélo disponible.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="categorie">
+        <h2>Trottinettes</h2>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Marque</th>
+                <th>Nombre d'emprunts</th>
+            </tr>
+            {% for trottinette in trottinettes %}
+                <tr>
+                    <td>{{ trottinette.nom }}</td>
+                    <td>{{ trottinette.marque }}</td>
+                    <td>{{ trottinette.nombreEmprunts }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune trottinette disponible.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="categorie">
+        <h2>Thermostats</h2>
+        <table>
+            <tr>
+                <th>Nom</th>
+                <th>Température (°C)</th>
+                <th>Batterie (%)</th>
+            </tr>
+            {% for thermostat in thermostats %}
+                <tr>
+                    <td>{{ thermostat.nom }}</td>
+                    <td>{{ thermostat.temperatureActuelle }}</td>
+                    <td>{{ thermostat.niveauBatterie }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun thermostat disponible.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="categorie">
+        <h2>Imprimantes</h2>
+        <table>
+            <tr>
+                <th>Modèle</th>
+                <th>Batterie (%)</th>
+            </tr>
+            {% for imprimante in imprimantes %}
+                <tr>
+                    <td>{{ imprimante.modele }}</td>
+                    <td>{{ imprimante.niveauBatterie }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">Aucune imprimante disponible.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <div class="categorie">
+        <h2>Ordinateurs</h2>
+        <table>
+            <tr>
+                <th>Numéro de Série</th>
+                <th>Marque</th>
+                <th>Nombre d'emprunts</th>
+            </tr>
+            {% for ordinateur in ordinateurs %}
+                <tr>
+                    <td>{{ ordinateur.numeroSerie }}</td>
+                    <td>{{ ordinateur.marque }}</td>
+                    <td>{{ ordinateur.nombreEmprunts }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun ordinateur disponible.</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

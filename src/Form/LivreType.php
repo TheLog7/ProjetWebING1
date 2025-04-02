@@ -23,7 +23,7 @@ class LivreType extends AbstractType
             ])
             ->add('prenom_auteur', TextType::class, [
                 'label' => 'Prénom de l’auteur',
-                'required' => false, // Permet d'avoir un prénom facultatif
+                'required' => false, 
             ])
             ->add('date_publication', DateType::class, [
                 'widget' => 'single_text',

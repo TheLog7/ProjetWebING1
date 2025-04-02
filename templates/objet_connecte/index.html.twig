@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-  <div class="container mt-5">
+<header class="site-header">
     <h1 class="text-center">Objets Connectés</h1>
+    
 
     <!-- Onglets pour différents types d'objets connectés -->
     <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
@@ -20,6 +22,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" id="imprimantes-tab" data-toggle="tab" href="#imprimantes" role="tab" aria-controls="imprimantes" aria-selected="false">Imprimantes</a>
+        </header>
       </li>
     </ul>
 
@@ -66,7 +69,6 @@
         $(this).tab('show');
       });
 
-      // Garder l'onglet actif après un rechargement
       let activeTab = localStorage.getItem('activeTab');
       if (activeTab) {
         $('#objetTabs a[href="' + activeTab + '"]').tab('show');
@@ -80,16 +82,13 @@
         let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         if (!iframeDoc) return;
 
-        // Cache l'en-tête et le footer
         $(iframeDoc).find('.navbar, .sf-toolbar').hide();
       }
 
-      // Appliquer la suppression au chargement de l'iframe
       $('iframe').on('load', function () {
-        setTimeout(() => hideElements(this), 0); // Petit délai pour s'assurer que le contenu est bien chargé
+        setTimeout(() => hideElements(this), 0); 
       });
 
-      // Réappliquer la suppression toutes les 500ms au cas où le contenu change
       setInterval(function () {
         $('iframe').each(function () {
           hideElements(this);

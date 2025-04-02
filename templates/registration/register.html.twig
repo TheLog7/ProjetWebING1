@@ -77,14 +77,12 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        // Script pour afficher le nom du fichier sélectionné
         document.querySelector('.form-file input').addEventListener('change', function(e) {
             const fileName = e.target.files[0] ? e.target.files[0].name : 'Aucun fichier sélectionné';
             const hint = document.createElement('span');
             hint.className = 'file-hint';
             hint.textContent = fileName;
             
-            // Supprime l'ancien hint s'il existe
             const oldHint = e.target.parentElement.querySelector('.file-hint');
             if (oldHint) oldHint.remove();
             

@@ -65,22 +65,19 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $points = 0;
 
     #[ORM\Column]
-    private ?string $valide = "non";
+    private ?string $valide = "En attente de validation";
 
     
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: ReservationJeux::class)]
     private Collection $reservationsUtilisateur;
 
-    // Relation ManyToMany avec Cours (cours associés à cet utilisateur)
     #[ORM\ManyToMany(targetEntity: Cours::class, inversedBy: 'users')]
-    #[ORM\JoinTable(name: 'user_cours')] // Table de jonction
+    #[ORM\JoinTable(name: 'user_cours')] 
     private Collection $cours;
 
-   //Classe de l'élève 
      #[ORM\Column(length: 255, nullable: true)]
      private ?string $classe = null;
  
-     //Matière de l'enseignant (nullable pour les élèves)
      #[ORM\Column(length: 255, nullable: true)]
      private ?string $matiere = null;
 
@@ -244,6 +241,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setValide(string $valide): static
     {
         $this->valide = $valide;
+        return $this;
     }
 
     public function getClasse(): ?string
