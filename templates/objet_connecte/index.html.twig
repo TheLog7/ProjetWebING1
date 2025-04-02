@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-  <div class="container mt-5">
+<header class="site-header">
     <h1 class="text-center">Objets Connectés</h1>
+    
 
     <!-- Onglets pour différents types d'objets connectés -->
     <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
@@ -20,6 +22,7 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" id="imprimantes-tab" data-toggle="tab" href="#imprimantes" role="tab" aria-controls="imprimantes" aria-selected="false">Imprimantes</a>
+        </header>
       </li>
     </ul>
 

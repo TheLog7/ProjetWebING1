@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
-
+{% block body_class %}home-page{% endblock %}
 {% block title %}Gestion des objets et services{% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="text-center">Gestion des objets et services</h1>
+
+                <header class="site-header">
+    <h1 class="text-center my-4">Gestion des objets et services</h1>
+
 
         <!-- Bouton vers la gestion des objets défaillants -->
         <div class="text-center mb-4">
@@ -73,6 +75,7 @@
             {% endfor %}
         </div>
     </div>
+                    </header>
 {% endblock %}
 
 {% block javascripts %}
