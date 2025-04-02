@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Objets Défaillants{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center">Objets Défaillants</h1>
+
+        {% if objetsDefaillants is not empty %}
+            <ul class="list-unstyled">
+                {% for objet in objetsDefaillants %}
+                    <li class="mb-3 border p-3 rounded shadow-sm">
+                        <p><strong>Nom:</strong> {{ objet.nom }}</p>
+                        <p><strong>Niveau de Batterie:</strong> {{ objet.niveauBatterie }}%</p>
+                        <p><strong>Problème:</strong> Batterie faible</p>
+
+                        {% if objet.getType() == 'velo' %}
+                            <a href="{{ path('admin_velo_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% elseif objet.getType() == 'trottinette' %}
+                            <a href="{{ path('admin_trottinette_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% elseif objet.getType() == 'thermostat' %}
+                            <a href="{{ path('admin_thermostat_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% elseif objet.getType() == 'imprimante' %}
+                            <a href="{{ path('admin_imprimante_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% elseif objet.getType() == 'ordinateur' %}
+                            <a href="{{ path('admin_ordinateur_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Aucun objet défaillant n'a été trouvé.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -17,14 +17,7 @@
                 <input type="text" name="q" class="form-control me-2" placeholder="Rechercher un livre..." value="{{ app.request.query.get('q') }}">
                 <button type="submit" class="btn btn-outline-light">🔍</button>
             </form>
-
-            <!-- Bouton vers la liste des ordinateurs -->
-            <a href="{{ path('app_ordinateur') }}" class="btn btn-secondary">💻 Voir les ordinateurs</a>
-
-            <!-- Bouton "Ajouter un livre" (visible si autorisé) -->
-            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
-                <a href="{{ path('app_livre_ajout') }}" class="btn btn-success">➕ Ajouter un livre</a>
-            {% endif %}
+            
         </div>
 
         <div class="mt-4 p-3 bg-light rounded shadow-sm">

@@ -16,6 +16,14 @@ class TrottinetteRepository extends ServiceEntityRepository
         parent::__construct($registry, Trottinette::class);
     }
 
+    public function findByBatterieFaible()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.niveauBatterie < :niveauBatterie')
+            ->setParameter('niveauBatterie', 30)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Trotinettes[] Returns an array of Trotinettes objects
     //     */

@@ -16,6 +16,14 @@ class VeloRepository extends ServiceEntityRepository
         parent::__construct($registry, Velo::class);
     }
 
+    public function findByBatterieFaible()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.niveauBatterie < :niveauBatterie')
+            ->setParameter('niveauBatterie', 30)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Velo[] Returns an array of Velo objects
     //     */

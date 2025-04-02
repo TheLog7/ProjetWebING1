@@ -88,7 +88,7 @@ $form = $this->createForm(UtilisateurType::class, $utilisateur, [
         if ($form->isSubmitted() && $form->isValid()) {
             // Gestion du mot de passe (ne pas écraser si laissé vide)
             if ($form->get('motDePasse')->getData()) {
-                $utilisateur->setMotDePasse(password_hash($form->get('motDePasse')->getData(), PASSWORD_BCRYPT));
+                $utilisateur->setPassword(password_hash($form->get('motDePasse')->getData(), PASSWORD_BCRYPT));
             }
 
             // Gestion de la photo

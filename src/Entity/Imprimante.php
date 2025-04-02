@@ -140,4 +140,9 @@ class Imprimante
 
         return $this;
     }
+    public function getType(): string
+{
+    return 'imprimante';
+}
+
 }

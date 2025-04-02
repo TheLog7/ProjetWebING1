@@ -3,55 +3,92 @@
 {% block title %}Gestion des objets et services{% endblock %}
 
 {% block body %}
-    <h1 class="text-center my-4">Gestion des objets et services</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Gestion des objets et services</h1>
 
-    <div class="container">
-        {% for categorie, objets in data %}
-            <div class="category-section mb-5">
-                <h2 class="text-primary">{{ categorie }}</h2>
-                
-                {% if objets is not empty %}
-                    <ul class="list-unstyled">
-                        {% for objet in objets %}
-                            <li class="mb-3 border p-3 rounded shadow-sm">
-                                {% if categorie == 'Livres' %}
-                                    <p><strong>Auteur:</strong> {{ objet.getNomAuteur() }} {{ objet.getPrenomAuteur() }}</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_livre_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </div>
-                                {% elseif categorie == 'Ordinateurs' %}
-                                    <p><strong>Numéro de Série:</strong> {{ objet.getNumeroSerie() }}</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_ordinateur_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                    </div>
-                                {% elseif categorie == 'Imprimantes' %}
-                                    <p><strong>Modèle:</strong> {{ objet.getModele() }}</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_imprimante_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                </div>
-                                {% elseif categorie == 'Vélos' or categorie == 'Trottinettes' %}
-                                    <p><strong>Marque:</strong> {{ objet.getMarque() }}</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_velo_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                </div>
-                                {% elseif categorie == 'Thermostats' %}
-                                    <p><strong>Température:</strong> {{ objet.getTemperatureActuelle() }}°C</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_thermostat_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                </div>
-                                {% elseif categorie == 'Menus' %}
-                                    <p><strong>Description:</strong> {{ objet.getDescription() }}</p>
-                                     <div class="mt-2">
-                                    <a href="{{ path('admin_menu_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                                </div>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p>Aucun {{ categorie|lower }} disponible.</p>
-                {% endif %}
-            </div>
-        {% endfor %}
+        <!-- Bouton vers la gestion des objets défaillants -->
+        <div class="text-center mb-4">
+            <a href="{{ path('gestion_objetsDefaillants') }}" class="btn btn-danger">⚠️ Gestion des objets défaillants</a>
+        </div>
+
+        <!-- Onglets pour les différentes catégories -->
+        <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
+            {% for categorie, objets in data %}
+                <li class="nav-item">
+                    <a class="nav-link {% if loop.first %}active{% endif %}" id="{{ categorie|lower }}-tab" data-toggle="tab" href="#{{ categorie|lower }}" role="tab" aria-controls="{{ categorie|lower }}" aria-selected="{% if loop.first %}true{% else %}false{% endif %}">{{ categorie }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Contenu des onglets -->
+        <div class="tab-content" id="objetTabsContent">
+            {% for categorie, objets in data %}
+                <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ categorie|lower }}" role="tabpanel" aria-labelledby="{{ categorie|lower }}-tab">
+                    {% if categorie == 'Livres' %}
+                        <a href="{{ path('app_livre_ajout') }}" class="btn btn-success">➕ Ajouter un livre</a>
+                    {% elseif categorie == 'Ordinateurs' %}
+                        <a href="{{ path('app_ordinateur_ajout') }}" class="btn btn-success">➕ Ajouter un ordinateur</a>
+                    {% elseif categorie == 'Vélos' %}
+                        <a href="{{ path('app_velo_ajout') }}" class="btn btn-success">➕ Ajouter un vélo</a>
+                    {% elseif categorie == 'Trottinettes' %}
+                        <a href="{{ path('app_trottinette_ajout') }}" class="btn btn-success">➕ Ajouter une trottinette</a>
+                    {% elseif categorie == 'Thermostats' %}
+                        <a href="{{ path('app_thermostat_ajout') }}" class="btn btn-success">➕ Ajouter un thermostat</a>
+                    {% elseif categorie == 'Imprimantes' %}
+                        <a href="{{ path('app_imprimante_ajout') }}" class="btn btn-success">➕ Ajouter une imprimante</a>
+                    {% endif %}
+                    
+                    {% if objets is not empty %}
+                        <ul class="list-unstyled mt-3">
+                            {% for objet in objets %}
+                                <li class="mb-3 border p-3 rounded shadow-sm">
+                                    {% if categorie == 'Livres' %}
+                                        <p><strong>Auteur:</strong> {{ objet.getNomAuteur() }} {{ objet.getPrenomAuteur() }}</p>
+                                        <a href="{{ path('admin_livre_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% elseif categorie == 'Ordinateurs' %}
+                                        <p><strong>Numéro de Série:</strong> {{ objet.getNumeroSerie() }}</p>
+                                        <a href="{{ path('admin_ordinateur_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% elseif categorie == 'Imprimantes' %}
+                                        <p><strong>Modèle:</strong> {{ objet.getModele() }}</p>
+                                        <a href="{{ path('admin_imprimante_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% elseif categorie == 'Vélos' or categorie == 'Trottinettes' %}
+                                        <p><strong>Marque:</strong> {{ objet.getMarque() }}</p>
+                                        <a href="{{ path('admin_velo_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% elseif categorie == 'Thermostats' %}
+                                        <p><strong>Température:</strong> {{ objet.getTemperatureActuelle() }}°C</p>
+                                        <a href="{{ path('admin_thermostat_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    {% endif %}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>Aucun {{ categorie|lower }} disponible.</p>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#objetTabs a').on('click', function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+            
+            let activeTab = localStorage.getItem('activeTab');
+            if (activeTab) {
+                $('#objetTabs a[href="' + activeTab + '"]').tab('show');
+            }
+            
+            $('#objetTabs a').on('shown.bs.tab', function (e) {
+                localStorage.setItem('activeTab', $(e.target).attr('href'));
+            });
+        });
+    </script>
 {% endblock %}
