@@ -24,6 +24,13 @@ use App\Form\MenuType;
 
 final class GestionController extends AbstractController
 {
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     #[Route('/gestion', name: 'app_gestion', methods: ['GET'])]
     public function index(EntityManagerInterface $entityManager): Response
     {
@@ -98,6 +105,24 @@ final class GestionController extends AbstractController
 
         return $this->render($template, [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route("/gestion-objets-defaillants", name:"gestion_objetsDefaillants")]
+    public function gestionObjetsDefaillants(): Response
+    {
+        // Récupération des objets des différentes entités avec l'EntityManager
+        $velosDefaillants = $this->entityManager->getRepository(Velo::class)->findByBatterieFaible();
+        $trottinettesDefaillantes = $this->entityManager->getRepository(Trottinette::class)->findByBatterieFaible();
+        $thermostatsDefaillants = $this->entityManager->getRepository(Thermostat::class)->findByBatterieFaible();
+        $imprimantesDefaillantes = $this->entityManager->getRepository(Imprimante::class)->findByBatterieFaible();
+        $ordinateursDefaillants = $this->entityManager->getRepository(Ordinateur::class)->findByBatterieFaible();
+
+        // Fusionner tous les objets défaillants
+        $objetsDefaillants = array_merge($velosDefaillants, $trottinettesDefaillantes, $thermostatsDefaillants, $imprimantesDefaillantes, $ordinateursDefaillants);
+
+        return $this->render('gestion/defaillants.html.twig', [
+            'objetsDefaillants' => $objetsDefaillants,
         ]);
     }
 }

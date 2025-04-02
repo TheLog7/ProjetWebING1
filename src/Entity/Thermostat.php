@@ -155,4 +155,9 @@ class Thermostat
 
         return $this;
     }
+    public function getType(): string
+{
+    return 'thermostat';
+}
+
 }

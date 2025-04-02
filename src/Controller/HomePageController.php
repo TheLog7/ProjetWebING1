@@ -151,7 +151,7 @@ public function showReservations(
         $ordinateur = $reservationOrdinateur->getOrdinateur();
 
         // Changer le statut de l'ordinateur à 'disponible'
-        $ordinateur->setStatus('disponible');
+        $ordinateur->setStatus('Disponible');
         
         // Sauvegarder les modifications dans la base de données
         $entityManager->persist($ordinateur);
@@ -171,16 +171,16 @@ public function showReservations(
     }
 
     #[Route('/reservations/jeux/{id}/supprimer', name: 'app_reservation_annuler_jeux')]
-    public function annulerReservationJeux(ReservationJeux $reservationJeux, EntityManagerInterface $entityManager): RedirectResponse
-    {
+public function annulerReservationJeux(ReservationJeux $reservationJeux, EntityManagerInterface $entityManager): RedirectResponse
+{
+    // Suppression de la réservation
+    $entityManager->remove($reservationJeux);
+    $entityManager->flush();
 
-    
-        // Suppression de la réservation
-        $entityManager->remove($reservationJeux);
+    // Redirection après annulation (ajuste la route selon ton besoin)
+    return $this->redirectToRoute('app_reservations');
+}
 
-        // Appliquer les changements
-        $entityManager->flush();
-    }
 
 #[Route('/reservations/velo/{id}/supprimer', name: 'app_reservation_annuler_velo')]
 public function annulerReservationVelo(ReservationVelo $reservationVelo, EntityManagerInterface $entityManager): RedirectResponse

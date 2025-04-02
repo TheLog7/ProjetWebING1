@@ -174,4 +174,9 @@ class Ordinateur
     {
     $this->reservations = new ArrayCollection();
     }
+    public function getType(): string
+{
+    return 'ordinateur';
+}
+
 }

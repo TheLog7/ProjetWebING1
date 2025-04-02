@@ -16,6 +16,14 @@ class OrdinateurRepository extends ServiceEntityRepository
         parent::__construct($registry, Ordinateur::class);
     }
 
+    public function findByBatterieFaible()
+    {
+        return $this->createQueryBuilder('v')
+            ->where('v.niveauBatterie < :niveauBatterie')
+            ->setParameter('niveauBatterie', 30)
+            ->getQuery()
+            ->getResult();
+    }
     //    /**
     //     * @return Ordinateur[] Returns an array of Ordinateur objects
     //     */
