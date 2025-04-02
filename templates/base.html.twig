@@ -66,9 +66,7 @@
               <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_bibliotheque') }}">Bibliothèque</a>
               </li>
-              <li class="nav-item">
-                <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_objet_connecte') }}';" class="nav-link">Objets connectés</a>
-              </li>
+             
               {% if app.user and app.user.niveau >= 2 %}
 
                 <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_gestion') }}';" class="nav-link">Module gestion</a>
@@ -79,6 +77,9 @@
                 <li class="nav-item">
                   <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_cantine') }}';" class="nav-link">Cantine</a>
                 </li>
+                 <li class="nav-item">
+                <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_objet_connecte') }}';" class="nav-link">Objets connectés</a>
+              </li>
                 {% if app.user.niveau == 3 %}
                 <li class=nav-item">
                 <a href="javascript:void(0);" onclick="window.location.href='{{ path('app_admin')}}';" class="nav-link">Module administration</a>
@@ -97,6 +98,12 @@
             </ul>
             <div class="d-flex">
               {% if app.user %}
+              <!-- Formulaire de recherche d'utilisateurs -->
+<form method="get" action="{{ path('app_utilisateur_recherche') }}" class="d-flex w-50">
+    <input type="text" name="q" class="form-control me-2" placeholder="Rechercher un utilisateur..." value="{{ app.request.query.get('q') }}">
+    <button type="submit" class="btn btn-outline-light">🔍</button>
+</form>
+
                 <!-- Si l'utilisateur est connecté, afficher son nom à gauche de la photo de profil et un menu déroulant -->
                 <div class="dropdown d-flex align-items-center">
                   <span class="me-2">{{ app.user.prenom }} {{ app.user.nom }}</span>

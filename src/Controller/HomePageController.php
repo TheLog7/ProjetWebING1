@@ -20,7 +20,7 @@ use App\Repository\ReservationVeloRepository;
 use App\Entity\ReservationVelo;
 use App\Repository\ReservationTrottinetteRepository;
 use App\Entity\ReservationTrottinette;
-
+use App\Entity\Utilisateur;
 
 
 
@@ -232,6 +232,26 @@ public function annulerReservationTrottinette(ReservationTrottinette $reservatio
 
     // Redirige vers la page des réservations
     return $this->redirectToRoute('app_reservations');
+}
+
+#[Route('/utilisateurs/recherche', name: 'app_utilisateur_recherche')]
+public function rechercheUtilisateur(Request $request, EntityManagerInterface $entityManager): Response
+{
+    $query = $request->query->get('q');
+
+    $utilisateurs = [];
+    if ($query) {
+        $utilisateurs = $entityManager->getRepository(Utilisateur::class)->createQueryBuilder('u')
+            ->where('u.nom LIKE :query OR u.prenom LIKE :query')
+            ->setParameter('query', "%$query%")
+            ->getQuery()
+            ->getResult();
+    }
+
+    return $this->render('utilisateur/index.html.twig', [
+        'utilisateurs' => $utilisateurs,
+        'query' => $query,
+    ]);
 }
 
 
