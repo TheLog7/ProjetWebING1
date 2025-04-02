@@ -14,14 +14,14 @@
                <p class="card-text"><strong>Numéro de Série :</strong> {{ ordinateur.numeroSerie }}</p>
                 <p class="card-text"><strong>Statut :</strong> {{ ordinateur.status }}</p>
                 <p class="card-text"><strong>Localisation :</strong> {{ ordinateur.localisation }}</p>
-
+                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ ordinateur.niveauBatterie ? ordinateur.niveauBatterie : 'Non spécifié' }} %</p>
                 <div class="mt-3">
                     <a href="{{ path('app_ordinateur') }}" class="btn btn-secondary">🔙 Retour</a>
                     {% if app.user is not null %}
         {% if app.user.type == 'Administration' or app.user.niveau >= 2 %}
             <a href="{{ path('app_ordinateur_supprimer', {'id': ordinateur.id}) }}" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet ordinateur ?');">🗑️ Supprimer</a>
         {% endif %}
-        {% if ordinateur.status == 'disponible' %}
+        {% if ordinateur.status == 'Disponible' %}
             <a href="{{ path('app_ordinateur_reserver', {'id': ordinateur.id}) }}" class="btn btn-warning">📅 Réserver cet ordinateur</a>
         {% endif %}
     {% endif %}
