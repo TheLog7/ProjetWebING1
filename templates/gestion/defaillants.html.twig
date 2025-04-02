@@ -7,29 +7,36 @@
         <h1 class="text-center">Objets Défaillants</h1>
 
         {% if objetsDefaillants is not empty %}
-            <ul class="list-unstyled">
-                {% for objet in objetsDefaillants %}
-                    <li class="mb-3 border p-3 rounded shadow-sm">
-                        <p><strong>Nom:</strong> {{ objet.nom }}</p>
-                        <p><strong>Niveau de Batterie:</strong> {{ objet.niveauBatterie }}%</p>
-                        <p><strong>Problème:</strong> Batterie faible</p>
-
-                        {% if objet.getType() == 'velo' %}
-                            <a href="{{ path('admin_velo_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        {% elseif objet.getType() == 'trottinette' %}
-                            <a href="{{ path('admin_trottinette_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        {% elseif objet.getType() == 'thermostat' %}
-                            <a href="{{ path('admin_thermostat_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        {% elseif objet.getType() == 'imprimante' %}
-                            <a href="{{ path('admin_imprimante_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        {% elseif objet.getType() == 'ordinateur' %}
-                            <a href="{{ path('admin_ordinateur_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
-                        {% endif %}
+            <ul class="nav nav-tabs" id="objetsTabs" role="tablist">
+                {% for type in ['velo', 'trottinette', 'thermostat', 'imprimante', 'ordinateur'] %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link {% if loop.first %}active{% endif %}" id="{{ type }}-tab" data-bs-toggle="tab" data-bs-target="#{{ type }}" type="button" role="tab" aria-controls="{{ type }}" aria-selected="{{ loop.first ? 'true' : 'false' }}">
+                            {{ type | capitalize }}
+                        </button>
                     </li>
                 {% endfor %}
             </ul>
+
+            <div class="tab-content mt-3" id="objetsTabsContent">
+                {% for type in ['velo', 'trottinette', 'thermostat', 'imprimante', 'ordinateur'] %}
+                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ type }}" role="tabpanel" aria-labelledby="{{ type }}-tab">
+                        <ul class="list-unstyled">
+                            {% for objet in objetsDefaillants %}
+                                {% if objet.getType() == type %}
+                                    <li class="mb-3 border p-3 rounded shadow-sm">
+                                        <p><strong>Nom:</strong> {{ objet.nom }}</p>
+                                        <p><strong>Niveau de Batterie:</strong> {{ objet.niveauBatterie }}%</p>
+                                        <p><strong>Problème:</strong> Batterie faible</p>
+                                        <a href="{{ path('admin_' ~ type ~ '_modifier', {'id': objet.id }) }}" class="btn btn-warning btn-sm">Modifier</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
         {% else %}
-            <p>Aucun objet défaillant n'a été trouvé.</p>
+            <p class="text-center">Aucun objet défaillant n'a été trouvé.</p>
         {% endif %}
     </div>
 {% endblock %}
