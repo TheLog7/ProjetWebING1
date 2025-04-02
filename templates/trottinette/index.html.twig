@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Trottinettes{% endblock %}
+
+{% block body_class %}trottinettes-page{% endblock %}
+
+{% block body %}
+    <header class="site-header text-center py-5 bg-dark text-white">
+        <h1>🛴 Liste des Trottinettes</h1>
+        <p class="lead">Gérez et consultez les trottinettes disponibles</p>
+    </header>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Trottinettes enregistrées</h2>
+            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
+                <a href="{{ path('app_trottinette_ajout') }}" class="btn btn-success">➕ Ajouter une trottinette</a>
+            {% endif %}
+        </div>
+
+        <!-- Formulaire de filtre -->
+        <form method="get" action="{{ path('app_trottinette') }}" class="mb-3">
+            <div class="form-row align-items-center">
+                <div class="col-auto">
+                    <label for="status" class="sr-only">Statut</label>
+                    <select name="status" id="status" class="form-control">
+                        <option value="">Tous</option>
+                        <option value="Disponible" {% if app.request.get('status') == 'Disponible' %}selected{% endif %}>Disponible</option>
+                        <option value="Indisponible" {% if app.request.get('status') == 'Indisponible' %}selected{% endif %}>Indisponible</option>
+                        <option value="En maintenance" {% if app.request.get('status') == 'En maintenance' %}selected{% endif %}>En maintenance</option>
+                        <option value="Hors service" {% if app.request.get('status') == 'Hors service' %}selected{% endif %}>Hors service</option>
+                    </select>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Filtrer</button>
+                </div>
+            </div>
+        </form>
+
+        {% if trottinettes is empty %}
+            <p class="alert alert-warning text-center">Aucune trottinette enregistrée pour le moment.</p>
+        {% else %}
+            <div class="row">
+                {% for trottinette in trottinettes %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ trottinette.nom }}</h5>
+                                <p class="card-text">Marque: {{ trottinette.marque }}</p>
+                                <p class="card-text">Statut: <strong>{{ trottinette.statut }}</strong></p>
+                                <p class="card-text">Batterie: <strong>{{ trottinette.niveauBatterie ? trottinette.niveauBatterie ~ '%' : 'Non spécifié' }}</strong></p>
+                                <a href="{{ path('app_trottinette_details', {'id': trottinette.id}) }}" class="btn btn-info mt-2">ℹ️ Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

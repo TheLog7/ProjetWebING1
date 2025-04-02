@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Thermostats{% endblock %}
+
+{% block body_class %}thermostats-page{% endblock %}
+
+{% block body %}
+    <header class="site-header text-center py-5 bg-dark text-white">
+        <h1>🌡️ Liste des Thermostats</h1>
+        <p class="lead">Gérez et consultez les thermostats disponibles</p>
+    </header>
+
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between mb-3">
+            <h2>Thermostats enregistrés</h2>
+            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
+                <a href="{{ path('app_thermostat_ajout') }}" class="btn btn-success">➕ Ajouter un thermostat</a>
+            {% endif %}
+        </div>
+
+        {% if thermostats is empty %}
+            <p class="alert alert-warning text-center">Aucun thermostat enregistré pour le moment.</p>
+        {% else %}
+            <div class="row">
+                {% for thermostat in thermostats %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">{{ thermostat.nom }}</h5>
+                                <p class="card-text">Température Actuelle: {{ thermostat.temperatureActuelle ? thermostat.temperatureActuelle ~ '°C' : 'Non spécifié' }}</p>
+                                <p class="card-text"><strong>Niveau de Batterie :</strong> {{ thermostat.niveauBatterie ? thermostat.niveauBatterie ~ '%' : 'Non spécifié' }}</p>
+
+                                <p class="card-text">Mode: {{ thermostat.mode ? thermostat.mode : 'Non spécifié' }}</p>
+                                <p class="card-text">Salle: {{ thermostat.salle }}</p>
+                                <a href="{{ path('app_thermostat_details', {'id': thermostat.id}) }}" class="btn btn-info mt-2">ℹ️ Détails</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
