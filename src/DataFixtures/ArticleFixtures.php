@@ -91,7 +91,7 @@ class ArticleFixtures extends Fixture
                     'createAt' => new \DateTimeImmutable('2024-03-01'),
                 ]
                 ],
-                'Vie Étudiante' => [
+                'Vie Scolaire' => [
     [
         'title' => "Les Clubs de l'École : Quelle Activité Choisir ?",
         'content' => "Notre école propose une multitude de clubs et d’activités extrascolaires pour enrichir la vie des élèves et favoriser leur épanouissement personnel. Que ce soit dans les domaines sportifs, artistiques, scientifiques ou humanitaires, chaque élève peut trouver une activité qui correspond à ses centres d’intérêt et ses passions. Ces clubs sont également une excellente occasion pour les élèves de développer de nouvelles compétences, de faire de nouvelles rencontres et de s’engager dans des projets communautaires.\n\nParmi les clubs les plus populaires, on retrouve le club de théâtre, où les élèves peuvent exprimer leur créativité en préparant des pièces de théâtre et des performances, ou encore le club de robotique, qui permet aux passionnés de technologie de concevoir des robots et de participer à des compétitions régionales et nationales. Il existe également des clubs plus orientés vers l’engagement social, comme le club humanitaire qui organise des collectes et des événements pour soutenir diverses causes.\n\nChoisir un club, c’est également une belle occasion d'apprendre à gérer son emploi du temps, à travailler en équipe et à développer des compétences en leadership. Encouragez votre enfant à explorer différentes options afin de trouver l’activité qui lui permettra de s’épanouir en dehors des salles de classe.",
