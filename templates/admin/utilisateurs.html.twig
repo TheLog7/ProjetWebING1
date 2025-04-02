@@ -10,22 +10,34 @@
         <a href="{{ path('app_register') }}" class="bg-blue-500 text-blue px-4 py-2 rounded-lg">Ajouter un utilisateur</a>
     </div>
 
-    {% set non_verifies = [] %}
-    {% set verifies = [] %}
-    {% set rejetes = [] %}
+    <!-- Formulaire de filtre et recherche -->
+    <div class="mb-4">
+        <form method="get" action="{{ path('admin_utilisateurs') }}">
+            <div class="flex space-x-4">
+                <!-- Filtre par statut -->
+                <div class="flex flex-col">
+                    <label for="filter" class="text-sm font-semibold">Filtrer par statut:</label>
+                    <select name="filter" id="filter" class="bg-white border p-2 rounded-md">
+                        <option value="all" {% if filter == 'all' %}selected{% endif %}>Tous les utilisateurs</option>
+                        <option value="non_verifies" {% if filter == 'non_verifies' %}selected{% endif %}>Non vérifiés</option>
+                        <option value="verifies" {% if filter == 'verifies' %}selected{% endif %}>Vérifiés</option>
+                        <option value="rejetes" {% if filter == 'rejetes' %}selected{% endif %}>Rejetés</option>
+                    </select>
+                </div>
 
-    {% for utilisateur in utilisateurs %}
-        {% if utilisateur.valide == 'non' %}
-            {% set non_verifies = non_verifies|merge([utilisateur]) %}
-        {% elseif utilisateur.valide == 'Oui' %}
-            {% set verifies = verifies|merge([utilisateur]) %}
-        {% elseif utilisateur.valide == 'Non' %}
-            {% set rejetes = rejetes|merge([utilisateur]) %}
-        {% endif %}
-    {% endfor %}
+                <!-- Recherche par nom -->
+                <div class="flex flex-col">
+                    <label for="search" class="text-sm font-semibold">Recherche par nom:</label>
+                    <input type="text" name="search" id="search" class="bg-white border p-2 rounded-md" placeholder="Nom de famille" value="{{ search }}">
+                </div>
 
-    <!-- Utilisateurs non vérifiés -->
-    <h2 class="text-2xl font-semibold text-red-600 mt-8 mb-4">Utilisateurs en attente de vérification</h2>
+                <!-- Bouton de soumission -->
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg self-center">Filtrer</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Utilisateurs -->
     <table class="w-full bg-white shadow-md rounded-lg">
         <thead>
             <tr class="bg-gray-200">
@@ -38,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-            {% for utilisateur in non_verifies %}
+            {% for utilisateur in utilisateurs %}
                 <tr class="border-b">
                     <td class="p-3">
                         {% if utilisateur.photo %}
@@ -63,88 +75,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="6" class="p-3 text-center text-gray-500">Tous les utilisateurs ont été vérifiés.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- Utilisateurs vérifiés -->
-    <h2 class="text-2xl font-semibold text-green-600 mt-12 mb-4">Utilisateurs vérifiés</h2>
-    <table class="w-full bg-white shadow-md rounded-lg">
-        <thead>
-            <tr class="bg-gray-200">
-                <th class="p-3 text-left">Photo</th>
-                <th class="p-3 text-left">ID</th>
-                <th class="p-3 text-left">Nom</th>
-                <th class="p-3 text-left">Prénom</th>
-                <th class="p-3 text-left">Email</th>
-                <th class="p-3 text-left">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for utilisateur in verifies %}
-                <tr class="border-b">
-                    <td class="p-3">
-                        {% if utilisateur.photo %}
-                            <img src="{{ asset(utilisateur.photo) }}" alt="Photo de {{ utilisateur.nom }}" class="w-12 h-12 rounded-full object-cover">
-                        {% else %}
-                            <span class="text-gray-500">Aucune photo</span>
-                        {% endif %}
-                    </td>
-                    <td class="p-3">{{ utilisateur.id }}</td>
-                    <td class="p-3">{{ utilisateur.nom }}</td>
-                    <td class="p-3">{{ utilisateur.prenom }}</td>
-                    <td class="p-3">{{ utilisateur.email }}</td>
-                    <td class="p-3">
-                        <a href="{{ path('admin_utilisateur_modifier', {'id': utilisateur.id}) }}" class="text-yellow-500">Modifier</a> |
-                        <form action="{{ path('admin_utilisateur_supprimer', {'id': utilisateur.id}) }}" method="post" class="inline">
-                            <input type="hidden" name="_token" value="{{ csrf_token('supprimer_utilisateur_' ~ utilisateur.id) }}">
-                            <button type="submit" class="text-red-500" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
-                                Supprimer
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="6" class="p-3 text-center text-gray-500">Aucun utilisateur vérifié trouvé.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    <!-- Utilisateurs rejetés -->
-    <h2 class="text-2xl font-semibold text-gray-600 mt-12 mb-4">Utilisateurs rejetés</h2>
-    <table class="w-full bg-white shadow-md rounded-lg">
-        <thead>
-            <tr class="bg-gray-200">
-                <th class="p-3 text-left">ID</th>
-                <th class="p-3 text-left">Nom</th>
-                <th class="p-3 text-left">Prénom</th>
-                <th class="p-3 text-left">Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for utilisateur in rejetes %}
-                <tr class="border-b">
-                    <td class="p-3">{{ utilisateur.id }}</td>
-                    <td class="p-3">{{ utilisateur.nom }}</td>
-                    <td class="p-3">{{ utilisateur.prenom }}</td>
-                    <td class="p-3">{{ utilisateur.email }}</td>
-                    <td class="p-3">
-                        <a href="{{ path('admin_utilisateur_modifier', {'id': utilisateur.id}) }}" class="text-yellow-500">Modifier</a> |
-                        <form action="{{ path('admin_utilisateur_supprimer', {'id': utilisateur.id}) }}" method="post" class="inline">
-                            <input type="hidden" name="_token" value="{{ csrf_token('supprimer_utilisateur_' ~ utilisateur.id) }}">
-                            <button type="submit" class="text-red-500" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
-                                Supprimer
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4" class="p-3 text-center text-gray-500">Aucun utilisateur rejeté trouvé.</td>
+                    <td colspan="6" class="p-3 text-center text-gray-500">Aucun utilisateur trouvé pour ce filtre.</td>
                 </tr>
             {% endfor %}
         </tbody>

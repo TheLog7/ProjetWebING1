@@ -88,6 +88,7 @@ class VeloController extends AbstractController
         $reservation->setDateReservation(new \DateTime());
 
         $velo->setStatut('Indisponible');
+        $velo->incrementNombreEmprunts();
 
         $entityManager->persist($reservation);
         $entityManager->flush();

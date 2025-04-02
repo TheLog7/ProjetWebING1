@@ -29,6 +29,8 @@
         <div class="tab-content" id="objetTabsContent">
             {% for categorie, objets in data %}
                 <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{ categorie|lower }}" role="tabpanel" aria-labelledby="{{ categorie|lower }}-tab">
+                    
+                    <!-- Ajouter un objet en fonction de la catégorie -->
                     {% if categorie == 'Livres' %}
                         <a href="{{ path('app_livre_ajout') }}" class="btn btn-success">➕ Ajouter un livre</a>
                     {% elseif categorie == 'Ordinateurs' %}
@@ -43,6 +45,7 @@
                         <a href="{{ path('app_imprimante_ajout') }}" class="btn btn-success">➕ Ajouter une imprimante</a>
                     {% endif %}
                     
+                    <!-- Liste des objets de la catégorie -->
                     {% if objets is not empty %}
                         <ul class="list-unstyled mt-3">
                             {% for objet in objets %}

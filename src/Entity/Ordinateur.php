@@ -57,6 +57,9 @@ class Ordinateur
     #[ORM\OneToMany(mappedBy: 'ordinateur', targetEntity: ReservationOrdinateur::class)]
     private Collection $reservations;
 
+    #[ORM\Column]
+    private ?int $nombreEmprunts = 0;
+
 
     public function getId(): ?int
     {
@@ -178,5 +181,23 @@ class Ordinateur
 {
     return 'ordinateur';
 }
+
+public function getNombreEmprunts(): ?int
+    {
+        return $this->nombreEmprunts;
+    }
+
+    public function setNombreEmprunts(int $nombreEmprunts): static
+    {
+        $this->nombreEmprunts = $nombreEmprunts;
+
+        return $this;
+    }
+
+    public function incrementNombreEmprunts(): self
+    {
+        $this->nombreEmprunts++;
+        return $this;
+    }
 
 }

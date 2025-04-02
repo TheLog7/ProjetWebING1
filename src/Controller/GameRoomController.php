@@ -59,6 +59,8 @@ class GameRoomController extends AbstractController
                 ->setEndTime((clone $creneau)->modify('+1 hour'))
                 ->setNbJoueurs($nbJoueurs);
     
+                $jeu->incrementNombreEmprunts();
+            
             $em->persist($reservation);
             $em->flush();
     

@@ -115,6 +115,8 @@ public function emprunter(Livre $livre, Request $request, EntityManagerInterface
         // Si la date de retour est valide, procéder à l'emprunt
         $livre->setDisponible(false);
 
+        $livre->incrementNombreEmprunts();
+
         // Incrémenter les points de l'utilisateur
         $user->setPoints($user->getPoints() + 1);
 

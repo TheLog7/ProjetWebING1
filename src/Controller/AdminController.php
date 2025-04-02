@@ -41,14 +41,51 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/utilisateurs', name: 'admin_utilisateurs')]
-    public function listeUtilisateurs(EntityManagerInterface $entityManager): Response
-    {
-        $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+public function listeUtilisateurs(Request $request, EntityManagerInterface $entityManager): Response
+{
+    // Récupérer le filtre et la recherche depuis la requête (par défaut, "all" et vide pour la recherche)
+    $filter = $request->query->get('filter', 'all');
+    $search = $request->query->get('search', '');
 
-        return $this->render('admin/utilisateurs.html.twig', [
-            'utilisateurs' => $utilisateurs,
-        ]);
+    // Récupérer tous les utilisateurs
+    $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+
+    // Filtrer les utilisateurs selon le statut
+    $non_verifies = [];
+    $verifies = [];
+    $rejetes = [];
+
+    foreach ($utilisateurs as $utilisateur) {
+        if ($utilisateur->isValide() === 'non') {
+            $non_verifies[] = $utilisateur;
+        } elseif ($utilisateur->isValide() === 'Oui') {
+            $verifies[] = $utilisateur;
+        } elseif ($utilisateur->isValide() === 'Non') {
+            $rejetes[] = $utilisateur;
+        }
     }
+
+    // Appliquer le filtre par statut
+    if ($filter !== 'all') {
+        $utilisateurs = ${$filter};
+    }
+
+    // Appliquer la recherche par nom de famille
+    if ($search) {
+        $utilisateurs = array_filter($utilisateurs, function ($utilisateur) use ($search) {
+            return stripos($utilisateur->getNom(), $search) !== false;
+        });
+    }
+
+    return $this->render('admin/utilisateurs.html.twig', [
+        'utilisateurs' => $utilisateurs,
+        'non_verifies' => $non_verifies,
+        'verifies' => $verifies,
+        'rejetes' => $rejetes,
+        'filter' => $filter,
+        'search' => $search,
+    ]);
+}
 
     #[Route('/admin/livres', name: 'admin_livres')]
     public function listeLivres(EntityManagerInterface $entityManager): Response

@@ -133,6 +133,7 @@ public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityM
 
     // Mettre à jour le statut de l'ordinateur à "Indisponible"
     $ordinateur->setStatus('Indisponible');
+    $ordinateur->incrementNombreEmprunts();
 
     // Persister les modifications en base de données
     $entityManager->persist($reservation);

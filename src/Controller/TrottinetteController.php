@@ -88,6 +88,7 @@ class TrottinetteController extends AbstractController
         $reservation->setDateReservation(new \DateTime());
 
         $trottinette->setStatut('Indisponible');
+        $trottinette->incrementNombreEmprunts();
 
         $entityManager->persist($reservation);
         $entityManager->flush();
