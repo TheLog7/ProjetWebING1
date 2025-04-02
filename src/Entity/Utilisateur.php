@@ -3,15 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\UtilisateurRepository;
+
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -67,6 +66,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?string $valide = "non";
+
     
     #[ORM\OneToMany(mappedBy: 'utilisateur', targetEntity: ReservationJeux::class)]
     private Collection $reservationsUtilisateur;
@@ -83,12 +83,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
      //Matière de l'enseignant (nullable pour les élèves)
      #[ORM\Column(length: 255, nullable: true)]
      private ?string $matiere = null;
-
-    public function __construct()
-    {
-        $this->cours = new ArrayCollection();
-    }
-
 
 
     public function getId(): ?int
@@ -239,6 +233,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct() {
         $this->reservationsUtilisateur = new ArrayCollection();
+        $this->cours = new ArrayCollection();
     }
 
     public function isValide(): ?string
@@ -282,6 +277,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         if (!$this->cours->contains($cours)) {
             $this->cours[] = $cours;
 
+
         }
 
         return $this;
@@ -290,6 +286,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeCours(Cours $cours): self
     {
         $this->cours->removeElement($cours);
+
 
 
         return $this;

@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Mes Réservations{% endblock %}
+{% block title %}Mes réservations{% endblock %}
+{% block body_class %}reservation-page{% endblock %}
 
-{% block body_class %}reservations-page{% endblock %}
+
 
 {% block body %}
+  <header class="site-header">
     <div class="container mt-4">
         <h2 class="text-center mb-4">Mes Réservations</h2>
 
@@ -96,6 +98,8 @@
             {% endif %}
         </div>
     </div>
+      <header class="site-header">
+
 
     <div class="mt-4">
     <h3 class="text-secondary">Jeux</h3>

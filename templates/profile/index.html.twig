@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
+{% block body_class %}monprofil-page{% endblock %}
 
 {% block title %}Votre profil{% endblock %}
 
 {% block body %}
 <div class="example-wrapper">
+  <header class="site-header">
     <h1>Votre profil : </h1>
     <p>Nom : {{ user.nom }}</p>
     <p>Prénom : {{ user.prenom }}</p>
@@ -19,6 +21,8 @@
     <p>Vous êtes {{ user.type }}</p>
     <p>Niveau : {{ user.niveau }}</p>
     <p>Points : {{ user.points }}</p>
+      <header class="site-header">
+
     {% if user.valide %}
     <p class="text-green-600 font-bold">Compte validé ✅</p>
 {% else %}
