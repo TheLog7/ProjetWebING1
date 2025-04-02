@@ -173,6 +173,7 @@ public function showReservations(
     #[Route('/reservations/jeux/{id}/supprimer', name: 'app_reservation_annuler_jeux')]
     public function annulerReservationJeux(ReservationJeux $reservationJeux, EntityManagerInterface $entityManager): RedirectResponse
     {
+
     
         // Suppression de la réservation
         $entityManager->remove($reservationJeux);
