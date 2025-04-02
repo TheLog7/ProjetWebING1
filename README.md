@@ -14,6 +14,8 @@ Une fois toutes les étapes ci-dessus terminées, vous pouvez lancer l'applicati
 
 Accédez à l'application via votre navigateur à l'adresse http://127.0.0.1:8000.
 
+Une fois sur le site, vous pouvez soit vous créer un compte, soit vous connecter à un compte existant avec ces identifiants : email => secretariat@ecole.fr et mot de passe => admin123. Pour passer ce compte en mode administrateur, il vous faudra exécuter deux requêtes sql : bin/console doctrine:query:sql "update utilisateur set niveau=3 where email='secretariat@ecole.fr';" et bin/console doctrine:query:sql "update utilisateur set valide='Validé' where email='secretariat@ecole.fr';"
+
 En ésperant que ce readme vous ait été utile.
 
 Bonne journée.
