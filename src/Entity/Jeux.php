@@ -35,6 +35,9 @@ class Jeux
     #[ORM\OneToMany(targetEntity: ReservationJeux::class, mappedBy: 'jeux')]
     private Collection $reservationsJeux;
 
+    #[ORM\Column]
+    private ?int $nombreEmprunts = 0;
+
     public function __construct()
     {
         $this->reservationsJeux = new ArrayCollection();
@@ -119,6 +122,24 @@ class Jeux
             }
         }
 
+        return $this;
+    }
+
+    public function getNombreEmprunts(): ?int
+    {
+        return $this->nombreEmprunts;
+    }
+
+    public function setNombreEmprunts(int $nombreEmprunts): static
+    {
+        $this->nombreEmprunts = $nombreEmprunts;
+
+        return $this;
+    }
+
+    public function incrementNombreEmprunts(): self
+    {
+        $this->nombreEmprunts++;
         return $this;
     }
 }

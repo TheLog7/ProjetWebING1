@@ -31,6 +31,9 @@ class Velo
     #[ORM\Column(type: "datetime", nullable: true)]
     private ?\DateTimeInterface $derniereInteraction = null;
 
+    #[ORM\Column]
+    private ?int $nombreEmprunts = 0;
+
 
 
     public function getId(): ?int
@@ -113,6 +116,24 @@ class Velo
 {
     return 'velo';
 }
+
+    public function getNombreEmprunts(): ?int
+    {
+        return $this->nombreEmprunts;
+    }
+
+    public function setNombreEmprunts(int $nombreEmprunts): static
+    {
+        $this->nombreEmprunts = $nombreEmprunts;
+
+        return $this;
+    }
+
+    public function incrementNombreEmprunts(): self
+    {
+        $this->nombreEmprunts++;
+        return $this;
+    }
 
 
 }

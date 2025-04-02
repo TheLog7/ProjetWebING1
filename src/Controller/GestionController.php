@@ -44,7 +44,6 @@ final class GestionController extends AbstractController
             'Vélos' => $entityManager->getRepository(Velo::class)->findAll(),
             'Trottinettes' => $entityManager->getRepository(Trottinette::class)->findAll(),
             'Thermostats' => $entityManager->getRepository(Thermostat::class)->findAll(),
-            'Menus' => $entityManager->getRepository(Menu::class)->findAll(),
         ];
 
         return $this->render('gestion/index.html.twig', [
@@ -142,7 +141,6 @@ final class GestionController extends AbstractController
         $thermostatsDefaillants = $this->entityManager->getRepository(Thermostat::class)->findByBatterieFaible();
         $imprimantesDefaillantes = $this->entityManager->getRepository(Imprimante::class)->findByBatterieFaible();
         $ordinateursDefaillants = $this->entityManager->getRepository(Ordinateur::class)->findByBatterieFaible();
-
         $objetsDefaillants = array_merge($velosDefaillants, $trottinettesDefaillantes, $thermostatsDefaillants, $imprimantesDefaillantes, $ordinateursDefaillants);
 
         return $this->render('gestion/defaillants.html.twig', [

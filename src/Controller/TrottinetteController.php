@@ -121,6 +121,7 @@ class TrottinetteController extends AbstractController
         $session->set('user_data', $userData);
 
         $trottinette->setStatut('Indisponible');
+        $trottinette->incrementNombreEmprunts();
 
         $entityManager->persist($reservation);
         $entityManager->persist($user); 

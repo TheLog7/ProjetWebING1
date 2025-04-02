@@ -110,6 +110,8 @@ public function emprunter(Livre $livre, Request $request, EntityManagerInterface
 
         $livre->setDisponible(false);
 
+        $livre->incrementNombreEmprunts();
+
         $user->setPoints($user->getPoints() + 1);
 
         if ($user->getPoints() == 30) {

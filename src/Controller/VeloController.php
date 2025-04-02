@@ -123,6 +123,7 @@ class VeloController extends AbstractController
 
 
         $velo->setStatut('Indisponible');
+        $velo->incrementNombreEmprunts();
 
         $entityManager->persist($reservation);
         $entityManager->persist($user); 

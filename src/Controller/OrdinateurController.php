@@ -125,6 +125,7 @@ public function reserver(Ordinateur $ordinateur, EntityManagerInterface $entityM
     $session->set('user_data', $userData);
 
     $ordinateur->setStatus('Indisponible');
+    $ordinateur->incrementNombreEmprunts();
 
     $entityManager->persist($reservation);
     $entityManager->persist($user); 

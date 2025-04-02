@@ -44,17 +44,50 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/utilisateurs', name: 'admin_utilisateurs')]
-    public function listeUtilisateurs(EntityManagerInterface $entityManager): Response
-    {
-        if (!$this->getUser()) {
+public function listeUtilisateurs(Request $request, EntityManagerInterface $entityManager): Response
+{
+    if (!$this->getUser()) {
             return $this->redirectToRoute('app_home_page');
         }
-        $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+    $filter = $request->query->get('filter', 'all');
+    $search = $request->query->get('search', '');
 
-        return $this->render('admin/utilisateurs.html.twig', [
-            'utilisateurs' => $utilisateurs,
-        ]);
+    $utilisateurs = $entityManager->getRepository(Utilisateur::class)->findAll();
+
+    $non_verifies = [];
+    $verifies = [];
+    $rejetes = [];
+
+    foreach ($utilisateurs as $utilisateur) {
+        if ($utilisateur->isValide() === 'En attente de validation') {
+            $non_verifies[] = $utilisateur;
+        } elseif ($utilisateur->isValide() === 'Validé') {
+            $verifies[] = $utilisateur;
+        } elseif ($utilisateur->isValide() === 'Refusé') {
+            $rejetes[] = $utilisateur;
+        }
     }
+
+
+    if ($filter !== 'all') {
+        $utilisateurs = ${$filter};
+    }
+
+    if ($search) {
+        $utilisateurs = array_filter($utilisateurs, function ($utilisateur) use ($search) {
+            return stripos($utilisateur->getNom(), $search) !== false;
+        });
+    }
+
+    return $this->render('admin/utilisateurs.html.twig', [
+        'utilisateurs' => $utilisateurs,
+        'non_verifies' => $non_verifies,
+        'verifies' => $verifies,
+        'rejetes' => $rejetes,
+        'filter' => $filter,
+        'search' => $search,
+    ]);
+}
 
     #[Route('/admin/livres', name: 'admin_livres')]
     public function listeLivres(EntityManagerInterface $entityManager): Response
