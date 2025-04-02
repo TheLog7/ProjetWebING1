@@ -11,6 +11,11 @@
             <a href="{{ path('gestion_objetsDefaillants') }}" class="btn btn-danger">⚠️ Gestion des objets défaillants</a>
         </div>
 
+        <!-- Bouton pour générer un rapport PDF -->
+        <div class="text-center mb-4">
+            <a href="{{ path('generer_rapport_pdf') }}" class="btn btn-primary">📄 Générer le rapport PDF</a>
+        </div>
+
         <!-- Onglets pour les différentes catégories -->
         <ul class="nav nav-tabs justify-content-center mb-4" id="objetTabs" role="tablist">
             {% for categorie, objets in data %}
