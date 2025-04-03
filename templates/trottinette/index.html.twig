@@ -15,10 +15,6 @@
 
                     <header class="site-header">
                     <h2>Trottinettes enregistrées</h2>
-                    </header>
-            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
-                <a href="{{ path('app_trottinette_ajout') }}" class="btn btn-success">➕ Ajouter une trottinette</a>
-            {% endif %}
 
         </div>
 

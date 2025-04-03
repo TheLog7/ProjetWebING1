@@ -15,11 +15,6 @@
                 <header class="site-header">
             <h2>Thermostats enregistrés</h2>
 
-            </header>
-            {% if app.user is not null and (app.user.type == 'Administration' or app.user.niveau >= 2) %}
-                <a href="{{ path('app_thermostat_ajout') }}" class="btn btn-success">➕ Ajouter un thermostat</a>
-            {% endif %}
-
         </div>
 
         {% if thermostats is empty %}
